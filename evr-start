@@ -1,0 +1,16 @@
+#!/bin/sh
+
+sudo /bin/chgrp adm /dev/input/event*
+
+FNAME="/tmp/.evrouter$DISPLAY"
+
+if [ -f "$FNAME" ] ; then
+	kill `cat \`echo "$FNAME" | sed -e 's/\.[0-9]//'\``
+	sleep 1
+	if [ -f "$FNAME" ] ; then
+		rm "$FNAME"
+	fi
+fi
+/usr/local/bin/evrouter -r /dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd /dev/input/by-id/usb-Mouse_USB_Laser_Mouse-event-mouse
+
+

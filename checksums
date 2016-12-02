@@ -1,0 +1,30 @@
+#!/bin/bash
+
+for SUMFILE in MD5SUMS SHA1SUMS ; do
+	if [ ! -f $SUMFILE ] ; then
+		if [ -d unit ] ; then
+			cd unit
+		fi
+	fi
+
+	DIR=`pwd`
+
+	if [ ! -f $SUMFILE ] ; then
+		echo "Cannot find $SUMFILE"
+	fi
+
+	case $SUMFILE in
+		MD5SUMS)
+			TOOL=md5sum
+			;;
+		SHA1SUMS)
+			TOOL=sha1sum
+			;;
+		*)
+			echo "unknown sumfile $SUMFILE!"
+			;;
+	esac
+
+	echo "Checking $SUMFILE..."
+	env LANG=en_US $TOOL -c $SUMFILE | grep -v OK
+done

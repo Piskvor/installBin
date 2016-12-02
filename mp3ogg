@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo "The script convert mp3->ogg or ogg->mp3.";
+echo "The script takes one parameter: ";
+echo "[mp3ogg] - converting mp3->ogg";
+echo "[oggmp3] - converting ogg->mp3";
+
+what=`basename $0`
+
+if [ "$what" = "" ]; then
+	echo "";
+	echo "Argument does not exist!!!";
+	exit 102;
+fi
+
+
+if [ "$what" = "mp3ogg" ]; then
+	for file in $*; do
+		 avconv -i "$file" "`echo ${file%.mp3}.ogg`";
+	done
+	exit 0;
+fi
+
+if [ "$what" = "oggmp3" ]; then
+	for file in $*; do
+		 avconv -i "$file" -acodec libmp3lame "`echo ${file%.ogg}.mp3`";
+	done
+	exit 0;
+fi
+
+echo $0
+exit 104;

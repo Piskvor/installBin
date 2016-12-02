@@ -1,0 +1,53 @@
+#!/bin/bash  
+
+# this script connects via SSH to the destination host, starts an X11VNC server and connects to it
+# it uses randomized IP addresses and ports so that the possibility of clashing with other listening programs is minimized
+#
+# To install the packages needed (e.g. in Ubuntu):
+#  apt-get install x11vnc ssvnc
+
+# bail if not enough options
+if [ "$1" = "" ]; then
+	echo "Usage: $0 hostname [vncviewer-options]"
+	exit 1
+fi
+
+
+# range of usable ports
+FLOOR=25900
+RANGE=25999
+LOCALPORT=0
+while [ "$LOCALPORT" -le $FLOOR ]
+do
+  LOCALPORT=$RANDOM
+  let "LOCALPORT %= $RANGE"
+done
+
+# set the same port for remote and local
+REMOTEPORT=$LOCALPORT
+
+RANGE=255
+IPPART=$RANDOM
+let "IPPART %= $RANGE"
+
+# use a random localhost IP address
+LOCALHOSTIP=127.59.$IPPART.1
+
+# SSH to the 1st argument, start x11vnc there
+ssh $1 -L $LOCALHOSTIP:$LOCALPORT:$LOCALHOSTIP:$REMOTEPORT -vvv "x11vnc -nopw -ncache -display :0 -listen $LOCALHOSTIP -noipv6 -norc -wireframe -rfbport $REMOTEPORT " &
+SSHPID=$!
+# ^ save SSH PID to kill the connection later
+
+# don't use $1 anymore
+shift
+# wait for the connection to be established, just to be on the safe side
+sleep 10
+# launch the viewer
+ssvnc -viewer -use64 -nocursorshape -nobell -encodings hextile -sendclipboard -scale 0.9 $* $LOCALHOSTIP::$LOCALPORT &
+# alternately, use the 
+##vncviewer 127.59.0.1:$LOCALPORT
+
+wait $!
+# ^ wait for VNC to exit
+# close the SSH tunnel
+kill $SSHPID
