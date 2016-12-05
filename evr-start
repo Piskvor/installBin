@@ -1,16 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 
+EVROUTER=`which evrouter`
+
+if [ "$EVROUTER" = "" ]; then
+	echo "no evrouter"
+	exit 2
+fi
 sudo /bin/chgrp adm /dev/input/event*
 
-FNAME="/tmp/.evrouter$DISPLAY"
+FILENAME="/tmp/.evrouter$DISPLAY"
 
-if [ -f "$FNAME" ] ; then
-	kill `cat \`echo "$FNAME" | sed -e 's/\.[0-9]//'\``
+if [ -f "$FILENAME" ] ; then
+	kill $(cat $(echo "$FILENAME" | sed -e 's/\.[0-9]//'))
 	sleep 1
-	if [ -f "$FNAME" ] ; then
-		rm "$FNAME"
+	if [ -f "$FILENAME" ] ; then
+		rm "$FILENAME"
 	fi
 fi
-evrouter -r /dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_3999-if01-event-kbd /dev/input/by-id/usb-Mouse_USB_Laser_Mouse-event-mouse
+
+DEVICES=""
+for device in $(sed < .evrouterrc 's/"[^"]\+" "//;s/".*//' | sort | uniq | grep -vE '^#' | grep usb) ; do
+	DEVICES="$DEVICES /dev/input/by-id/$device"
+done
+evrouter -r ${DEVICES}
 
 

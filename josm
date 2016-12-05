@@ -1,22 +1,30 @@
 #!/bin/sh
 export JAVA_OPTS="-Xmx18000m"
 export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-BN=`basename $0`
-LOCALNAME=$HOME/bin/$BN.jar
+BASE_NAME=`basename $0`
+LOCAL_NAME=$HOME/bin/${BASE_NAME}.jar
 
-if [ "$BN" = "josm-latest" ]; then
-	VERSIONLOCAL=$(java -jar "$LOCALNAME" --version  2> /dev/null | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
-	VERSIONREPO=$(/usr/bin/$BN --version  2> /dev/null | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
-	if [ "$VERSIONLOCAL" -gt "$VERSIONREPO" ]; then
-		echo Using $JAVA_HOME to run local $LOCALNAME
-		java -jar "$LOCALNAME" $*
+	if [ -f "$LOCAL_NAME" ]; then
+		VERSION_LOCAL=$(java -jar "$LOCAL_NAME" --version  2> /dev/null | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
+	else
+		VERSION_LOCAL=0
+	fi
+	if [ -f "/usr/bin/$BASE_NAME" ]; then
+		VERSION_REPO=$(/usr/bin/${BASE_NAME} --version  2> /dev/null | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
+	else
+		VERSION_REPO=0
+	fi
+	if [ "$VERSION_LOCAL" -gt "$VERSION_REPO" ]; then
+		echo Using ${JAVA_HOME} to run local ${LOCAL_NAME}
+		java -jar "$LOCAL_NAME" $*
 		exit $?
 	else
-		JOSM=/usr/bin/$BN
+		JOSM=/usr/bin/${BASE_NAME}
 	fi
-else
-	JOSM=/usr/bin/$BN
+if [ "$VERSION_LOCAL" -eq 0 -a "$VERSION_REPO" -eq 0 ]; then
+	echo "No version found!"
+	exit 35
 fi
-$JOSM $* --version
+${JOSM} $* --version
 exit $?
 
