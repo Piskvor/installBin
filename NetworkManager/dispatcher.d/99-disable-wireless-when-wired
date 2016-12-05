@@ -1,28 +1,28 @@
 #!/bin/sh
-myname=${0##*/}
-log() { logger -p user.info -t "${myname}[$$]" "$*"; }
+my_name=${0##*/}
+log() { logger -p user.info -t "${my_name}[$$]" "$*"; }
 IFACE=$1
 ACTION=$2
 
 release=$(lsb_release -s -c)
 case ${release} in
-    trusty|utopic) nmobj=nm;;
-    *) nmobj=radio;;
+    trusty|utopic) nm_object=nm;;
+    *) nm_object=radio;;
 esac
 
 case ${IFACE} in
     eth*|usb*|en*)
         case ${ACTION} in
 		up)
-		ISCORRECTWIFI=$(nmcli connection show --active | grep 802-11-wireless | grep -c 'your ssid')
-		if [ "$ISCORRECTWIFI" -gt 0 ]; then
+		IS_CORRECT_WIFI=$(nmcli connection show --active | grep 802-11-wireless | grep -c 'your ssid')
+		if [ "$IS_CORRECT_WIFI" -gt 0 ]; then
                		log "disabling wifi radio"
-	                nmcli "${nmobj}" wifi off
+	                nmcli "${nm_object}" wifi off
 		fi
       	        ;;
 		down)
                 log "enabling wifi radio"
-               	nmcli "${nmobj}" wifi on
+               	nmcli "${nm_object}" wifi on
 	        ;;
         esac
 	;;
