@@ -11,6 +11,7 @@ sudo /bin/chgrp adm /dev/input/event*
 
 FILENAME="/tmp/.evrouter$DISPLAY"
 
+$EVROUTER -q
 if [ -f "$FILENAME" ] ; then
 	kill $(cat $(echo "$FILENAME" | sed -e 's/\.[0-9]//'))
 	sleep 1
