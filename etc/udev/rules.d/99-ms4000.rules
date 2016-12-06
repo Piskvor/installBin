@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="input", ENV{ID_VENDOR_ID}=="045e", ENV{ID_MODEL_ID}=="00db" RUN+="/bin/sh -c '/usr/bin/touch /run/shm/pluggedKB'", ENV{REMOVE_CMD}="/bin/sh -c '/usr/bin/touch /run/shm/pluggedKB'"
