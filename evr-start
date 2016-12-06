@@ -1,6 +1,7 @@
 #!/bin/bash
 
 EVROUTER=`which evrouter`
+CONFIG=$HOME/.evrouterrc
 
 if [ "$EVROUTER" = "" ]; then
 	echo "no evrouter"
@@ -19,9 +20,9 @@ if [ -f "$FILENAME" ] ; then
 fi
 
 DEVICES=""
-for device in $(sed < .evrouterrc 's/"[^"]\+" "//;s/".*//' | sort | uniq | grep -vE '^#' | grep usb) ; do
+for device in $(sed < "$CONFIG" 's/"[^"]\+" "//;s/".*//' | sort | uniq | grep -vE '^#' | grep usb) ; do
 	DEVICES="$DEVICES /dev/input/by-id/$device"
 done
-evrouter -r ${DEVICES}
+evrouter -r ${DEVICES} "--config=$CONFIG"
 
 
