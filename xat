@@ -1,5 +1,5 @@
 #!/bin/bash
-
+export XPRA_PULSEAUDIO_DEVICE_NAME="Audio Adapter Analog Stereo"
 echo xpra attach ssh:$*
 xpra attach ssh:$*
 exit $?
