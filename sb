@@ -1,0 +1,11 @@
+#!/bin/bash
+
+BN=$(basename $0)
+
+PARAMS=$*
+
+if [ "$PARAMS" = "" ]; then
+	PARAMS="screen -xR"
+fi
+
+ssh $BN -t $PARAMS
