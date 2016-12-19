@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="input", ENV{ID_VENDOR_ID}=="04e8" RUN+="/bin/sh -c '/usr/bin/touch /run/shm/pluggedS'", ENV{REMOVE_CMD}="/bin/sh -c '/usr/bin/touch /run/shm/pluggedS'"
