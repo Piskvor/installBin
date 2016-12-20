@@ -11,6 +11,22 @@ DEVICE_ID="04e8:"
 FILE=$HOME/tmp/${BASENAME}-count.lock
 echo $FILE
 
+WATCHFILE=/run/shm/pluggedS
+#touch $WATCHFILE
+
+INOTIFYWAIT=$(which inotifywait)
+if [ ! -x "$INOTIFYWAIT" ]; then
+        echo "No inotifywait!"
+        exit 2
+fi
+
+while [ 1 ] ; do
+
+	echo "inotifywait for $WATCHFILE"
+	${INOTIFYWAIT} -e open "$WATCHFILE"
+
+
+# inner loop runs if something changes
 while [ 1 ]; do
 	sleep 3
 # device is connected
@@ -20,13 +36,13 @@ if [ "$HAS_DEVICE" -gt 0 ]; then
 		echo '' > "$FILE"
 	fi
 	echo "is connected"
-	continue;
+	break
 fi
 
 if [ ! -f "$FILE" ]; then
 	# create file
 	echo "no file"
-	continue
+	break
 fi
 
 COUNTER=0
@@ -39,8 +55,12 @@ echo $COUNTER
 echo "COUNTER=$COUNTER">"$FILE"
 
 # unlock if maximum invocations reached
-if [ "$COUNTER" -gt "$MAXIMUM" ]; then
+if [ "$COUNTER" -ge "$MAXIMUM" ]; then
 	loginctl lock-session
 	rm "$FILE"
+	break
 fi
+done
+
+sleep 1
 done

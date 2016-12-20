@@ -11,13 +11,35 @@
 #
 # By default this script does nothing.
 
-TMPDIR="/run/shm/honza/tmp"
+#exit 0
+
+echo 1 >  /proc/sys/kernel/sysrq
+
+mount /dev/sda1 || true
+swapon /dev/sda3 || true
+USER="honza"
+TMPDIR="/run/shm/$USER/tmp"
 mkdir -p $TMPDIR
 
-chown -R honza.honza $TMPDIR
+chown -R $USER. $TMPDIR
 chmod -R 700 $TMPDIR
-ln -s -f $TMPDIR /home/honza/.ramdisk
+ln -s -f $TMPDIR "/home/$USER/.ramdisk"
+mkdir -p -m775 /run/shm/wwwcache
+chown www-data. /run/shm/wwwcache
+ln -s -f /run/shm/wwwcache /var/www/cache
 
+/sbin/udevadm trigger -s "input"
+
+/sbin/udevadm trigger
 chgrp adm /dev/input/event*
 
+#mknod /dev/fake-dev0 b 7 200 || true
+
+modprobe iwlwifi || true
+modprobe snd-hda-intel || true
+rmmod nbd || true
+modprobe nbd max_part=16 || true
+
+touch /run/shm/pluggedS
+touch /run/shm/pluggedKB
 exit 0
