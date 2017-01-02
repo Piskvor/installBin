@@ -7,7 +7,7 @@ if [ "$EVROUTER" = "" ]; then
 	echo "no evrouter"
 	exit 2
 fi
-sudo /bin/chgrp adm /dev/input/event*
+#sudo /bin/chgrp adm /dev/input/event*
 
 FILENAME="/tmp/.evrouter$DISPLAY"
 
