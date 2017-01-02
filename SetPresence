@@ -1,0 +1,30 @@
+#!/usr/bin/python
+
+import sys
+import dbus
+
+presence_const = int(sys.argv[1])
+
+try:
+    presence_text = sys.argv[2]
+except IndexError:
+    presence_text = ''
+
+bus = dbus.SessionBus()
+account_manager = bus.get_object('org.freedesktop.Telepathy.AccountManager',
+                         '/org/freedesktop/Telepathy/AccountManager')
+accounts = account_manager.Get(
+        'org.freedesktop.Telepathy.AccountManager', 'ValidAccounts')
+
+for account in accounts:
+    account = bus.get_object('org.freedesktop.Telepathy.AccountManager',
+            account)
+    enabled = account.Get('org.freedesktop.Telepathy.Account', 'Enabled')
+    if not enabled:
+        continue
+    if str(account) == '/org/freedesktop/Telepathy/Account/ring/tel/ring':
+        continue
+    account.Set('org.freedesktop.Telepathy.Account', 'RequestedPresence', \
+           dbus.Struct((dbus.UInt32(presence_const), '', presence_text),
+                signature='uss'),
+           dbus_interface='org.freedesktop.DBus.Properties')
