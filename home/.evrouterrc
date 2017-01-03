@@ -1,7 +1,8 @@
 "Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/418 "XButton/4"
 "Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/419 "XButton/5"
 
-#"usb-RDing_FootSwitch1F1.-event-mouse" none 
+#"Logitech MX Master" "/dev/input/by-id/usb-Logitech_USB_Receiver-if02-event-mouse" control+alt key/56 "XKey/Pause"
+
 #"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none key/276 "XKey/Control_L+C"
 #"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none key/275 "XKey/Control_L+V"
 #"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none rel/6/-1 "XKey/Pause"
