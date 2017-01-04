@@ -2,3 +2,26 @@
 	name = Jan Martinec
 [core]
 	excludesfile = ~/.gitignore
+[alias]
+	co = checkout
+	cp = cherry-pick
+	p = pull
+	squash = merge --squash
+	st = status
+	df = diff
+	b = branch
+	r = reset
+	rv = checkout --
+	ours = checkout --ours --
+	theirs = checkout --theirs --
+	sl = stash list
+	sa = stash apply
+	ss = stash save
+	alias = config --get-regexp 'alias.*'
+	logol = log --pretty=format:"%h\\ %s\\ [%cn]"
+	search = "grep -Iin"
+	vup = !vagrant up
+	vsu = !vagrant suspend
+	vss = !vagrant ssh
+	vde = !vagrant destroy
+	vpr = !vagrant provision
