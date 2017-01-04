@@ -37,5 +37,6 @@ echo "COUNTER=$COUNTER">"$FILE"
 # unlock if maximum invocations reached
 if [ "$COUNTER" -gt "$MAXIMUM" ]; then
 	loginctl unlock-session
+	qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 	rm "$FILE"
 fi
