@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mono $HOME/bin/Fiddler/app/Fiddler.exe $*
+
