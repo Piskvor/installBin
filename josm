@@ -13,6 +13,9 @@ TMPFILE="${TMPDIR}/${BASE_NAME}-runner.pid"
 
 # clean up the directory
 function cleanup {
+    # if we're here, we got interrupted
+    JOSM_PID=$(cat "${TMPFILE}")
+    kill ${JOSM_PID}
     rm "${TMPFILE}"
 	rmdir "${TMPDIR}"
 }
