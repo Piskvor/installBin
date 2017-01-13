@@ -1,8 +1,25 @@
-#!/bin/sh
-export JAVA_OPTS="-Xmx18000m"
-export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-BASE_NAME=`basename $0`
-LOCAL_NAME=$HOME/bin/${BASE_NAME}.jar
+#!/bin/bash
+BASE_NAME=$(basename $0)
+DIR_NAME="$HOME/bin"
+JAR_NAME="${BASE_NAME}.jar"
+LOCAL_NAME="${DIR_NAME}/${JAR_NAME}"
+
+if [ -f "$DIR_NAME/java-options.local" ] ; then
+    source "$DIR_NAME/java-options.local"
+fi
+
+TMPDIR="/tmp/${BASE_NAME}-${USER}"
+TMPFILE="${TMPDIR}/${BASE_NAME}-runner.pid"
+
+# clean up the directory
+function cleanup {
+    rm "${TMPFILE}"
+	rmdir "${TMPDIR}"
+}
+
+# lock using a directory: http://unix.stackexchange.com/a/180028/5477
+if mkdir $TMPDIR 2>/dev/null; then
+	trap "cleanup" EXIT
 
 	if [ -f "$LOCAL_NAME" ]; then
 		VERSION_LOCAL=$(java -jar "$LOCAL_NAME" --version  2> /dev/null | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
@@ -15,16 +32,27 @@ LOCAL_NAME=$HOME/bin/${BASE_NAME}.jar
 		VERSION_REPO=0
 	fi
 	if [ "$VERSION_LOCAL" -gt "$VERSION_REPO" ]; then
-		echo Using ${JAVA_HOME} to run local ${LOCAL_NAME}
-		java -jar "$LOCAL_NAME" $*
-		exit $?
+		echo "Using ${JAVA_HOME} to run local ${LOCAL_NAME}"
+		JOSM="java -jar $LOCAL_NAME $*"
 	else
 		JOSM=/usr/bin/${BASE_NAME}
 	fi
-if [ "$VERSION_LOCAL" -eq 0 -a "$VERSION_REPO" -eq 0 ]; then
-	echo "No version found!"
-	exit 35
-fi
-${JOSM} $* --version
-exit $?
+    if [ "$VERSION_LOCAL" -eq 0 -a "$VERSION_REPO" -eq 0 ]; then
+        echo "No version found!"
+        exit 35
+    fi
+    IS_RUNNING=$(ps -A f | grep ${JAR_NAME} | grep java -c)
+    if [ "$IS_RUNNING" -gt 0 ]; then
+        echo "Already running, quit"
+        exit 4
+    fi
 
+    # found a version
+    echo ${JOSM} $*
+    ${JOSM} $* &
+    echo -n "$!" > "${TMPFILE}"
+    wait
+else
+	echo "Already running"
+	exit 6
+fi
