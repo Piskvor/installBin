@@ -2,6 +2,9 @@
 BASE_NAME=$(basename $0)
 DIR_NAME="$HOME/bin"
 JAR_NAME="${BASE_NAME}.jar"
+if [ "$BASE_NAME" = "josm" ]; then
+	JAR_NAME="josm-tested.jar"
+fi
 LOCAL_NAME="${DIR_NAME}/${JAR_NAME}"
 
 if [ -f "$DIR_NAME/java-options.local" ] ; then
