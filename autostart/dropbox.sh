@@ -2,7 +2,7 @@
 
 for i in 1 2 3; do
 	sleep 3
-	/usr/bin/dropbox start
+	nice -n 10 /usr/bin/dropbox start
 done
 
-google-drive-ocamlfuse $HOME/google-drive/ &
+nice -n 10 google-drive-ocamlfuse $HOME/google-drive/ &
