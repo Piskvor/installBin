@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ALL=0
-if [ "$1" = "--all" ]; then
+if [ "$1" = "--all" -o "$1" = "-a" ] ; then
 	ALL=1
 fi
 
