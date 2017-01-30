@@ -1,4 +1,5 @@
 #!/bin/bash
+export LC_ALL=cs_CZ.UTF-8 
 BASE_NAME=$(basename $0)
 DIR_NAME="$HOME/bin"
 JAR_NAME="${BASE_NAME}.jar"
@@ -15,7 +16,7 @@ TMPFILE="${TMPDIR}/${BASE_NAME}-runner.pid"
 function cleanup {
     # if we're here, we got interrupted
     JOSM_PID=$(cat "${TMPFILE}")
-    kill ${JOSM_PID}
+    kill ${JOSM_PID} 2>/dev/null
     rm "${TMPFILE}"
 	rmdir "${TMPDIR}"
 }
@@ -53,7 +54,9 @@ if mkdir $TMPDIR 2>/dev/null; then
     # found a version
     echo ${JOSM} $*
     ${JOSM} $* &
-    echo -n "$!" > "${TMPFILE}"
+    PID=$!
+    renice -n 5 $PID
+    echo -n "$PID" > "${TMPFILE}"
     wait
 else
 	echo "Already running"
