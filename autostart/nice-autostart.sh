@@ -8,12 +8,11 @@ if [ "$1" = "" ]; then
 	disown -a
 else
 	echo 613 > /proc/$$/oom_score_adj
-	COMMAND=$(grep Exec $1 | sed 's/Exec=//')
+	COMMAND=$(grep Exec "$1" | sed 's/Exec=//g;s/%U//g;s/%u//g')
 	echo ${COMMAND}
 	eval ${COMMAND} &
     CHILD_PID=$!
     sleep 1
 	echo 614 > /proc/${CHILD_PID}/oom_score_adj
-	disown -a
 fi
 
