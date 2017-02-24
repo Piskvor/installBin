@@ -6,3 +6,5 @@ blueproximity-*/
 LiClipse/
 Fiddler/
 josm-*.jar
+live*
+*-prod
