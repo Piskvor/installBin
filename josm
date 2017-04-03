@@ -3,6 +3,8 @@ export LC_ALL=cs_CZ.UTF-8
 BASE_NAME=$(basename $0)
 DIR_NAME="$HOME/bin"
 JAR_NAME="${BASE_NAME}.jar"
+JAVA_OPTS=""
+
 if [ "$BASE_NAME" = "josm" ] ; then
 	JAR_NAME="josm-tested.jar"
 fi
@@ -44,7 +46,7 @@ if mkdir $TMPDIR 2>/dev/null; then
 	fi
 	if [ "$VERSION_LOCAL" -gt "$VERSION_REPO" ]; then
 		echo "Using ${JAVA_HOME} to run local ${LOCAL_NAME}"
-		JOSM="java -jar $LOCAL_NAME $*"
+		JOSM="java $JAVA_OPTS -jar $LOCAL_NAME $*"
 	else
 		JOSM=/usr/bin/${BASE_NAME}
 	fi
