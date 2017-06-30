@@ -14,5 +14,6 @@ else
     CHILD_PID=$!
     sleep 1
 	echo 614 > /proc/${CHILD_PID}/oom_score_adj
+	disown -a
 fi
 

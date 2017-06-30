@@ -13,11 +13,16 @@
 #"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" control+alt key/15 "XButton/9"
 
 
+"Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/217 "XButton/1"
+"AT Translated Set 2 keyboard" "/dev/input/event3" none key/60 "XButton/1"
+
+"Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/155 "XKey/Control_L+Z"
 
 #JOSM
 Window "FocusProxy": # Window title
 "Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none key/275 "XKey/KP_Enter"
 "Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none key/276 "XKey/Escape"
+
 
 Window "TeamSpeak 3": # Window title
 "RDing FootSwitch1F1." "usb-RDing_FootSwitch1F1.-event-mouse" control key/29 "XKey/Alt_L+grave"

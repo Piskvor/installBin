@@ -62,6 +62,7 @@ if mkdir $TMPDIR 2>/dev/null; then
 
     # found a version
     echo ${JOSM} $*
+    echo $VERSION_LOCAL
     ${JOSM} $* &
     PID=$!
     renice -n 5 $PID
