@@ -1,35 +1,33 @@
+# scrolling
 "Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/418 "XButton/4"
 "Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/419 "XButton/5"
 
+Window "yakuake": # Class name
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/158 "XKey/Control_L+Shift_L+underscore"
+
 #"Logitech MX Master" "/dev/input/by-id/usb-Logitech_USB_Receiver-if02-event-mouse" control+alt key/56 "XKey/Pause"
 
+#"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none key/276 "XKey/Control_L+C"
 #"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none key/275 "XKey/Control_L+V"
-#"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none rel/6/-1 "XKey/Enter"
+#"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none rel/6/-1 "XKey/Pause"
 #"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none rel/6/1 "XKey/Pause"
 
-# thumb button
-#"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" control key/29 "XKey/Escape"
-#"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" control+alt key/56 "XButton/9"
-#"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" control+alt key/15 "XButton/9"
+#Window "TeamSpeak 3": # Window title
+#"RDing FootSwitch1F1." "usb-RDing_FootSwitch1F1.-event-mouse" control key/29 "XKey/Alt_L+grave"
 
-
-"Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/217 "XButton/1"
-"AT Translated Set 2 keyboard" "/dev/input/event3" none key/60 "XButton/1"
-
-"Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/155 "XKey/Control_L+Z"
-
-#JOSM
-Window "FocusProxy": # Window title
-"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none key/275 "XKey/KP_Enter"
-"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none key/276 "XKey/Escape"
-
-
-Window "TeamSpeak 3": # Window title
-"RDing FootSwitch1F1." "usb-RDing_FootSwitch1F1.-event-mouse" control key/29 "XKey/Alt_L+grave"
-
-#PHPStorm
 Window "FocusProxy": # Window title
 # Window "Focus-Proxy-Window": # Resource name
 # Window "FocusProxy": # Class name
-"Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/158 "XKey/Shift_L+F7"
-"Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/159 "XKey/F7"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/158 "XKey/Shift_L+F7"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/159 "XKey/F7"
+
+Window "FocusProxy": # Window title
+# Window "Focus-Proxy-Window": # Resource name
+# Window "FocusProxy": # Class name
+#"AT Translated Set 2 keyboard" "event3" none key/60 "XButton/1"
+#"AT Translated Set 2 keyboard" "/dev/input/event3" shift key/86 "XKey/Control_L+Shift_L+Z"
+#"AT Translated Set 2 keyboard" "/dev/input/event3" none key/86 "XKey/Control_L+Z"
+#
+
+
+
