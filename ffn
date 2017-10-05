@@ -1,0 +1,2 @@
+#~/bin/bash
+~/bin/firefox-nightly/firefox -profile ~/.mozilla/firefox/vlnvn5ek.nightly $* 

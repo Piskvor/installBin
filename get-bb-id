@@ -1,0 +1,27 @@
+#!/bin/bash
+
+BB_TMPFILE=~/tmp/bb.tmp
+BB_ID=""
+
+if [ "$1" = "--reset" ]; then
+	rm -v "$BB_TMPFILE"
+fi
+
+if [ ! -f "$BB_TMPFILE" ] ; then
+	vagrant global-status | grep running | grep blackbox-dev | cut "--delimiter= " -f1 > "$BB_TMPFILE"
+fi
+if [ -f "$BB_TMPFILE" ] ; then
+	BB_ID=$(head -1 < "$BB_TMPFILE" | sed 's/[^a-f0-9]//g')
+	BB_ID_LENGTH=$(echo -n ${BB_ID} | wc --bytes)
+	if [ "$BB_ID_LENGTH" != 7 ]; then
+		BB_ID=""
+	fi
+fi
+
+echo -n $BB_ID
+
+if [ "$1" = "--reset" ]; then
+	exit 2
+else
+	exit 0
+fi

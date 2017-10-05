@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -x
+
+which x11vnc || exit 4
+which xdotool || exit 3
+which Xvfb || exit 2
+which evilwm || exit 1
+
+MY_DISPLAY=:2
+
+Xvfb ${MY_DISPLAY} -screen 0 1280x720x24 &
+
+XDOTOOL_COMMAND="getdisplaygeometry"
+
+sleep 1
+export DISPLAY=${MY_DISPLAY}
+xdotool $XDOTOOL_COMMAND
+if [ "$?" -gt 0 ]; then
+	sleep 2
+	xdotool $XDOTOOL_COMMAND
+	if [ "$?" -gt 0 ]; then
+		sleep 4
+		xdotool $XDOTOOL_COMMAND
+		if [ "$?" -gt 0 ]; then
+			exit 4
+		fi
+	fi
+fi
+evilwm &
+
+sleep 5
+
+x11vnc -nopw -ncache -display ${MY_DISPLAY} -listen 127.2.2.2 -noipv6 -norc -wireframe -rfbport 12222 &
+
+simplescreenrecorder &
+brave &
+
+
