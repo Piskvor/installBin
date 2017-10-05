@@ -2,3 +2,4 @@ Fiddler/
 PhpStorm-*/
 firefox-nightly/
 ~*
+*.jar
