@@ -20,13 +20,14 @@ if [ -f "$FILENAME" ] ; then
 	fi
 fi
 
-DEVICES="/dev/input/event3"
+DEVICES=" "
 for device in $(sed < "$CONFIG" 's/"[^"]\+" "//;s/".*//' | sort | uniq | grep -vE '^#' | grep usb) ; do
 	THIS_DEVICE="/dev/input/by-id/$device"
+	#echo $THIS_DEVICE
 	if [ -e "$THIS_DEVICE" ]; then
 		DEVICES="$DEVICES $THIS_DEVICE"
 	fi
 done
-evrouter -r ${DEVICES} "--config=$CONFIG"
+evrouter -r ${DEVICES} "--config=$CONFIG" $*
 
 

@@ -1,10 +1,7 @@
 #!/bin/bash
-export LC_ALL=cs_CZ.UTF-8 
 BASE_NAME=$(basename $0)
 DIR_NAME="$HOME/bin"
 JAR_NAME="${BASE_NAME}.jar"
-JAVA_OPTS=""
-
 if [ "$BASE_NAME" = "josm" ] ; then
 	JAR_NAME="josm-tested.jar"
 fi
@@ -25,7 +22,7 @@ TMPFILE="${TMPDIR}/${BASE_NAME}-runner.pid"
 function cleanup {
     # if we're here, we got interrupted
     JOSM_PID=$(cat "${TMPFILE}")
-    kill ${JOSM_PID} 2>/dev/null
+    kill ${JOSM_PID}
     rm "${TMPFILE}"
 	rmdir "${TMPDIR}"
 }
@@ -46,7 +43,7 @@ if mkdir $TMPDIR 2>/dev/null; then
 	fi
 	if [ "$VERSION_LOCAL" -gt "$VERSION_REPO" ]; then
 		echo "Using ${JAVA_HOME} to run local ${LOCAL_NAME}"
-		JOSM="java $JAVA_OPTS -jar $LOCAL_NAME $*"
+		JOSM="java -jar ${JAVA_OPTS} ${LOCAL_NAME} $*"
 	else
 		JOSM=/usr/bin/${BASE_NAME}
 	fi
@@ -61,12 +58,11 @@ if mkdir $TMPDIR 2>/dev/null; then
     fi
 
     # found a version
-    echo ${JOSM} $*
-    echo $VERSION_LOCAL
+    set -x
+#    echo ${JOSM} $*
     ${JOSM} $* &
-    PID=$!
-    renice -n 5 $PID
-    echo -n "$PID" > "${TMPFILE}"
+    echo -n "$!" > "${TMPFILE}"
+    set +x
     wait
 else
 	echo "Already running"

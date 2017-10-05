@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WATCHFILE=/run/shm/pluggedKB
-#touch $WATCHFILE
+touch $WATCHFILE
 
 INOTIFYWAIT=$(which inotifywait)
 RUN_COMMAND=$HOME/bin/evr-start

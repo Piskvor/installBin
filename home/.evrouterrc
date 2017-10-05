@@ -18,8 +18,8 @@ Window "yakuake": # Class name
 Window "FocusProxy": # Window title
 # Window "Focus-Proxy-Window": # Resource name
 # Window "FocusProxy": # Class name
-"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/158 "XKey/Shift_L+F7"
-"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/159 "XKey/F7"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/158 "XKey/Shift_L+Alt_L+F5"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/159 "XKey/Alt_L+F5"
 
 Window "FocusProxy": # Window title
 # Window "Focus-Proxy-Window": # Resource name

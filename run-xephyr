@@ -4,7 +4,9 @@ which xdotool || exit 3
 which Xephyr || exit 2
 which evilwm || exit 1
 
-Xephyr -screen 1280x800 :1 &
+#Xephyr -screen 1280x800 :1 &
+
+Xephyr -screen 1280x720 :1 &
 
 XDOTOOL_COMMAND="getdisplaygeometry"
 
@@ -23,5 +25,10 @@ if [ "$?" -gt 0 ]; then
 	fi
 fi
 evilwm &
+
+sleep 5
+
+simplescreenrecorder &
+brave &
 
 
