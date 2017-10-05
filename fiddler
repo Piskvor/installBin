@@ -1,4 +1,4 @@
 #!/bin/bash
 
-nice mono $HOME/bin/Fiddler/app/Fiddler.exe $*
+nice mono $HOME/bin/Fiddler/Fiddler.exe $*
 
