@@ -1,10 +1,4 @@
-PhpStorm*/
-navicat*/
-Team*/
-blueproximity-*/
-.idea/
-LiClipse/
 Fiddler/
-josm-*.jar
-live*
-*-prod
+PhpStorm-*/
+firefox-nightly/
+~*
