@@ -1,7 +1,11 @@
-[user]
-	name = Jan Martinec
 [core]
 	excludesfile = ~/.gitignore
+	editor = vim
+	autocrlf = input
+[user]
+	name = Jan Martinec
+[pull]
+	ff = only
 [alias]
 	co = checkout
 	cp = cherry-pick
@@ -25,3 +29,6 @@
 	vss = !vagrant ssh
 	vde = !vagrant destroy
 	vpr = !vagrant provision
+	git = !exec git
+[help]
+	autocorrect = 30

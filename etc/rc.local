@@ -11,36 +11,27 @@
 #
 # By default this script does nothing.
 
-# systemctl enable rc-local.service
-#exit 0
+mount -o remount,size=1200M /dev/shm || true
+mkdir -m700 -p /run/shm/honza/tmp || true
+chown -R honza. /run/shm/honza || true
 
-echo 1 >  /proc/sys/kernel/sysrq
+mkdir -m710 -p /run/shm/jmartinec/tmp || true
+chown -R jmartinec.users /run/shm/jmartinec || true
+mkdir -m770 -p /run/shm/jmartinec/tmp/share || true
+chown -R jmartinec.users /run/shm/jmartinec/tmp/share || true
+mkdir -m700 -p /run/shm/jmartinec/tmp/blackbox/templates_latte || true
+chmod =rwx,+s,a+s,a+w /run/shm/jmartinec/tmp/blackbox/templates_latte || true
+mkdir -m700 -p /run/shm/jmartinec/tmp/blackbox/templates_c || true
+chmod =rwx,+s,a+s,a+w /run/shm/jmartinec/tmp/blackbox/templates_c || true
+chown -R www-data. /run/shm/jmartinec/tmp/blackbox/ || true
 
-#mount /dev/sda1 || true
-#swapon /dev/sda3 || true
-USER="honza"
-TMPDIR="/run/shm/$USER/tmp"
-mkdir -p $TMPDIR
+echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 
-chown -R $USER. $TMPDIR
-chmod -R 700 $TMPDIR
-ln -s -f $TMPDIR "/home/$USER/.ramdisk"
-mkdir -p -m775 /run/shm/wwwcache
-chown www-data. /run/shm/wwwcache
-ln -s -f /run/shm/wwwcache /var/www/cache
 
-#/sbin/udevadm trigger -s "input"
+chmod -x /usr/bin/baloo_file
+chmod -x /usr/bin/akonadi*
 
-#/sbin/udevadm trigger
-chgrp adm /dev/input/event*
-
-#mknod /dev/fake-dev0 b 7 200 || true
-
-#modprobe iwlwifi || true
-#modprobe snd-hda-intel || true
+swapoff -a
 #rmmod nbd || true
 #modprobe nbd max_part=16 || true
-
-touch /run/shm/pluggedS
-touch /run/shm/pluggedKB
 exit 0
