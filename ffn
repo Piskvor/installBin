@@ -1,2 +1,5 @@
-#~/bin/bash
+#!/bin/bash
+
+#source ~/bin/browser-ulimit.sh
+
 ~/bin/firefox-nightly/firefox -profile ~/.mozilla/firefox/vlnvn5ek.nightly $* 

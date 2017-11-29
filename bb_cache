@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh vagrant -t -- docker exec -it blackbox_frontend_1 bash -c "'set -x;ls 777 /var/cache /var/cache/blackbox/templates_c /var/cache/blackbox/templates_latte; watch rm -rf /var/cache/blackbox/templates/*'"

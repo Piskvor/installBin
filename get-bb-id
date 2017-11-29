@@ -3,7 +3,7 @@
 BB_TMPFILE=~/tmp/bb.tmp
 BB_ID=""
 
-if [ "$1" = "--reset" ]; then
+if [ "${1:-}" = "--reset" ]; then
 	rm -v "$BB_TMPFILE"
 fi
 

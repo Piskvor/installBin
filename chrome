@@ -1,3 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
+source ~/bin/smaller-ulimit.sh
 
 google-chrome --process-per-tab $*

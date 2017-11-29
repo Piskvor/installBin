@@ -1,0 +1,3 @@
+#!/bin/bash
+
+setxkbmap -layout us,cz -variant ,qwerty -option grp_led:scroll -option caps:escape -option compose:menu -option terminate:ctrl_alt_bksp

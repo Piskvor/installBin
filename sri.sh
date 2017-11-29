@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euxo pipefail
+
 HASH=$(openssl dgst -sha384 -binary "$1" | openssl base64 -A)
 
 echo -n '<script src="'
