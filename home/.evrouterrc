@@ -12,22 +12,19 @@ Window "yakuake": # Class name
 #"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none rel/6/-1 "XKey/Pause"
 #"Logitech MX Master" "usb-Logitech_USB_Receiver-if02-event-mouse" none rel/6/1 "XKey/Pause"
 
-#Window "TeamSpeak 3": # Window title
-#"RDing FootSwitch1F1." "usb-RDing_FootSwitch1F1.-event-mouse" control key/29 "XKey/Alt_L+grave"
+Window "TeamSpeak 3": # Window title
+"RDing FootSwitch1F1." "usb-RDing_FootSwitch1F1.-event-mouse" control key/29 "XKey/Alt_L+grave"
 
 Window "FocusProxy": # Window title
 # Window "Focus-Proxy-Window": # Resource name
 # Window "FocusProxy": # Class name
-"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/158 "XKey/Shift_L+Alt_L+F5"
-"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/159 "XKey/Alt_L+F5"
+"Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/158 "XKey/Shift_L+F7"
+"Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/159 "XKey/F7"
 
 Window "FocusProxy": # Window title
 # Window "Focus-Proxy-Window": # Resource name
 # Window "FocusProxy": # Class name
-#"AT Translated Set 2 keyboard" "event3" none key/60 "XButton/1"
-#"AT Translated Set 2 keyboard" "/dev/input/event3" shift key/86 "XKey/Control_L+Shift_L+Z"
-#"AT Translated Set 2 keyboard" "/dev/input/event3" none key/86 "XKey/Control_L+Z"
-#
-
-
+"AT Translated Set 2 keyboard" "/dev/input/event3" none key/60 "XButton/1"
+"AT Translated Set 2 keyboard" "/dev/input/event3" shift key/86 "XKey/Control_L+Shift_L+Z"
+"AT Translated Set 2 keyboard" "/dev/input/event3" none key/86 "XKey/Control_L+Z"
 

@@ -9,7 +9,7 @@ if [ "$EVROUTER" = "" ]; then
 fi
 #sudo /bin/chgrp adm /dev/input/event*
 
-FILENAME="/tmp/.evrouter$DISPLAY"
+FILENAME="/tmp/.evrouter${DISPLAY}"
 
 $EVROUTER -q
 if [ -f "$FILENAME" ] ; then
@@ -20,10 +20,9 @@ if [ -f "$FILENAME" ] ; then
 	fi
 fi
 
-DEVICES=" "
+DEVICES="/dev/input/event3 "
 for device in $(sed < "$CONFIG" 's/"[^"]\+" "//;s/".*//' | sort | uniq | grep -vE '^#' | grep usb) ; do
 	THIS_DEVICE="/dev/input/by-id/$device"
-	#echo $THIS_DEVICE
 	if [ -e "$THIS_DEVICE" ]; then
 		DEVICES="$DEVICES $THIS_DEVICE"
 	fi
