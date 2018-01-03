@@ -1,5 +1,11 @@
+PhpStorm*/
+navicat*/
+Team*/
+blueproximity-*/
+.idea/
+LiClipse/
 Fiddler/
-PhpStorm-*/
 firefox-nightly/
 ~*
 *.jar
+hs_err_pid*.log
