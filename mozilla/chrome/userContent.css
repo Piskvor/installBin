@@ -1,5 +1,5 @@
 /** KDE will push its styling into any HTML page. Nobody expects the Spanish Inquisition! */
-textarea, input, select {
+textarea, input, select, button {
     background-color: white;
     color: black;
     -moz-appearance: none !important;
