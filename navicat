@@ -1,6 +1,6 @@
 #!/bin/sh
 
 cd `dirname "$0"`
-cd navicatess101_premium_en
+cd navicatess101_premium_en || cd navicatess100_premium_en
 ./start_navicat
 exit $?
