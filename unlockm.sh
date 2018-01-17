@@ -41,4 +41,6 @@ if [ "$COUNTER" -gt "$MAXIMUM" ]; then
 	xset -display :0 dpms force on
 	qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 	rm "$FILE"
+	sleep 2
+	xset -display :0 dpms force on
 fi
