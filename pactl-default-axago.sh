@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -euxo pipefail 
 DEFAULT_SOURCE=$(pactl list short sources | grep input | grep 'C-Media_USB' | cut -f1)
 if [ $? -gt 0 ]; then
 	exit 1
