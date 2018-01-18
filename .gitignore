@@ -10,3 +10,4 @@ firefox-nightly/
 *.jar
 hs_err_pid*.log
 pathfinder.config.php
+project-logs.sh
