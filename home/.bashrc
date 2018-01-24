@@ -126,7 +126,7 @@ export ftp_proxy=''
 export socks_proxy=''
 
 if [ -x "$(which ntfy)" ]; then
-	eval "$(ntfy shell-integration --longer-than=30)"
+	eval "$(ntfy shell-integration --longer-than=40)"
 	export AUTO_NTFY_DONE_IGNORE="vim screen meld vlc mosh xpra ssh docker-compose mc git xat tail nc ncdu watch"
 	if [ -e "$HOME/.project_dev/.env_vars" ]; then
 	    source "$HOME/.project_dev/.env_vars"
