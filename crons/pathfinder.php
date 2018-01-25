@@ -30,7 +30,7 @@ $configs = array(
         'x-time_expected' => 960, // travel time expected
         'x-preferred-url' => array(
             'usual' => 'https://www.google.cz/maps/dir/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/50.0717146,14.4021649/@50.0459649,14.4205399,13z/data=!3m1!4b1!4m11!4m10!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!1m0!2m1!5e0!3e3?hl=cs',
-            'HIGH' => 'https://www.google.cz/maps/dir/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/50.0717146,14.4021649/@50.0562447,14.4124154,13z/data=!3m1!4b1!4m9!4m8!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!1m0!3e3?hl=cs',
+            'HEAVY' => 'https://www.google.cz/maps/dir/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/50.0717146,14.4021649/@50.0562447,14.4124154,13z/data=!3m1!4b1!4m9!4m8!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!1m0!3e3?hl=cs',
         ),
     ),
     'JSe' => array(
@@ -39,7 +39,7 @@ $configs = array(
         'x-time_expected' => 960, // travel time expected
         'x-preferred-url' => array(
             'usual' => 'https://www.google.cz/maps/dir/50.0717146,14.4021649/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/@50.0459649,14.4207441,13z/data=!3m1!4b1!4m11!4m10!1m0!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!2m1!5e0!3e3?hl=cs',
-            'HIGH' => 'https://www.google.cz/maps/dir/50.0717146,14.4021649/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/@50.0521712,14.4124154,13z/data=!3m1!4b1!4m11!4m10!1m0!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!2m1!5e3!3e3?hl=cs',
+            'HEAVY' => 'https://www.google.cz/maps/dir/50.0717146,14.4021649/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/@50.0521712,14.4124154,13z/data=!3m1!4b1!4m11!4m10!1m0!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!2m1!5e3!3e3?hl=cs',
         ),
     ),
 );
@@ -138,17 +138,27 @@ foreach ($filtered as $route) {
     $type = '';
     $normal_time = '';
     $url = null;
+    $subtype = null;
     if ($route['expected_time']) {
         if ($route['expected_time'] < $route['time']) {
             $level = 5;
-            $via = '! '.$via;
-            $type = 'HIGH';
+            $type = 'HEAVY';
             $normal_time = ' (usual: '.gmdate('H:i', $route['expected_time']).')';
+            if ($route['expected_time'] * 1.3 > $route['time']) {
+                $via = '? '.$via;
+                $subtype = 'slow';
+            } else {
+                $via = '! '.$via;
+            }
         } else {
             $type = 'usual';
         }
     }
-    $time = gmdate('H:i', $route['time'])." min in $type traffic".$normal_time;
+
+    if (!$subtype) {
+        $subtype = $type;
+    }
+    $time = gmdate('H:i', $route['time'])." min in $subtype traffic".$normal_time;
     echo "$via $time\n";
     $command = "$PUSHJET -s $pushjet_secret -l $level -t ".escapeshellarg($via).' -m '.escapeshellarg($time);
     if (isset($config['x-preferred-url']) && isset($config['x-preferred-url'][$type])) {
