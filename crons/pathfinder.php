@@ -19,10 +19,10 @@ $config_defaults = array(
 require_once __DIR__.DIRECTORY_SEPARATOR.'pathfinder.config.php';
 
 $configs = array(
-'pb' => array (
-'origin'=>'Praha',
-'destination'=>'Brno'
-),
+    'pb' => array(
+        'origin' => 'Praha',
+        'destination' => 'Brno',
+    ),
     'JSw' => array( // Jizni spojka to west
         'origin' => 'place_id:ChIJ787quzuSC0cRD_7TdV9wCG8', // bus Bachova
         'destination' => 'place_id:ChIJa3qYGECUC0cRbz9FDbO25cY', // Shell Strakonicka Lihovar
@@ -116,7 +116,7 @@ foreach ($result['routes'] as $route) {
     );
     $route_filtered['polyline'] = $route['overview_polyline'];
     $route_filtered['via'][] = $route['summary'];
-    $route_filtered['expected_time'] =!empty(  $config['x-time_expected'])?$config['x-time_expected']:0;
+    $route_filtered['expected_time'] = !empty($config['x-time_expected']) ? $config['x-time_expected'] : 0;
 
     foreach ($route['legs'] as $leg) {
         $route_filtered['via'][] = first_part($leg['end_address']);
@@ -132,22 +132,23 @@ foreach ($result['routes'] as $route) {
 
 foreach ($filtered as $route) {
     foreach ($route['via'] as $k => $addr) {
-		$route['via'][$k] = trim(preg_replace('~[\d]+/[\d]+$~','', $addr));
-	}
+        $route['via'][$k] = trim(preg_replace('~[\d]+/[\d]+$~', '', $addr));
+    }
     $via = implode(', ', $route['via']);
     $type = '';
     $normal_time = '';
     $url = null;
-    if ($route['expected_time']){
-	if($route['expected_time'] < $route['time']) {
-        $level = 5;
-        $via = '! '.$via;
-        $type = 'HIGH';
-	$normal_time = ' (usual: ' . gmdate('H:i', $route['expected_time']) . ')';
-    } else {
-	$type='usual';
-}}
-    $time = gmdate('H:i', $route['time'])." min in $type traffic" . $normal_time;
+    if ($route['expected_time']) {
+        if ($route['expected_time'] < $route['time']) {
+            $level = 5;
+            $via = '! '.$via;
+            $type = 'HIGH';
+            $normal_time = ' (usual: '.gmdate('H:i', $route['expected_time']).')';
+        } else {
+            $type = 'usual';
+        }
+    }
+    $time = gmdate('H:i', $route['time'])." min in $type traffic".$normal_time;
     echo "$via $time\n";
     $command = "$PUSHJET -s $pushjet_secret -l $level -t ".escapeshellarg($via).' -m '.escapeshellarg($time);
     if (isset($config['x-preferred-url']) && isset($config['x-preferred-url'][$type])) {
