@@ -1,0 +1,1 @@
+/home/honza/prog/thirsty/thirsty.sh
