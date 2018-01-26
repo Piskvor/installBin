@@ -1,12 +1,14 @@
 #!/bin/bash
 
-WIN_ID=$(xdotool search --name "TeamSpeak 3")
+source $HOME/.project_dev/.env_vars
+
+WIN_ID=$(xdotool search "${PROJECT}.*PhpStorm" )
 WIN_CURRENT=$(xdotool getactivewindow)
 echo $WIN_ID
 echo $WIN_CURRENT
 if [ "$WIN_ID" != "$WIN_CURRENT" ]; then
 	if [ "$WIN_ID" = "" ] ; then
-		teamspeak
+		phpstorm
 	else
 		xdotool windowactivate "$WIN_ID"
 	fi

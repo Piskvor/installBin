@@ -11,7 +11,7 @@ arg=${1}
 pattern=".*file(:\/\/|\=)(.*)&line=(.*)"
 
 # Get the file path.
-file=$(echo "${arg}" | sed -r "s/${pattern}/\2/;s~phpstorm:~~g;s~^/+~~g")
+file=$(echo "${arg}" | sed -r "s/${pattern}/\2/;s~phpstorm:~~g;s~^/+~~g;s~usr/src/ucrm/~~g" )
 project_dir=$(realpath $(readlink "$HOME/.project"))
 file="$project_dir/$file"
 
@@ -23,4 +23,8 @@ if type phpstorm > /dev/null; then
     /usr/bin/env phpstorm --line "${line}" "${file}"
 elif type pstorm > /dev/null; then
     /usr/bin/env pstorm --line "${line}" "${file}"
+fi
+
+if type activate-ps.sh > /dev/null; then
+    /usr/bin/env activate-ps.sh
 fi
