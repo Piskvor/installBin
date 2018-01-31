@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -euxo pipefail
+
+ping rpi -c3 || exit 3
+ssh -t rpi -- bash -li 'local-ds-checkout/rpi/killssh.sh'
