@@ -22,19 +22,26 @@ $selected_config = @$argv[1];
 
 $pf = new Pathfinder(
     $config_defaults,
-    [
+    array(
         'url' => 'https://maps.googleapis.com/maps/api/directions/json',
         'method' => 'GET',
         'level' => 4,
         'pushjet_secret' => $pushjet_secret,
         'PUSHJET' => $PUSHJET,
         'demo_data' => $demo_data,
-    ]
+    )
+
 );
 if (!$pf->find($selected_config)) {
-    echo "Unknown config, please select:\n";
+    echo implode("\n", $pf->getErrors())."\n";
+    echo "Known configs:\n";
     echo implode(' ', array_keys($pf->getConfigs()));
     echo "\n";
     echo "Usage $argv[0] CONFIG\n";
+
     return 1;
 }
+
+$result = $pf->getResult();
+
+echo $result['text'] , "\n";

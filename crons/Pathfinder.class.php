@@ -4,7 +4,16 @@ namespace Pathfinder;
 
 class Pathfinder
 {
-    protected $via_glue = ', ';
+    const AUTO_NOTIFY = true;
+    const NO_AUTO_NOTIFY = false;
+
+    private $auto_notify = true;
+    private $notified = false;
+
+    private $result = array();
+    private $errors = array();
+
+    private $via_glue = ', ';
 
     private $configs = array(
         'pb' => array(
@@ -41,24 +50,31 @@ class Pathfinder
      */
     private $options;
 
-    public function __construct($config_defaults, $options)
+    public function __construct($config_defaults, $options = array(), $auto_notify = true)
     {
         $this->config_defaults = $config_defaults;
         $this->options = $options;
+        $this->auto_notify = $auto_notify;
     }
 
 
+    /**
+     * @param string $selected_config
+     * @return bool
+     */
     public function find($selected_config)
     {
         if ($selected_config && isset($this->configs[$selected_config])) {
             $config = $this->config_defaults + $this->configs[$selected_config];
         } else {
+            $this->errors[] = 'no config';
+
             return false;
         }
 
         $url = $this->options['url'];
         if (empty($this->options['demo_data'])) {
-            if ($this->options['method'] == 'POST') {
+            if ($this->options['method'] === 'POST') {
                 $data_string = json_encode($config);
 
                 $ch = curl_init($url);
@@ -97,14 +113,12 @@ class Pathfinder
 //var_export($result);exit;
 
         if ($result['status'] !== 'OK') {
-            echo $result['status'];
-
-            return 2;
+            $this->errors[] = $result['status'];
         } else {
             if (count($result['routes']) < 1) {
-                echo "No routes!";
+                $this->errors[] = 'No routes!';
 
-                return 3;
+                return false;
             }
         }
 
@@ -120,7 +134,7 @@ class Pathfinder
             $route_filtered['expected_time'] = !empty($config['x-time_expected']) ? $config['x-time_expected'] : 0;
 
             foreach ($route['legs'] as $leg) {
-                $route_filtered['via'][] = $this->first_part($leg['end_address']);
+                $route_filtered['via'][] = $this->firstPart($leg['end_address']);
                 if (isset($leg['duration_in_traffic'])) {
                     $time = $leg['duration_in_traffic']['value'];
                 } else {
@@ -130,7 +144,7 @@ class Pathfinder
             }
             $filtered[] = $route_filtered;
         }
-
+        $level = $this->options['level'];
         foreach ($filtered as $route) {
             foreach ($route['via'] as $k => $addr) {
                 $route['via'][$k] = trim(preg_replace('~[\d]+/[\d]+$~', '', $addr));
@@ -160,16 +174,22 @@ class Pathfinder
                 $subtype = $type;
             }
             $time = gmdate('H:i', $route['time'])." min in $subtype traffic".$normal_time;
-            echo "$via $time\n";
-            $command = $this->options['PUSHJET']." -s ".$this->options['pushjet_secret']." -l ".$this->options['level']." -t ".escapeshellarg(
+            $command = $this->options['PUSHJET']
+                .' -s '.$this->options['pushjet_secret']
+                .' -l '.$level
+                .' -t '.escapeshellarg(
                     $via
                 ).' -m '.escapeshellarg($time);
             if (isset($config['x-preferred-url']) && isset($config['x-preferred-url'][$type])) {
                 $url = $config['x-preferred-url'][$type];
                 $command .= ' -u '.escapeshellarg($url);
             }
+            $this->result = array(
+                'text' => "$via $time",
+                'url' => $url,
+                'command' => $command,
+            );
 
-            exec($command);
         }
 
         return true;
@@ -180,11 +200,41 @@ class Pathfinder
         return $this->configs;
     }
 
-    private function first_part($address)
+    public function getResult()
+    {
+        if ($this->auto_notify) {
+            $this->notify();
+        }
+
+        return $this->result;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    private function firstPart($address)
     {
         $address_parts = explode(',', $address);
 
         return $address_parts[0];
     }
 
+    public function notify($once = true)
+    {
+        if ($once && $this->notified) {
+            return;
+        }
+        $command = trim(@$this->result['command']);
+        if ($command) {
+            exec($command);
+            $this->notified = true;
+        }
+    }
+
+    public function setGlue($glue)
+    {
+        $this->via_glue = $glue;
+    }
 }
