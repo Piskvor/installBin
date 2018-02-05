@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  dropbox:
+    image: janeczku/dropbox
+    restart: always
+    environment:
+      - DBOX_UID=1000
+      - DBOX_GID=1000
+    volumes:
+      - /home/honza/bigdisk/honza/Dropbox:/dbox/Dropbox
+      - /home/honza/bigdisk/honza/.dropbox-docker-config:/dbox/.dropbox
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 100M
+        reservations:
+          memory: 50M
