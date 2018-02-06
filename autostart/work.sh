@@ -6,7 +6,7 @@ set -euxo pipefail
 echo ''>$HOME/.project/.php_cs.cache
 
 cd /home/honza/bin/autostart/dockerized && \
-    docker-compose up
+    docker-compose up -d &
 
 (
 /home/honza/.project_dev/watcher-in-the-water.sh --watch --symbols 3

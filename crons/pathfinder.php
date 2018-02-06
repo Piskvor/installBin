@@ -1,6 +1,13 @@
+#!/usr/bin/env php
 <?php
 
 use Pathfinder\Pathfinder;
+
+# .htaccess or php.ini config required:
+# php_value output_buffering On
+if (ob_get_level() > 0) {
+    ob_clean();
+}
 
 # set defaults, perhaps changed in .config.php?
 $pushjet_secret = '';
