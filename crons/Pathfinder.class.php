@@ -50,6 +50,8 @@ class Pathfinder
      */
     private $options;
 
+    private $time_ratio = 1.5;
+
     public function __construct($config_defaults, $options = array(), $auto_notify = true)
     {
         $this->config_defaults = $config_defaults;
@@ -115,7 +117,7 @@ class Pathfinder
         if ($result['status'] !== 'OK') {
             $this->errors[] = $result['status'];
         } else {
-            if (count($result['routes']) < 1) {
+            if (\count($result['routes']) < 1) {
                 $this->errors[] = 'No routes!';
 
                 return false;
@@ -155,11 +157,13 @@ class Pathfinder
             $url = null;
             $subtype = null;
             if ($route['expected_time']) {
-                if ($route['expected_time'] < $route['time']) {
+                if ($route['expected_time'] < $route['time']
+                    && gmdate('H:i', $route['expected_time']) !== gmdate('H:i', $route['time'])
+                ) {
                     $level = 5;
                     $type = 'HEAVY';
                     $normal_time = ' (usual: '.gmdate('H:i', $route['expected_time']).')';
-                    if ($route['expected_time'] * 1.3 > $route['time']) {
+                    if ($route['expected_time'] * $this->time_ratio > $route['time']) {
                         $via = '? '.$via;
                         $subtype = 'slow';
                     } else {
@@ -180,7 +184,7 @@ class Pathfinder
                 .' -t '.escapeshellarg(
                     $via
                 ).' -m '.escapeshellarg($time);
-            if (isset($config['x-preferred-url']) && isset($config['x-preferred-url'][$type])) {
+            if (isset($config['x-preferred-url'], $config['x-preferred-url'][$type])) {
                 $url = $config['x-preferred-url'][$type];
                 $command .= ' -u '.escapeshellarg($url);
             }
