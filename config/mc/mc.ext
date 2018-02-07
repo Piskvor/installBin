@@ -601,6 +601,29 @@ type/^Microsoft\ Word
 shell/i/.rtf
 	Open=/usr/lib/mc/ext.d/doc.sh open msdoc
 
+# Add this to your mc.ext user file, search for
+# Microsoft Excel Worksheet and _prepend_ this rule to the existing one.
+regex/i/\.xlsx$
+  Open=/usr/lib/mc/ext.d/doc.sh open msxls
+  View=%view{ascii} /usr/bin/xlsx2csv %f
+# Please note that if you do not prepend this block to the existing block for xls/xlsw, its regexp
+# will catch the xlsx and so xlsx2csv will not be called
+# Be sure to keep the existing viewer directives, as in this example:
+
+# Microsoft Excel Worksheet
+#regex/i/\.xlsx$
+#  Open=/usr/lib/mc/ext.d/doc.sh open msxls
+#  View=%view{ascii} /usr//bin/xlsx2csv %f
+# Be sure to keep the existing viewer directives.
+
+#regex/i/\.xl[sw]$
+#        Open=/usr/lib/mc/ext.d/doc.sh open msxls
+#        View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view msxls
+#type/^Microsoft\ Excel
+#        Open=/usr/lib/mc/ext.d/doc.sh open msxls
+#        View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view msxls
+
+
 # Microsoft Excel Worksheet
 regex/i/\.xl[sw]$
 	Open=/usr/lib/mc/ext.d/doc.sh open msxls
