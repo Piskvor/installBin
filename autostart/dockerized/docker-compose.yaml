@@ -19,6 +19,24 @@ services:
         limits:
           cpus: '0.50'
           memory: 50M
+  autossh-threepio:
+    image: piskvor-docker-autossh
+    restart: always
+    volumes:
+      - /etc/ssh/autossh/fwd_rsa:/id_rsa
+      - /home/honza/.ssh/known_hosts:/known_hosts
+    environment:
+      - SSH_HOSTUSER=fwd
+      - SSH_HOSTNAME=threepio
+      - SSH_TUNNEL_REMOTE=16783
+      - SSH_TUNNEL_HOST=10.42.0.1
+      - SSH_TUNNEL_LOCAL=22
+      - SSH_EXTRA_OPTIONS=-vv -o CheckHostIP=no
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
   dropbox-jan:
     image: janeczku/dropbox
     restart: always
