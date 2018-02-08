@@ -51,3 +51,11 @@ services:
           memory: 100M
         reservations:
           memory: 50M
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    cpu_shares: 80
+    mem_limit: 100M
+
