@@ -26,6 +26,7 @@ echo autossh \
  -i ${SSH_KEY_FILE:=/id_rsa} \
  ${SSH_MODE:=-R} ${SSH_TUNNEL_REMOTE}:${SSH_TUNNEL_HOST}:${SSH_TUNNEL_LOCAL} \
  -p ${SSH_HOSTPORT:=22} \
+ ${SSH_EXTRA_OPTIONS:=} \
  ${SSH_HOSTUSER}@${SSH_HOSTNAME}
 
 AUTOSSH_PIDFILE=/autossh.pid \
@@ -42,4 +43,5 @@ autossh \
  -i ${SSH_KEY_FILE:=/id_rsa} \
  ${SSH_MODE:=-R} ${SSH_TUNNEL_REMOTE}:${SSH_TUNNEL_HOST}:${SSH_TUNNEL_LOCAL} \
  -p ${SSH_HOSTPORT:=22} \
+ ${SSH_EXTRA_OPTIONS:=} \
  ${SSH_HOSTUSER}@${SSH_HOSTNAME}
