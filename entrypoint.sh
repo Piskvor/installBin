@@ -22,6 +22,8 @@ echo autossh \
  -o StrictHostKeyChecking=${STRICT_HOSTS_KEY_CHECKING} ${KNOWN_HOSTS_ARG:=} \
  -o ServerAliveInterval=5 \
  -o ServerAliveCountMax=1 \
+ -o IdentitiesOnly=yes \
+ -o VisualHostKey=yes \
  -t -t \
  -i ${SSH_KEY_FILE:=/id_rsa} \
  ${SSH_MODE:=-R} ${SSH_TUNNEL_REMOTE}:${SSH_TUNNEL_HOST}:${SSH_TUNNEL_LOCAL} \
@@ -39,6 +41,8 @@ autossh \
  -o StrictHostKeyChecking=${STRICT_HOSTS_KEY_CHECKING} ${KNOWN_HOSTS_ARG:=}  \
  -o ServerAliveInterval=5 \
  -o ServerAliveCountMax=1 \
+ -o IdentitiesOnly=yes \
+ -o VisualHostKey=yes \
  -t -t \
  -i ${SSH_KEY_FILE:=/id_rsa} \
  ${SSH_MODE:=-R} ${SSH_TUNNEL_REMOTE}:${SSH_TUNNEL_HOST}:${SSH_TUNNEL_LOCAL} \
