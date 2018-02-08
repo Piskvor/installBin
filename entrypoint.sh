@@ -31,7 +31,7 @@ echo autossh \
 
 AUTOSSH_PIDFILE=/autossh.pid \
 AUTOSSH_POLL=10 \
-AUTOSSH_LOGLEVEL=0 \
+AUTOSSH_LOGLEVEL=2 \
 AUTOSSH_LOGFILE=/dev/stdout \
 autossh \
  -M 0 \
