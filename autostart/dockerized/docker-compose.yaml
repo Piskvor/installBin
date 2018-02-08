@@ -7,6 +7,7 @@ services:
     volumes:
       - /etc/ssh/autossh/fwd_rsa:/id_rsa
       - /home/honza/.ssh/known_hosts:/known_hosts
+      - /home/honza/.ssh/config:/ssh_config
     environment:
       - SSH_HOSTUSER=fwd
       - SSH_HOSTNAME=tulen
@@ -25,6 +26,7 @@ services:
     volumes:
       - /etc/ssh/autossh/fwd_rsa:/id_rsa
       - /home/honza/.ssh/known_hosts:/known_hosts
+      - /home/honza/.ssh/config:/ssh_config
     environment:
       - SSH_HOSTUSER=fwd
       - SSH_HOSTNAME=threepio
