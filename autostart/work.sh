@@ -2,7 +2,9 @@
 
 set -euxo pipefail
 
-/usr/bin/udisksctl mount -b /dev/sdb2 --no-user-interaction || true
+for i in sdb2 sdc1 sdc2 ; do
+	/usr/bin/udisksctl mount -b /dev/$i --no-user-interaction || true
+done
 echo ''>$HOME/.project/.php_cs.cache
 
 #docker swarm init --advertise-addr 10.42.0.1 || true
