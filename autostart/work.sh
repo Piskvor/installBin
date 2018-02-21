@@ -2,6 +2,8 @@
 
 set -euxo pipefail
 
+setxkbmap -option grp:alt_caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,altwin:meta_win,caps:escape || true
+
 for i in sdb2 sdc1 sdc2 ; do
 	/usr/bin/udisksctl mount -b /dev/$i --no-user-interaction || true
 done
