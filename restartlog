@@ -2,5 +2,5 @@
 
 set -euxo pipefail
 
-ping rpi -c3 || exit 3
-ssh -t rpi -- bash -li 'local-ds-checkout/rpi/killssh.sh'
+ping rpi-log -c3 || exit 3
+ssh -t rpi-log -oStrictHostKeyChecking=yes -oBatchMode=yes -v -- bash -li 'local-ds-checkout/rpi/killssh.sh'
