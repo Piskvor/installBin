@@ -7,4 +7,4 @@ docker rm $(docker ps -a -q)
 docker rmi $(docker images -q)
 
 # Delete all dangling volumes
-docker volume prune -f
+docker volume prune -f || true
