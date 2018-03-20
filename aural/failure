@@ -8,5 +8,5 @@ PLAYER="$(which mpg321)"
 PLAYER_OPTS="--quiet"
 
 if [ -x "$PLAYER" ]; then
-    $PLAYER $PLAYER_OPTS ./67454__splashdust__negativebeep.mp3
+    $PLAYER $PLAYER_OPTS ./67454__splashdust__negativebeep.mp3 &> /dev/null
 fi

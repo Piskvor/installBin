@@ -8,5 +8,5 @@ PLAYER="$(which mpg321)"
 PLAYER_OPTS="--quiet"
 
 if [ -x "$PLAYER" ]; then
-    $PLAYER $PLAYER_OPTS ./109663__grunz__success-low.mp3
+    $PLAYER $PLAYER_OPTS ./109663__grunz__success-low.mp3 &> /dev/null
 fi
