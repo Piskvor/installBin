@@ -11,7 +11,7 @@ services:
     environment:
       - SSH_HOSTUSER=fwd
       - SSH_HOSTNAME=tulen
-      - SSH_TUNNEL_REMOTE=16783
+      - SSH_TUNNEL_REMOTE=16784
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
       - SSH_EXTRA_OPTIONS=-vv
