@@ -14,6 +14,7 @@ cd /home/honza/bin/autostart/dockerized/autossh && \
  docker build . --tag piskvor-docker-autossh || true
 
 (
+/home/honza/.project_dev/phpcsfix.sh &
 /home/honza/.project_dev/watcher-in-the-water.sh --watch --symbols 3 &
 /home/honza/.project_dev/watcher-in-the-water.sh --watch 7 --no-parse &
 /home/honza/.project_dev/missing_translations.sh
