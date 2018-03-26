@@ -30,7 +30,7 @@ services:
     environment:
       - SSH_HOSTUSER=fwd
       - SSH_HOSTNAME=threepio
-      - SSH_TUNNEL_REMOTE=16783
+      - SSH_TUNNEL_REMOTE=16785
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
       - SSH_EXTRA_OPTIONS=-vv -o CheckHostIP=no
@@ -48,6 +48,7 @@ services:
     volumes:
       - /home/honza/bigdisk/honza/Dropbox:/dbox/Dropbox
       - /home/honza/bigdisk/honza/.dropbox-docker-config:/dbox/.dropbox
+#      - /home/honza/prog/.dropbox-dist:/opt/dropbox
     deploy:
       resources:
         limits:
@@ -62,6 +63,7 @@ services:
     volumes:
       - /home/honza/bigdisk/honza/agcz-Dropbox:/dbox/Dropbox
       - /home/honza/bigdisk/honza/.dropbox-docker-config-agcz:/dbox/.dropbox
+#      - /home/honza/prog/.dropbox-dist:/opt/dropbox
     deploy:
       resources:
         limits:

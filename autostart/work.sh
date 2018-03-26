@@ -10,8 +10,8 @@ done
 echo ''>$HOME/.project/.php_cs.cache || true
 
 #docker swarm init --advertise-addr 10.31.4.1 || true
-# cd /home/honza/bin/autostart/dockerized/autossh && \
-# docker build . --tag piskvor-docker-autossh
+cd /home/honza/bin/autostart/dockerized/autossh && \
+ docker build . --tag piskvor-docker-autossh || true
 
 (
 /home/honza/.project_dev/watcher-in-the-water.sh --watch --symbols 3 &
