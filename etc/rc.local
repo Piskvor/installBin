@@ -1,37 +1,41 @@
 #!/bin/sh -e
 #
 # rc.local
-#
-# This script is executed at the end of each multiuser runlevel.
-# Make sure that the script will "exit 0" on success or any other
-# value on error.
-#
-# In order to enable or disable this script just change the execution
-# bits.
-#
-# By default this script does nothing.
 
-mount -o remount,size=1200M /dev/shm || true
-mkdir -m700 -p /run/shm/honza/tmp || true
-chown -R honza. /run/shm/honza || true
+/sbin/ip addr add 10.31.4.1 dev enp3s0 || true
+mount -o remount,size=2500M /dev/shm || true
+RAMDISK="/dev/shm"
+TMP_HONZA="${RAMDISK}/honza/tmp"
+/bin/mkdir -m700 -p "${TMP_HONZA}" || true
+/bin/mkdir -m700 -p "${TMP_HONZA}/cache/konsole" || true
+/bin/mkdir -m700 -p "${TMP_HONZA}/cache/firefox" || true
+/bin/mkdir -m700 -p "${TMP_HONZA}/cache/chrome" || true
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/system" || true
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/root" || true
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/app" || true
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/composer" || true
+/bin/chown -R honza. "${RAMDISK}/honza" || true
 
-mkdir -m710 -p /run/shm/jmartinec/tmp || true
-chown -R jmartinec.users /run/shm/jmartinec || true
-mkdir -m770 -p /run/shm/jmartinec/tmp/share || true
-chown -R jmartinec.users /run/shm/jmartinec/tmp/share || true
-mkdir -m700 -p /run/shm/jmartinec/tmp/blackbox/templates_latte || true
-chmod =rwx,+s,a+s,a+w /run/shm/jmartinec/tmp/blackbox/templates_latte || true
-mkdir -m700 -p /run/shm/jmartinec/tmp/blackbox/templates_c || true
-chmod =rwx,+s,a+s,a+w /run/shm/jmartinec/tmp/blackbox/templates_c || true
-chown -R www-data. /run/shm/jmartinec/tmp/blackbox/ || true
+#/bin/mount --bind /home/honza/gdrive /home/honza/gdrive && /bin/mount --make-shared /home/honza/gdrive || true
 
 echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 
+/usr/bin/timedatectl set-ntp true || true
+/bin/systemctl enable ntp || true
+/bin/systemctl start ntp || true
 
-chmod -x /usr/bin/baloo_file
-chmod -x /usr/bin/akonadi*
+/bin/chmod -x /usr/bin/baloo_file || true
+/bin/chmod -x /usr/bin/akonadi* || true
 
-swapoff -a
+/sbin/swapoff -a || true
+/sbin/swapon UUID="4dfbb4b6-fe3d-4bae-983c-8657c22264ab" || true
+/sbin/udevadm trigger || true
+
+sleep 1
+/sbin/alsa force-reload || true
 #rmmod nbd || true
 #modprobe nbd max_part=16 || true
+sleep 2
+/sbin/udevadm trigger || true
+
 exit 0
