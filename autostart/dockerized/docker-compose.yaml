@@ -15,6 +15,9 @@ services:
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
       - SSH_EXTRA_OPTIONS=-vv
+      - AUTOSSH_LOGLEVEL=2
+      - AUTOSSH_FIRST_POLL=120
+      - AUTOSSH_GATETIME=0
     deploy:
       resources:
         limits:
@@ -29,11 +32,14 @@ services:
       - /home/honza/.ssh/config:/ssh_config
     environment:
       - SSH_HOSTUSER=fwd
-      - SSH_HOSTNAME=threepio
+      - SSH_HOSTNAME=othreepio
       - SSH_TUNNEL_REMOTE=16785
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
       - SSH_EXTRA_OPTIONS=-vv -o CheckHostIP=no
+      - AUTOSSH_LOGLEVEL=2
+      - AUTOSSH_FIRST_POLL=120
+      - AUTOSSH_GATETIME=0
     deploy:
       resources:
         limits:

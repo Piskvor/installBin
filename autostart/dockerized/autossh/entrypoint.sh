@@ -34,6 +34,7 @@ echo autossh \
  -o ServerAliveInterval=5 \
  -o ServerAliveCountMax=1 \
  -o IdentitiesOnly=yes \
+ -o BatchMode=yes \
  -o VisualHostKey=yes \
  -t -t \
  -i ${SSH_KEY_FILE:=/id_rsa} \
@@ -54,6 +55,7 @@ autossh \
  -o ServerAliveInterval=5 \
  -o ServerAliveCountMax=1 \
  -o IdentitiesOnly=yes \
+ -o BatchMode=yes \
  -o VisualHostKey=yes \
  -t -t \
  -i ${SSH_KEY_FILE:=/id_rsa} \
