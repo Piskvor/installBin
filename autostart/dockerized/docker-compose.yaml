@@ -52,7 +52,7 @@ services:
       resources:
         limits:
           cpus: '0.50'
-          memory: 100M
+          memory: 200M
   dropbox-agcz:
     image: janeczku/dropbox
     restart: always
@@ -66,4 +66,4 @@ services:
       resources:
         limits:
           cpus: '0.50'
-          memory: 100M
+          memory: 200M
