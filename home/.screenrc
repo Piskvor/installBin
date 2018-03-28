@@ -23,6 +23,6 @@ shelltitle "$ |bash"
 ##screen, with the time and date and with the current window highlighted                                                                            
 hardstatus             alwayslastline                                                                                                                          
 backtick 1 0 1 head -n1 $HOME/tmp/watcher-in-the-water-current--symbols.log
-backtick 2 0 1 head -n1 $HOME/tmp/youtrack-issue.log
+backtick 2 0 1 head -n1 $HOME/tmp/youtrack-watch-issue.log
 
 hardstatus string '%{= kw}[ %{w}%H %1` %{w}]%{g}[%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}]%{w}[ %2` ]'
