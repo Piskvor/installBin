@@ -13,12 +13,7 @@ echo ''>$HOME/.project/.php_cs.cache || true
 cd /home/honza/bin/autostart/dockerized/autossh && \
  docker build . --tag piskvor-docker-autossh || true
 
-(
-/home/honza/.project_dev/phpcsfix.sh &
-/home/honza/.project_dev/watcher-in-the-water.sh --watch --symbols 3 &
-/home/honza/.project_dev/watcher-in-the-water.sh --watch 7 --no-parse &
-/home/honza/.project_dev/missing_translations.sh
-) &
+/home/honza/.project_dev/log-console/watchmen.sh &
 
 vboxmanage startvm {cdbd2f92-00f2-4fa7-b2d2-9d1f5e107244} &
 
