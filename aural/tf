@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname $0)"
+
+PLAYER="$(which mpg321)"
+PLAYER_OPTS="--quiet"
+
+if [ -x "$PLAYER" ]; then
+    $PLAYER $PLAYER_OPTS ./cpu_terraform.mp3 &> /dev/null
+fi
