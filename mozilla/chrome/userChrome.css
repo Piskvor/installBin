@@ -1,0 +1,9 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+
+/*Toolbar & menu font size*/
+menubar, menubutton, menulist, menu, menuitem, textbox, toolbar, tab, tree, tooltip{font-size: 9pt !important;}
+
+/* Remove menus and sizing */
+#file-menu, #helpMenu,  #history-menu, #bookmarksMenu {display: none !important;}
+#view-menu, #edit-menu, #tools-menu {padding: 1px !important}
