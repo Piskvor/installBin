@@ -20,11 +20,9 @@ if (PHP_SAPI === 'cli') {
 } else {
     $format = @$_REQUEST['format'];
     if (!$format) {
-        $format = @$_SERVER['HTTP_ACCEPT'];
+        $format = 'text/plain';
     }
-    if (!$format) {
-        $format = 'text/html';
-    }
+    header("Content-Type: $format");
 }
 
 $fetcher = new Fetcher(

@@ -42,6 +42,8 @@ class Fetcher
     {
         $results = array();
         $parser = $this->parser;
+        $curl = curl_init();
+
         foreach ($this->accounts as $name => $token) {
             $url = str_replace(
                 array(
@@ -56,11 +58,19 @@ class Fetcher
                 ),
                 $this->url
             );
-            $data = file_get_contents($url);
+            // Set some options - we are passing in a useragent too here
+            curl_setopt_array($curl, array(
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_URL => $url,
+            ));
+            // Send the request & save response to $resp
+            $data = curl_exec($curl);
             if ($data) {
                 $results[$name] = $parser($data);
             }
         }
+        // Close request to clear up some resources
+        curl_close($curl);
         return $results;
     }
 }
