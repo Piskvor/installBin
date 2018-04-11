@@ -1,0 +1,12 @@
+<?php
+
+$accounts = array(
+    'accountPrettyName' => 'aCC0unt-T0k3n'
+);
+
+$url_template = 'https://www.example.com/get?token=$token&from=$from&to=$to&format=json';
+
+$parse_balance = function($jsonString) {
+    $json = json_decode($jsonString, true);
+    return $json['x']['y'][0]['z'];
+};
