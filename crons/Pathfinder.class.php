@@ -25,6 +25,7 @@ class Pathfinder
             'destination' => 'place_id:ChIJa3qYGECUC0cRbz9FDbO25cY', // Shell Strakonicka Lihovar
             'waypoints' => 'via:place_id:ChIJy1GHhMGTC0cR9g9n5hexXAQ', // Shell JS u Zapa Betonu
             'x-time_expected' => 960, // travel time expected
+            'x-summary_expected' => 'Městský Okruh',
             'x-preferred-url' => array(
                 'usual' => 'https://www.google.cz/maps/dir/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/50.0717146,14.4021649/@50.0459649,14.4205399,13z/data=!3m1!4b1!4m11!4m10!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!1m0!2m1!5e0!3e3?hl=cs',
                 'HEAVY' => 'https://www.google.cz/maps/dir/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/50.0717146,14.4021649/@50.0562447,14.4124154,13z/data=!3m1!4b1!4m9!4m8!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!1m0!3e3?hl=cs',
@@ -34,6 +35,7 @@ class Pathfinder
             'origin' => 'place_id:ChIJa3qYGECUC0cRbz9FDbO25cY', // Shell Strakonicka Lihovar
             'destination' => 'place_id:ChIJ7TjLf8iTC0cR7-Q5xiHHEJ0', // OBI
             'x-time_expected' => 960, // travel time expected
+            'x-summary_expected' => 'Městský Okruh',
             'x-preferred-url' => array(
                 'usual' => 'https://www.google.cz/maps/dir/50.0717146,14.4021649/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/@50.0459649,14.4207441,13z/data=!3m1!4b1!4m11!4m10!1m0!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!2m1!5e0!3e3?hl=cs',
                 'HEAVY' => 'https://www.google.cz/maps/dir/50.0717146,14.4021649/Caf%C3%A9+Z%C3%A1ti%C5%A1%C3%AD,+Ure%C5%A1ova+1757,+148+00+Praha-Kunratice/@50.0521712,14.4124154,13z/data=!3m1!4b1!4m11!4m10!1m0!1m5!1m1!1s0x470b922af22e3a97:0x5c2c5821630db9c4!2m2!1d14.4867234!2d50.0218867!2m1!5e3!3e3?hl=cs',
@@ -134,6 +136,7 @@ class Pathfinder
             $route_filtered['polyline'] = $route['overview_polyline'];
             $route_filtered['via'][] = $route['summary'];
             $route_filtered['expected_time'] = !empty($config['x-time_expected']) ? $config['x-time_expected'] : 0;
+            $route_filtered['expected_via'] = !empty($config['x-summary_expected']) ? $config['x-summary_expected'] : null;
 
             foreach ($route['legs'] as $leg) {
                 $route_filtered['via'][] = $this->firstPart($leg['end_address']);
@@ -152,6 +155,12 @@ class Pathfinder
                 $route['via'][$k] = trim(preg_replace('~[\d]+/[\d]+$~', '', $addr));
             }
             $via = implode($this->via_glue, $route['via']);
+            $deviated = false;
+            if ($route['expected_via']) {
+                if (strpos($via, $route['expected_via']) === false) {
+                    $deviated = true;
+                }
+            }
             $type = '';
             $normal_time = '';
             $url = null;
@@ -167,7 +176,11 @@ class Pathfinder
                         $via = '? '.$via;
                         $subtype = 'slow';
                     } else {
-                        $via = '! '.$via;
+                        if ($deviated) {
+                            $via = '!!!' . $via;
+                        } else {
+                            $via = '! '.$via;
+                        }
                     }
                 } else {
                     $type = 'usual';
