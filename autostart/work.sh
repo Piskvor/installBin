@@ -13,9 +13,10 @@ echo ''>$HOME/.project/.php_cs.cache || true
 cd /home/honza/bin/autostart/dockerized/autossh && \
  docker build . --tag piskvor-docker-autossh || true
 
-/home/honza/.project_dev/log-console/watchmen.sh &
+cd /home/honza/bin/autostart/dockerized && \
+    docker-compose up -d &
 
 vboxmanage startvm {cdbd2f92-00f2-4fa7-b2d2-9d1f5e107244} &
 
-cd /home/honza/bin/autostart/dockerized && \
-    docker-compose up -d &
+/home/honza/.project_dev/log-console/watchmen.sh &
+
