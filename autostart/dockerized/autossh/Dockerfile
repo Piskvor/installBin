@@ -12,9 +12,6 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-type="Git" \
       org.label-schema.vcs-url="https://github.com/jnovack/docker-autossh"
 
-ENTRYPOINT ["/entrypoint.sh"]
-ADD /entrypoint.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
 
 ENV \
     TERM=xterm \
@@ -29,3 +26,12 @@ RUN apk update && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
     apk add --update autossh moreutils@testing && \
     rm -rf /var/lib/apt/lists/*
+
+ADD /entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
+
+RUN adduser -u 1000 appuser -D
+RUN chown appuser /entrypoint.sh
+USER appuser
+
+ENTRYPOINT ["/entrypoint.sh"]

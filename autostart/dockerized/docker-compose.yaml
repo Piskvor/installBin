@@ -5,19 +5,23 @@ services:
     image: piskvor-docker-autossh
     restart: always
     volumes:
-      - /etc/ssh/autossh/fwd_rsa:/id_rsa
-      - /home/honza/.ssh/known_hosts:/known_hosts
-      - /home/honza/.ssh/config:/ssh_config
+      - /etc/ssh/autossh/fwd_rsa:/id_rsa:ro
+      - /home/honza/.ssh/known_hosts:/known_hosts:ro
+      - /home/honza/.ssh/config:/ssh_config:ro
+      - /home/honza/.ssh/socks:/socks:rw
     environment:
       - SSH_HOSTUSER=fwd
       - SSH_HOSTNAME=tulen
       - SSH_TUNNEL_REMOTE=16784
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
-      - SSH_EXTRA_OPTIONS=-vv
+      - SSH_CONTROL_PATH=/socks/fwd@tulen:22
+      - SSH_EXTRA_OPTIONS=-vv -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
       - AUTOSSH_LOGLEVEL=2
       - AUTOSSH_FIRST_POLL=120
       - AUTOSSH_GATETIME=0
+    ports:
+      - "13128:3128"
     deploy:
       resources:
         limits:
@@ -27,19 +31,23 @@ services:
     image: piskvor-docker-autossh
     restart: always
     volumes:
-      - /etc/ssh/autossh/fwd_rsa:/id_rsa
-      - /home/honza/.ssh/known_hosts:/known_hosts
-      - /home/honza/.ssh/config:/ssh_config
+      - /etc/ssh/autossh/fwd_rsa:/id_rsa:ro
+      - /home/honza/.ssh/known_hosts:/known_hosts:ro
+      - /home/honza/.ssh/config:/ssh_config:ro
+      - /home/honza/.ssh/socks:/socks:rw
     environment:
-      - SSH_HOSTUSER=fwd
+      - SSH_HOSTUSER=honza
       - SSH_HOSTNAME=othreepio
       - SSH_TUNNEL_REMOTE=16785
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
-      - SSH_EXTRA_OPTIONS=-vv -o CheckHostIP=no
+      - SSH_EXTRA_OPTIONS=-vv -o CheckHostIP=no -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
+      - SSH_CONTROL_PATH=/socks/honza@t:443
       - AUTOSSH_LOGLEVEL=2
       - AUTOSSH_FIRST_POLL=120
       - AUTOSSH_GATETIME=0
+    ports:
+      - "13129:3128"
     deploy:
       resources:
         limits:
