@@ -60,18 +60,18 @@ services:
         limits:
           cpus: '0.50'
           memory: 200M
-  dropbox-agcz:
-    image: janeczku/dropbox
-    restart: always
-    environment:
-      - DBOX_UID=1000
-      - DBOX_GID=1000
-    volumes:
-      - /home/honza/bigdisk/honza/agcz-Dropbox:/dbox/Dropbox
-      - /home/honza/bigdisk/honza/.dropbox-docker-config-agcz:/dbox/.dropbox
-#      - /home/honza/prog/.dropbox-dist:/opt/dropbox
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 200M
+#  dropbox-agcz:
+#    image: janeczku/dropbox
+#    restart: always
+#    environment:
+#      - DBOX_UID=1000
+#      - DBOX_GID=1000
+#    volumes:
+#      - /home/honza/bigdisk/honza/agcz-Dropbox:/dbox/Dropbox
+#      - /home/honza/bigdisk/honza/.dropbox-docker-config-agcz:/dbox/.dropbox
+##      - /home/honza/prog/.dropbox-dist:/opt/dropbox
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '0.50'
+#          memory: 200M
