@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -xo pipefail
+set -uxo pipefail
 touch ${SSH_KEY_FILE:=/id_rsa} || true
 chmod 0400 ${SSH_KEY_FILE:=/id_rsa} || true
 
@@ -25,7 +25,7 @@ if [ -f "${CONFIG_FILE}" ]; then
 fi
 
 SSH_CONTROL_PATH_ARG=""
-SSH_CONTROL_PATH_EXISTS=0
+export SSH_CONTROL_PATH_EXISTS=0
 cleanup() {
     if [ "${SSH_CONTROL_PATH_EXISTS:=}" != "1" ]; then
         rm -f -- "$SSH_CONTROL_PATH"
@@ -54,7 +54,7 @@ fi
 DEFAULT_PORT=$RANDOM
 let "DEFAULT_PORT += 32768"
 echo [INFO] Tunneling ${SSH_HOSTUSER:=root}@${SSH_HOSTNAME:=localhost}:${SSH_TUNNEL_REMOTE:=${DEFAULT_PORT}} to ${SSH_TUNNEL_HOST=localhost}:${SSH_TUNNEL_LOCAL:=22}
-
+let "DEFAULT_PORT += 1"
 
 AUTOSSH_PIDFILE=/autossh.pid \
 AUTOSSH_FIRST_POLL=${AUTOSSH_FIRST_POLL:-30} \
@@ -63,11 +63,11 @@ AUTOSSH_POLL=${AUTOSSH_POLL:-10} \
 AUTOSSH_LOGLEVEL=${AUTOSSH_LOGLEVEL:-2} \
 AUTOSSH_LOGFILE=/dev/stdout \
 ${AUTOSSH} \
- -M 0 \
+ -M ${DEFAULT_PORT:=0} \
  ${CONFIG_FILE_ARG:=} \
  -N \
  -o StrictHostKeyChecking=${STRICT_HOSTS_KEY_CHECKING} ${KNOWN_HOSTS_ARG:=}  \
- -o ServerAliveInterval=5 \
+ -o ServerAliveInterval=3 \
  -o ServerAliveCountMax=1 \
  -o IdentitiesOnly=yes \
  -o BatchMode=yes \
