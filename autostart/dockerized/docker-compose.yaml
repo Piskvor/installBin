@@ -20,6 +20,7 @@ services:
       - AUTOSSH_LOGLEVEL=2
       - AUTOSSH_FIRST_POLL=120
       - AUTOSSH_GATETIME=0
+      - REMOVE_BROKEN_SSHMUX=1
     ports:
       - "13128:3128"
     deploy:
@@ -46,6 +47,7 @@ services:
       - AUTOSSH_LOGLEVEL=2
       - AUTOSSH_FIRST_POLL=120
       - AUTOSSH_GATETIME=0
+      - REMOVE_BROKEN_SSHMUX=1
     ports:
       - "13129:3128"
     deploy:
@@ -83,3 +85,17 @@ services:
 #        limits:
 #          cpus: '0.50'
 #          memory: 200M
+  dropbox-project:
+    image: janeczku/dropbox
+    environment:
+      - DBOX_UID=1000
+      - DBOX_GID=1000
+    volumes:
+      - /home/honza/prog/.project/dropbox:/dbox/Dropbox
+      - /home/honza/prog/.project/.dropbox-config:/dbox/.dropbox
+      - /home/honza/prog/.project/.dropbox-dist:/opt/dropbox
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 200M

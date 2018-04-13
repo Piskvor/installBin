@@ -19,7 +19,7 @@ ENV \
     AUTOSSH_GATETIME=30         \
     AUTOSSH_POLL=10             \
     AUTOSSH_FIRST_POLL=30       \
-    AUTOSSH_LOGLEVEL=1
+    AUTOSSH_LOGLEVEL=2
 
 RUN apk update && \
     echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
@@ -27,11 +27,11 @@ RUN apk update && \
     apk add --update autossh moreutils@testing && \
     rm -rf /var/lib/apt/lists/*
 
-ADD /entrypoint.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
-
-RUN adduser -u 1000 appuser -D
-RUN chown appuser /entrypoint.sh
+ADD /entrypoint.sh /autossh-entrypoint.sh
+RUN touch /autossh.pid && \
+    chmod 755 /autossh* && \
+    adduser -u 1000 appuser -D && \
+    chown appuser /autossh*
 USER appuser
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/autossh-entrypoint.sh"]
