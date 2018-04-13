@@ -16,7 +16,7 @@ services:
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
       - SSH_CONTROL_PATH=/socks/fwd@tulen:22
-      - SSH_EXTRA_OPTIONS=-vv -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
+      - SSH_EXTRA_OPTIONS=-v -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
       - AUTOSSH_LOGLEVEL=2
       - AUTOSSH_FIRST_POLL=120
       - AUTOSSH_GATETIME=0
@@ -42,7 +42,7 @@ services:
       - SSH_TUNNEL_REMOTE=16785
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
-      - SSH_EXTRA_OPTIONS=-vv -o CheckHostIP=no -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
+      - SSH_EXTRA_OPTIONS=-v -o CheckHostIP=no -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
       - SSH_CONTROL_PATH=/socks/honza@t:443
       - AUTOSSH_LOGLEVEL=2
       - AUTOSSH_FIRST_POLL=120
