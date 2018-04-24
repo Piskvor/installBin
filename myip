@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail
+
+FIRST_IFACE=$(ip a | grep -E ',UP|inet' | grep -Ev '(NO-CARRIER| lo: )' | grep -E '^[0-9]+:' | head -n1 | cut -f2 "-d " | sed 's/://' || true)
+if [ "$FIRST_IFACE" != "" ]; then
+    # if this fails, there's no network interface up...and the build will likely fail
+    IP_ADDR=$(ip -o -4 addr list ${FIRST_IFACE:-eth0} | head -n1 | awk '{print $4}' | cut -d/ -f1 || true)
+    if [ "$IP_ADDR" = "" ]; then
+        echo "No IP address?!?" >&2
+        exit 2
+    else
+        echo ${IP_ADDR}
+    fi
+fi
+
