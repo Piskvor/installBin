@@ -1,3 +1,4 @@
+alias yts='youtube-dl --restrict-filenames -f bestaudio'
 alias slowrsync='rsync -avP --times --no-perms --no-group --no-owner --stats --itemize-changes --inplace --bwlimit=1000'
 alias gzip='pigz'
 
