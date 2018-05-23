@@ -8,6 +8,9 @@ case $- in
       *) return;;
 esac
 
+export ANDROID_HOME="$HOME/prog/android-studio"
+export PATH="$HOME/Android/Sdk/platform-tools/:$PATH"
+
 export LANG=en_US.UTF-8
 export LC_MESSAGES=$LANG
 
