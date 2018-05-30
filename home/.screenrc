@@ -4,6 +4,7 @@
 # Don't display the copyright page
 startup_message off
 
+nethack on
 # tab-completion flash in heading bar
 vbell off
 
