@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-setxkbmap -option grp:alt_caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,altwin:meta_win,caps:escape || true
+setxkbmap -layout us,cz_qwerty -option grp:alt_caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,altwin:meta_win,caps:escape || true
 
 for i in sdb2 sdc1 sdc2 ; do
 	mount "/dev/$i" || true
