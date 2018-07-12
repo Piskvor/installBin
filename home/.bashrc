@@ -128,18 +128,18 @@ export https_proxy=''
 export ftp_proxy=''
 export socks_proxy=''
 
-if [ -x "$(which ntfy)" ]; then
-	eval "$(ntfy shell-integration --longer-than=60)"
-	export AUTO_NTFY_DONE_IGNORE="vim screen meld vlc mosh xpra ssh docker-compose mc xat tail nc ncdu watch less tvoc htop top iotop iftop "
-	if [ -e "$HOME/.project_dev/.env_vars" ]; then
-	    source "$HOME/.project_dev/.env_vars"
-    fi
-fi
-if [ -x "$(which thirsty.sh)" ]; then
-	source $HOME/bin/thirsty.sh
-	PROMPT='$(drink_water)'
-	export WATER_TIME=1200
-fi
+#if [ -x "$(which ntfy)" ]; then
+#	eval "$(ntfy shell-integration --longer-than=60)"
+#	export AUTO_NTFY_DONE_IGNORE="vim screen meld vlc mosh xpra ssh docker-compose mc xat tail nc ncdu watch less tvoc htop top iotop iftop "
+#	if [ -e "$HOME/.project_dev/.env_vars" ]; then
+#	    source "$HOME/.project_dev/.env_vars"
+#    fi
+#fi
+#if [ -x "$(which thirsty.sh)" ]; then
+#	source $HOME/bin/thirsty.sh
+#	PROMPT='$(drink_water)'
+#	export WATER_TIME=1200
+#fi
 if [ "$SHLVL" = 1 ] && [ "$PWD" = "/home/jmartinec" ] && [ "$SUDO_USER" = "jmartinec" ]; then
 	export "JMA_IS_INCEPTION_SHELL"=$SHLVL
 	cd; ssh-agent bash; exit
