@@ -24,6 +24,7 @@ class Pathfinder
             'origin' => 'place_id:ChIJ787quzuSC0cRD_7TdV9wCG8', // bus Bachova
             'destination' => 'place_id:ChIJa3qYGECUC0cRbz9FDbO25cY', // Shell Strakonicka Lihovar
             'waypoints' => 'via:place_id:ChIJy1GHhMGTC0cR9g9n5hexXAQ', // Shell JS u Zapa Betonu
+            'x-address-remove' => '1032 Praha 5',
             'x-time_expected' => 960, // travel time expected
             'x-summary_expected' => 'Městský Okruh',
             'x-preferred-url' => array(
@@ -153,6 +154,9 @@ class Pathfinder
         foreach ($filtered as $route) {
             foreach ($route['via'] as $k => $addr) {
                 $route['via'][$k] = trim(preg_replace('~[\d]+/[\d]+$~', '', $addr));
+                if (!empty($config['x-address-remove'])) {
+                    $route['via'][$k] = str_replace($config['x-address-remove'], '', $route['via'][$k]);
+                }
             }
             $via = implode($this->via_glue, $route['via']);
             $deviated = false;
