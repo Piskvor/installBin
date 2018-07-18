@@ -13,3 +13,5 @@ pathfinder.config.php
 fetcher.config.php
 project-logs.sh
 vendor/*
+*.mp3
+youtube-dl
