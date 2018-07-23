@@ -2,6 +2,20 @@
 "Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/418 "XButton/4"
 "Microsoft Natural® Ergonomic Keyboard 4000" "usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/419 "XButton/5"
 
+# unmap F-lock
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/138 "XKey/F1"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/131 "XKey/F2"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/182 "XKey/F3"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/181 "XKey/F4"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/134 "XKey/F5"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/206 "XKey/F6"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/232 "XKey/F7"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/233 "XKey/F8"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/231 "XKey/F9"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/432 "XKey/F10"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/234 "XKey/F11"
+"Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/210 "XKey/F12"
+
 Window "yakuake": # Class name
 "Microsoft Natural® Ergonomic Keyboard 4000" "/dev/input/by-id/usb-Microsoft_Natural®_Ergonomic_Keyboard_4000-if01-event-kbd" none key/158 "XKey/Control_L+Shift_L+underscore"
 
