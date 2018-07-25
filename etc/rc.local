@@ -20,13 +20,6 @@ TMP_HONZA="${RAM_DISK}/honza/tmp"
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/phpstan" || true
 /bin/chown -R honza. "${RAM_DISK}/honza" || true
 
-#/bin/mount --bind /home/honza/gdrive /home/honza/gdrive && /bin/mount --make-shared /home/honza/gdrive || true
-
-#mkdir -m710 -p /dev/shm/jmartinec/tmp || true
-#chown -R jmartinec.users /dev/shm/jmartinec || true
-#mkdir -m770 -p /dev/shm/jmartinec/tmp/share || true
-#chown -R jmartinec.users /dev/shm/jmartinec/tmp/share || true
-
 echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 
 /usr/bin/timedatectl set-ntp true || true
