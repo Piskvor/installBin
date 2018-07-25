@@ -2,13 +2,13 @@
 #
 # rc.local
 
-grep Corsair /sys/block/sda/device/model && echo deadline > /sys/block/sda/queue/scheduler || true
+grep -E '(Corsair|KINGSTON)' /sys/block/sda/device/model && echo deadline > /sys/block/sda/queue/scheduler || true
 
 /sbin/ip addr add 10.31.4.1/24 dev enp3s0 || true
 /sbin/ip addr add 172.16.3.1/24 dev enx00133b00049e || true
 mount -o remount,size=2500M /dev/shm || true
-RAMDISK="/dev/shm"
-TMP_HONZA="${RAMDISK}/honza/tmp"
+RAM_DISK="/dev/shm"
+TMP_HONZA="${RAM_DISK}/honza/tmp"
 /bin/mkdir -m700 -p "${TMP_HONZA}" || true
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/konsole" || true
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/firefox" || true
@@ -18,7 +18,7 @@ TMP_HONZA="${RAMDISK}/honza/tmp"
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/app" || true
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/composer" || true
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/phpstan" || true
-/bin/chown -R honza. "${RAMDISK}/honza" || true
+/bin/chown -R honza. "${RAM_DISK}/honza" || true
 
 #/bin/mount --bind /home/honza/gdrive /home/honza/gdrive && /bin/mount --make-shared /home/honza/gdrive || true
 
@@ -58,6 +58,6 @@ sleep 2
 ) || true
 
 for i in /home/honza/.project/app/logs/*.log; do
-	echo ''>$i
+	echo ''>${i}
 done
 exit 0
