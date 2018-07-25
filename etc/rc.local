@@ -2,7 +2,10 @@
 #
 # rc.local
 
-/sbin/ip addr add 10.31.4.1 dev enp3s0 || true
+grep Corsair /sys/block/sda/device/model && echo deadline > /sys/block/sda/queue/scheduler || true
+
+/sbin/ip addr add 10.31.4.1/24 dev enp3s0 || true
+/sbin/ip addr add 172.16.3.1/24 dev enx00133b00049e || true
 mount -o remount,size=2500M /dev/shm || true
 RAMDISK="/dev/shm"
 TMP_HONZA="${RAMDISK}/honza/tmp"
@@ -14,9 +17,15 @@ TMP_HONZA="${RAMDISK}/honza/tmp"
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/root" || true
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/app" || true
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/composer" || true
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/phpstan" || true
 /bin/chown -R honza. "${RAMDISK}/honza" || true
 
 #/bin/mount --bind /home/honza/gdrive /home/honza/gdrive && /bin/mount --make-shared /home/honza/gdrive || true
+
+#mkdir -m710 -p /dev/shm/jmartinec/tmp || true
+#chown -R jmartinec.users /dev/shm/jmartinec || true
+#mkdir -m770 -p /dev/shm/jmartinec/tmp/share || true
+#chown -R jmartinec.users /dev/shm/jmartinec/tmp/share || true
 
 echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 
@@ -28,8 +37,10 @@ echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 /bin/chmod -x /usr/bin/akonadi* || true
 
 /sbin/swapoff -a || true
-/sbin/swapon UUID="4dfbb4b6-fe3d-4bae-983c-8657c22264ab" || true
+#/sbin/swapon UUID="4dfbb4b6-fe3d-4bae-983c-8657c22264ab" || true
+#/sbin/swapon UUID="d9817034-0706-4c89-b0dc-0fa887befc09" || true
 /sbin/udevadm trigger || true
+
 
 sleep 1
 /sbin/alsa force-reload || true
@@ -38,4 +49,15 @@ sleep 1
 sleep 2
 /sbin/udevadm trigger || true
 
+# make all incoming mail appear to be local
+/sbin/iptables -t nat -A PREROUTING -p tcp --dport 143 -j DNAT --to 10.31.4.1:10143 || true
+/sbin/iptables -t nat -A PREROUTING -p tcp --dport 10025 -j DNAT --to 10.31.4.1:1025 || true
+
+(
+	modprobe -rv rtsx_usb_ms && rmmod rtsx_usb_ms && rmmod memstick
+) || true
+
+for i in /home/honza/.project/app/logs/*.log; do
+	echo ''>$i
+done
 exit 0
