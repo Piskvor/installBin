@@ -1,0 +1,3 @@
+HOSTNAME="foo"
+TOKEN="deadbeef-cafe-babe-f000-abba0bad0cd0"
+NETWORK_MASK="127.128.129."
