@@ -12,7 +12,7 @@ services:
     environment:
       - SSH_HOSTUSER=fwd
       - SSH_HOSTNAME=tulen
-      - SSH_TUNNEL_REMOTE=16784
+      - SSH_TUNNEL_REMOTE=16794
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
       - SSH_CONTROL_PATH=/socks/fwd@tulen:22
@@ -39,7 +39,7 @@ services:
     environment:
       - SSH_HOSTUSER=honza
       - SSH_HOSTNAME=othreepio
-      - SSH_TUNNEL_REMOTE=16785
+      - SSH_TUNNEL_REMOTE=16795
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
       - SSH_EXTRA_OPTIONS=-v -o CheckHostIP=no -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
