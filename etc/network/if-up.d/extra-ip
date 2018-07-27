@@ -1,0 +1,36 @@
+#! /bin/sh
+# Set a new IP address if shared
+
+set -e
+
+# Only run from ifup.
+if [ "$MODE" != start ]; then
+	exit 0
+fi
+
+# We only care about inet. Get ye gone, strange people
+# still using ipx.
+if [ "$ADDRFAM" != inet ] ; then
+	exit 0
+fi
+
+# debug print
+#env > /root/env.txt
+
+if [ "$IFACE" = enx00133b00049e ] && [ "$CONNECTION_ID" = "axago-rpi" ]; then
+	/sbin/ip addr add 172.16.3.1/24 dev $IFACE || true
+elif [ "$IFACE" = enp3s0 ]; then
+	if [ "$DHCP4_BROADCAST_ADDRESS" = 10.43.21.255 ] ; then
+		/sbin/ip addr add 10.31.4.1/24 dev $IFACE || true
+	fi
+else 
+	exit 0
+fi
+
+if [ -d /run/systemd/system ]; then
+	systemctl restart --no-block tinyproxy.service 2>&1 || true
+else
+	invoke-rc.d tinyproxy restart 2>&1 || true
+fi
+
+exit 0

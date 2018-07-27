@@ -4,8 +4,9 @@
 
 grep -E '(Corsair|KINGSTON)' /sys/block/sda/device/model && echo deadline > /sys/block/sda/queue/scheduler || true
 
-/sbin/ip addr add 10.31.4.1/24 dev enp3s0 || true
-/sbin/ip addr add 172.16.3.1/24 dev enx00133b00049e || true
+#/sbin/ip addr add 10.31.4.1/24 dev enp3s0 || true
+#/sbin/ip addr add 172.16.3.1/24 dev enx00133b00049e || true
+
 mount -o remount,size=2500M /dev/shm || true
 RAM_DISK="/dev/shm"
 TMP_HONZA="${RAM_DISK}/honza/tmp"
