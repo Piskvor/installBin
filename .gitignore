@@ -16,3 +16,4 @@ vendor/*
 *.mp3
 youtube-dl
 /crons/manta-update.rc
+FiddlerRoot.cer

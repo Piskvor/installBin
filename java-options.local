@@ -1,2 +1,2 @@
-export JAVA_OPTS="-Xmx2000m -Djava.net.useSystemProxies=true"
+export JAVA_OPTS="-Xmx4000m -Djava.net.useSystemProxies=true"
 export JAVA_HOME=/usr/lib/jvm/java-8-oracle

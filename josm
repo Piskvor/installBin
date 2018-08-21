@@ -1,9 +1,28 @@
 #!/bin/bash
+
+set -uo pipefail
+
 BASE_NAME=$(basename $0)
 DIR_NAME="$HOME/bin"
+if [ ! -d "${DIR_NAME}" ]; then
+    DIR_NAME="$(dirname $0)"
+fi
 JAR_NAME="${BASE_NAME}.jar"
-if [ "$BASE_NAME" = "josm" ] ; then
-	JAR_NAME="josm-tested.jar"
+
+LATEST_NAME="josm-latest.jar"
+CURRENT_NAME="josm-tested.jar"
+V7_NAME="josm-snapshot-10526.jar"
+V6_NAME="josm-snapshot-7000.jar"
+JOSM_OPTS="--set=proxy.policy=use-system-settings"
+
+if [ "$BASE_NAME" = "josm6" ] ; then
+    JAR_NAME=${V6_NAME}
+elif [ "$BASE_NAME" = "josm7" ] ; then
+	JAR_NAME=${V7_NAME}
+elif [ "$BASE_NAME" = "josm-latest" ] ; then
+	JAR_NAME=${LATEST_NAME}
+elif [ "$BASE_NAME" = "josm" ] ; then
+	JAR_NAME=${CURRENT_NAME}
 fi
 LOCAL_NAME="${DIR_NAME}/${JAR_NAME}"
 
@@ -14,55 +33,87 @@ fi
 if [ -f "$DIR_NAME/java-options.local" ] ; then
     source "$DIR_NAME/java-options.local"
 fi
+if [ -f "$DIR_NAME/josm-options.local" ] ; then
+    source "$DIR_NAME/josm-options.local"
+fi
 
-TMPDIR="/tmp/${BASE_NAME}-${USER}"
-TMPFILE="${TMPDIR}/${BASE_NAME}-runner.pid"
+if (echo "${JAVA_OPTS:-}" | grep -cF java.net.useSystemProxies &> /dev/null) ; then
+    JAVA_OPTS="${JAVA_OPTS} $(${DIR_NAME}/java-proxy-options.sh)" 2> /dev/null
+fi
+
+TMP_BASE_DIR="/tmp"
+if [ -d "$HOME/tmp" ]; then
+    TMP_BASE_DIR="$HOME/tmp"
+fi
+TMP_DIR="${TMP_BASE_DIR}/${BASE_NAME}-${USER}"
+TMP_PID_FILE="${TMP_DIR}/${BASE_NAME}-runner.pid"
+TMP_ERR_FILE=$(mktemp)
 
 # clean up the directory
 function cleanup {
     # if we're here, we got interrupted
-    JOSM_PID=$(cat "${TMPFILE}")
-    kill ${JOSM_PID}
-    rm "${TMPFILE}"
-	rmdir "${TMPDIR}"
+    JOSM_PID=$(cat "${TMP_PID_FILE}" || true)
+    if [ "$JOSM_PID" != "" ]; then
+        kill ${JOSM_PID} &> /dev/null || true
+    fi
+    rm "${TMP_PID_FILE}" "${TMP_ERR_FILE}" || true
+    rmdir "${TMP_DIR}" || true
+}
+
+function get_lower_local_name() {
+    java -version |& grep -cF "1.8" &> /dev/null && echo "${CURRENT_NAME}" && return
+    java -version |& grep -cF "1.7" &> /dev/null && echo "${V7_NAME}" && return
+    java -version |& grep -cF "1.6" &> /dev/null && echo "${V6_NAME}" && return
+    echo "" && return
 }
 
 # lock using a directory: http://unix.stackexchange.com/a/180028/5477
-if mkdir $TMPDIR 2>/dev/null; then
+if mkdir "$TMP_DIR" 2>/dev/null; then
 	trap "cleanup" EXIT
 
 	if [ -f "$LOCAL_NAME" ]; then
-		VERSION_LOCAL=$(java -jar "$LOCAL_NAME" --version  2> /dev/null | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
-	else
-		VERSION_LOCAL=0
+		VERSION_LOCAL=$(java -jar "$LOCAL_NAME" --version 2> ${TMP_ERR_FILE} | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
+		if [ "$VERSION_LOCAL" = "" ] && (grep -c 'Unsupported major.minor version' ${TMP_ERR_FILE} &> /dev/null) ; then
+		    LOCAL_NAME="${DIR_NAME}/$(get_lower_local_name)" 2> /dev/null
+		    if [ "$LOCAL_NAME" != "" ]; then
+    		    VERSION_LOCAL=$(java -jar "$LOCAL_NAME" --version 2> ${TMP_ERR_FILE} | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
+    		fi
+		fi
+	fi
+	if [ "${VERSION_LOCAL:-}" = "" ]; then
+	    VERSION_LOCAL=0
 	fi
 	if [ -f "/usr/bin/$BASE_NAME" ]; then
 		VERSION_REPO=$(/usr/bin/${BASE_NAME} --version  2> /dev/null | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
-	else
-		VERSION_REPO=0
+	fi
+	if [ "${VERSION_REPO:-}" = "" ]; then
+	    VERSION_REPO=0
 	fi
 	if [ "$VERSION_LOCAL" -gt "$VERSION_REPO" ]; then
-		echo "Using ${JAVA_HOME} to run local ${LOCAL_NAME}"
-		JOSM="java -jar ${JAVA_OPTS} ${LOCAL_NAME} $*"
+	    if [ "${JAVA_HOME:-}" = "" ]; then
+	        JAVA_HOME=$(which java)
+	    fi
+		echo "Using ${JAVA_HOME:-java} to run local ${LOCAL_NAME}"
+		JOSM="java -jar ${JAVA_OPTS:-} ${LOCAL_NAME}"
 	else
-		JOSM=/usr/bin/${BASE_NAME}
+		JOSM="/usr/bin/${BASE_NAME}"
 	fi
-    if [ "$VERSION_LOCAL" -eq 0 -a "$VERSION_REPO" -eq 0 ]; then
+    if [ "$VERSION_LOCAL" -eq 0 ] && [ "$VERSION_REPO" -eq 0 ]; then
         echo "No version found!"
         exit 35
     fi
-    IS_RUNNING=$(ps -A f | grep ${JAR_NAME} | grep java -c)
+    IS_RUNNING=$(ps -A f | grep ${JAR_NAME} | grep -c java)
     if [ "$IS_RUNNING" -gt 0 ]; then
         echo "Already running, quit"
         exit 4
     fi
 
     # found a version
-    set -x
-#    echo ${JOSM} $*
-    ${JOSM} $* &
-    echo -n "$!" > "${TMPFILE}"
-    set +x
+    ${JOSM} ${JOSM_OPTS:-} "$@" &
+    JOSM_SH_PID=$!
+    sleep 2
+    ps -p ${JOSM_SH_PID} --no-headers | grep java | sed 's/^ *//'| cut "-d " -f1 > "${TMP_PID_FILE}" 2> /dev/null \
+    || ps -p $(pgrep -P ${JOSM_SH_PID}) --no-headers 2> /dev/null | grep java | sed 's/^ *//'| cut "-d " -f1 > "${TMP_PID_FILE}" 2> /dev/null || true
     wait
 else
 	echo "Already running"
