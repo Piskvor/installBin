@@ -21,7 +21,7 @@ RUN keytool -import -noprompt -trustcacerts -alias FiddlerRoot -file /root/Fiddl
         mkdir -p /usr/local/share/ca-certificates/local && \
         openssl x509 -inform DER -in /root/FiddlerRoot.cer -out /usr/local/share/ca-certificates/local/FidlerRoot.crt && \
         update-ca-certificates --fresh && \
-        rm -f /root/FiddlerRoot.cer \
+        rm -f /root/FiddlerRoot* \
         || true
 
 USER honza
