@@ -23,4 +23,6 @@ vboxmanage startvm "{cdbd2f92-00f2-4fa7-b2d2-9d1f5e107244}" &
 
 /home/honza/.project_dev/log-console/watchmen.sh &
 
+/home/honza/bin/autostart/josm-inotify.sh &
+
 env PLAY_SOUND=no /home/honza/.project_dev/lints.sh --with-stan &
