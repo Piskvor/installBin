@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -euo pipefail
+
+ENDPOINT="http://kodi:8080/jsonrpc"
+
+function jsonrpc_get {
+
+    curl -q "${ENDPOINT}?request=$1" 2> /dev/null
+
+}
+PLAYERS=$(jsonrpc_get "%7B%22jsonrpc%22%3A+%222.0%22%2C+%22method%22%3A+%22Player.GetActivePlayers%22%2C+%22id%22%3A+1%7D")
+
+IS_VIDEO=$(echo "${PLAYERS}" | grep -c '"video"' || true)
+IS_AUDIO=$(echo "${PLAYERS}" | grep -c '"audio"' || true)
+
+REQUEST=""
+
+if [[ ${IS_VIDEO} -gt 0 ]]; then
+    REQUEST="%7B%22jsonrpc%22%3A+%222.0%22%2C+%22method%22%3A+%22Player.GetItem%22%2C+%22params%22%3A+%7B+%22properties%22%3A+%5B%22title%22%2C+%22album%22%2C+%22artist%22%2C+%22season%22%2C+%22episode%22%2C+%22duration%22%2C+%22showtitle%22%2C+%22tvshowid%22%2C+%22thumbnail%22%2C+%22file%22%2C+%22fanart%22%2C+%22streamdetails%22%5D%2C+%22playerid%22%3A+1+%7D%2C+%22id%22%3A+%22VideoGetItem%22%7D"
+elif [[ ${IS_AUDIO} -gt 0 ]]; then
+    REQUEST="%7B%22jsonrpc%22%3A+%222.0%22%2C+%22method%22%3A+%22Player.GetItem%22%2C+%22params%22%3A+%7B+%22properties%22%3A+%5B%22title%22%2C+%22album%22%2C+%22artist%22%2C+%22duration%22%2C+%22thumbnail%22%2C+%22file%22%2C+%22fanart%22%2C+%22streamdetails%22%5D%2C+%22playerid%22%3A+0+%7D%2C+%22id%22%3A+%22AudioGetItem%22%7D"
+fi
+
+PLAYING=""
+if [[ "${REQUEST}" != "" ]]; then
+    PLAYING=$(jsonrpc_get "${REQUEST}")
+    echo -n "Playing: "
+    echo ${PLAYING} | python -c "import sys, json; print json.load(sys.stdin)['result']['item']['label']"
+else
+    echo "Not playing."
+fi
+

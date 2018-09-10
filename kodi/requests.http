@@ -1,0 +1,17 @@
+### Send POST request with json body
+POST http://kodi:8080/jsonrpc
+Content-Type: application/json
+
+{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}
+
+###
+
+### Send POST request with json body
+GET http://kodi:8080/jsonrpc?request=%7B%22jsonrpc%22%3A+%222.0%22%2C+%22method%22%3A+%22Player.GetActivePlayers%22%2C+%22id%22%3A+1%7D
+
+###
+
+### Send POST request with json body
+GET http://kodi:8080/jsonrpc?request=%7B%22jsonrpc%22%3A+%222.0%22%2C+%22method%22%3A+%22Player.GetItem%22%2C+%22params%22%3A+%7B+%22properties%22%3A+%5B%22title%22%2C+%22album%22%2C+%22artist%22%2C+%22season%22%2C+%22episode%22%2C+%22duration%22%2C+%22showtitle%22%2C+%22tvshowid%22%2C+%22thumbnail%22%2C+%22file%22%2C+%22fanart%22%2C+%22streamdetails%22%5D%2C+%22playerid%22%3A+1+%7D%2C+%22id%22%3A+%22VideoGetItem%22%7D
+
+###
