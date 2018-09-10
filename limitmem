@@ -80,9 +80,14 @@ set -e
 
 # show memory usage summary
 
-peak_mem=`cgget -g "memory:$cgname" | grep memory.max_usage_in_bytes | cut -d\  -f2`
-failcount=`cgget -g "memory:$cgname" | grep memory.failcnt | cut -d\  -f2`
-percent=`expr "$peak_mem" / \( "$bytes_limit" / 100 \)`
+peak_mem=$(cgget -g "memory:$cgname" | grep memory.max_usage_in_bytes | cut -d\  -f2)
+failcount=$(cgget -g "memory:$cgname" | grep memory.failcnt | cut -d\  -f2)
+bl_hundredth=$(( ${bytes_limit} / 100 ))
+if [ ${bl_hundredth} -gt 0 ]; then
+    percent=$(( ${peak_mem} / ${bl_hundredth} ))
+else
+    percent=0
+fi
 
 echo "peak memory used: $peak_mem ($percent%); exceeded limit $failcount times" >&2
 
