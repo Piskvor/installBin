@@ -13,7 +13,9 @@ pathfinder.config.php
 fetcher.config.php
 project-logs.sh
 vendor/*
+*/vendor/*
 *.mp3
 youtube-dl
 /crons/manta-update.rc
 FiddlerRoot.cer
+dropbox.config.php
