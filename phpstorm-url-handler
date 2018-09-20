@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # PhpStorm URL Handler
 # phpstorm://open?url=file://@file&line=@line
@@ -8,7 +8,7 @@
 # @author Stefan Auditor <stefan.auditor@erdfisch.de>
 
 arg=${1}
-pattern=".*file(:\/\/|\=)(.*)&line=(.*)"
+pattern=".*file(:\/\/|\=)(.*)(&line=(.*))?"
 
 # Get the file path.
 file=$(echo "${arg}" | sed -r "s/${pattern}/\2/;s~phpstorm:~~g;s~^/+~~g;s~usr/src/ucrm/~~g" )
@@ -16,7 +16,7 @@ project_dir=$(realpath $(readlink "$HOME/.project"))
 file="$project_dir/$file"
 
 # Get the line number.
-line=$(echo "${arg}" | sed -r "s/${pattern}/\3/")
+line=$(echo "${arg}" | sed -r "s/${pattern}/\4/")
 
 # Check if phpstorm|pstorm command exist.
 if type phpstorm > /dev/null; then
