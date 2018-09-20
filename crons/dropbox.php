@@ -17,4 +17,16 @@ $dropboxApp = new DropboxApp(
 $dropbox = new Dropbox($dropboxApp);
 
 header('Content-Type: application/json');
-echo json_encode($dropbox->getSpaceUsage());
+$usage = $dropbox->getSpaceUsage();
+$usedGb = round($usage['used'] / 1024 / 1024 / 1024, 2);
+$freeGb = round(($usage['allocation']['allocated'] - $usage['used'])  / 1024 / 1024 / 1024, 2);
+$availableGb = round($usage['allocation']['allocated']  / 1024 / 1024 / 1024, 2);
+$percent = round($usage['used'] / $usage['allocation']['allocated'] * 100, 1);
+echo json_encode(
+    array(
+        'free' => $freeGb,
+        'used' => $usedGb,
+        'total' => $availableGb,
+        'percent' => $percent
+    )
+);
