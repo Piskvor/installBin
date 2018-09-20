@@ -8,15 +8,15 @@
 # @author Stefan Auditor <stefan.auditor@erdfisch.de>
 
 arg=${1}
-pattern=".*file(:\/\/|\=)(.*)(&line=(.*))?"
+pattern=".*file(:\/\/|\=)(.*)&line=([0-9]+)"
 
 # Get the file path.
 file=$(echo "${arg}" | sed -r "s/${pattern}/\2/;s~phpstorm:~~g;s~^/+~~g;s~usr/src/ucrm/~~g" )
 project_dir=$(realpath $(readlink "$HOME/.project"))
-file="$project_dir/$file"
+file=$(echo "$project_dir/$file" | sed -r "s/&line=.*//;s/open\?file=//")
 
 # Get the line number.
-line=$(echo "${arg}" | sed -r "s/${pattern}/\4/")
+line=$(echo "${arg}" | sed -r "s/${pattern}/\3/")
 
 # Check if phpstorm|pstorm command exist.
 if type phpstorm > /dev/null; then
