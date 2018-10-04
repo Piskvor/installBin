@@ -22,7 +22,7 @@
 	sa = stash apply
 	ss = stash save
 	alias = config --get-regexp 'alias.*'
-	logol = log --pretty=format:"%h\\ %s\\ [%cn]"
+	lol = log --pretty=format:"%h\\ %s\\ [%cn]"
 	search = "grep -Iin"
 	vup = !vagrant up
 	vsu = !vagrant suspend
@@ -30,5 +30,6 @@
 	vde = !vagrant destroy
 	vpr = !vagrant provision
 	git = !exec git
+	pushf = push --force-with-lease
 [help]
 	autocorrect = 30
