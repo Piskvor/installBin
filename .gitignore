@@ -19,3 +19,4 @@ youtube-dl
 /crons/manta-update.rc
 FiddlerRoot.cer
 dropbox.config.php
+set_proxy.sh

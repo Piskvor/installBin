@@ -1,0 +1,15 @@
+xscript {
+    display: none !important;
+}
+
+#navcontainer {
+    display: none !important;
+}
+
+#header h1,
+#header,
+#page,
+#content
+{
+    width: auto !important;
+}
