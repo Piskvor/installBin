@@ -31,7 +31,8 @@ echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 /bin/chmod -x /usr/bin/akonadi* || true
 
 /sbin/swapoff -a || true
-/sbin/swapon UUID="ca750566-ded2-4f9b-ba62-181d6a1308df" || true # sda2
+/sbin/swapon UUID="2bff1ae3-b7e9-48f0-8b10-b11fc001102e" || true # sda3
+#/sbin/swapon UUID="ca750566-ded2-4f9b-ba62-181d6a1308df" || true # sda2
 #/sbin/swapon UUID="d9817034-0706-4c89-b0dc-0fa887befc09" || true # sdb3
 #/sbin/swapon UUID="4dfbb4b6-fe3d-4bae-983c-8657c22264ab" || true # sdc3
 /sbin/udevadm trigger || true
