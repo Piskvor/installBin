@@ -42,7 +42,7 @@ services:
       - SSH_TUNNEL_REMOTE=16795
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
-      - SSH_EXTRA_OPTIONS=-v -o CheckHostIP=no -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
+      - SSH_EXTRA_OPTIONS=-v -o CheckHostIP=no -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128 -L0.0.0.0:4040:192.168.40.3:8888 -L0.0.0.0:3030:192.168.30.3:8888
       - SSH_CONTROL_PATH=/socks/honza@t:443
       - AUTOSSH_LOGLEVEL=2
       - AUTOSSH_FIRST_POLL=120
@@ -50,6 +50,8 @@ services:
       - REMOVE_BROKEN_SSHMUX=1
     ports:
       - "13129:3128"
+      - "4040:4040"
+      - "3030:3030"
     deploy:
       resources:
         limits:
