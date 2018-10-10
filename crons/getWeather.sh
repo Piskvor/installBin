@@ -16,15 +16,14 @@ cd pocasi
 HOST_NAME=$(getent hosts pocasi | awk '{ print $1 }')
 
 ARROWS=""
-#for i in `seq 1 12` ; do
+#for i in `seq 0 11` ; do
 #    ARROWS=" $ARROWS http://${HOST_NAME}/img/ar$i.gif"
 #done
 
 if [ 1 -gt 0 ]; then
-wget --wait=2 --waitretry=30 --random-wait --limit-rate=5k --backup-converted \
+wget --wait=2 --waitretry=30 --tries=3 --random-wait --limit-rate=5k --backup-converted \
      --no-directories --timestamping \
      "http://${HOST_NAME}/status.html" $ARROWS
-#--page-requisites \
 fi
 
 cp status.html status.ISO-8859-2.html
