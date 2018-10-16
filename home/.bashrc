@@ -140,14 +140,15 @@ export socks_proxy=''
 #	PROMPT='$(drink_water)'
 #	export WATER_TIME=1200
 #fi
-if [ "$SHLVL" = 1 ] && [ "$PWD" = "/home/jmartinec" ] && [ "$SUDO_USER" = "jmartinec" ]; then
-	export "JMA_IS_INCEPTION_SHELL"=$SHLVL
-	cd; ssh-agent bash; exit
-else
-	if [ "$SHLVL" = 2 ] && [ "$JMA_IS_INCEPTION_SHELL" = 1 ]; then
-		env DISPLAY= dropbox start &
-		hamster-indicator &
-		export PS1="+$PS1"
-		screen
-	fi
-fi
+#if [ "$SHLVL" = 1 ] && [ "$PWD" = "/home/jmartinec" ] && [ "$SUDO_USER" = "jmartinec" ]; then
+#	export "JMA_IS_INCEPTION_SHELL"=$SHLVL
+#	cd; ssh-agent bash; exit
+#else
+#	if [ "$SHLVL" = 2 ] && [ "$JMA_IS_INCEPTION_SHELL" = 1 ]; then
+#		env DISPLAY= dropbox start &
+#		hamster-indicator &
+#		export PS1="+$PS1"
+#		screen
+#	fi
+#fi
+

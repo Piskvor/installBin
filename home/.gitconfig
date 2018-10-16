@@ -3,7 +3,8 @@
 	editor = vim
 	autocrlf = input
 [user]
-	name = Jan Martinec
+	name = Jan Piskvor Martinec
+	email = github@piskvor.org
 [pull]
 	ff = only
 [alias]
