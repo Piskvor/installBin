@@ -16,7 +16,7 @@ cd pocasi
 HOST_NAME=$(getent hosts pocasi | awk '{ print $1 }')
 
 ARROWS=""
-#for i in `seq 0 11` ; do
+#for i in `seq 0 15` ; do
 #    ARROWS=" $ARROWS http://${HOST_NAME}/img/ar$i.gif"
 #done
 
