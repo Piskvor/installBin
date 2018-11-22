@@ -1,9 +1,19 @@
 #!/bin/bash
 
-#set -euxo pipefail
+set -euo pipefail
 
-PROJECT=$(file ~/.project | sed 's/.* to //')
-DEV=$(file $HOME/$(file ~/.dev | sed 's/.* to //') | sed 's/.* to //')
+PROJECT=$(realpath ~/.project)
+DEV=$(realpath ~/.dev)
 
-#docker run --hostname=php73 --volume=$HOME/${DEV}/php7.3/home:/home/honza --volume=/home/honza/prog:/home/honza/prog -it php73:latest -c "cd ${DEV}/php7.3/;${*:-zsh -i}"
-docker run --hostname=php73 --volume=$HOME/${DEV}/php7.3/home:/home/honza --volume=/home/honza/prog:/home/honza/prog -it php73:latest -c "cd ${PROJECT};${*:-zsh -i}"
+case "$-" in
+*i*)	INTERACTIVE="i" ;;
+*)	    INTERACTIVE="" ;;
+esac
+
+docker run --hostname=php73 \
+    --volume=${DEV}/php7.3/home:${HOME} \
+    --volume=${HOME}/prog:${HOME}/prog \
+    --mount type=tmpfs,destination=${PROJECT}/app/cache,tmpfs-mode=1777 \
+    --mount type=tmpfs,destination=${HOME}/tmp,tmpfs-mode=1777 \
+    --network=aircrmrestarted_default \
+    -${INTERACTIVE:-}t php72:latest -c "sudo chmod 777 ${PROJECT}/app/cache; cd ${PROJECT};${*:-zsh -i}"
