@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euo pipefail
+
+PROJECT=$(realpath ~/.project)
+DEV=$(realpath ~/.dev)
+
+case "$-" in
+*i*)	INTERACTIVE="i" ;;
+*)	    INTERACTIVE="" ;;
+esac
+
+docker run --hostname=php72 \
+    --volume=${DEV}/php72/home:${HOME} \
+    --volume=${HOME}/prog:${HOME}/prog \
+    --mount type=tmpfs,destination=${PROJECT}/app/cache,tmpfs-mode=1777 \
+    --mount type=tmpfs,destination=${HOME}/tmp,tmpfs-mode=1777 \
+    --network=aircrmrestarted_default \
+    -${INTERACTIVE:-}t php72:latest -c "sudo chmod 777 ${PROJECT}/app/cache; cd ${PROJECT};${*:-zsh -i}"
+
