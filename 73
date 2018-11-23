@@ -11,7 +11,7 @@ case "$-" in
 esac
 
 docker run --hostname=php73 \
-    --volume=${DEV}/php7.3/home:${HOME} \
+    --volume=${DEV}/php73/home:${HOME} \
     --volume=${HOME}/prog:${HOME}/prog \
     --mount type=tmpfs,destination=${PROJECT}/app/cache,tmpfs-mode=1777 \
     --mount type=tmpfs,destination=${HOME}/tmp,tmpfs-mode=1777 \
