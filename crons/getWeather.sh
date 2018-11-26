@@ -13,6 +13,8 @@ fi
 cp -f screen.extra.css pocasi/
 cd pocasi
 
+SQLITE_DB=$(pwd)/history.sqlite
+
 HOST_NAME=$(getent hosts pocasi | awk '{ print $1 }')
 
 ARROWS=""
@@ -31,7 +33,14 @@ iconv --from-code=ISO-8859-2 --to-code=UTF-8 status.ISO-8859-2.html > index.utf8
 DATE=$(date)
 sed "s~img/~~g;s~15.URL=/status.html~60~;s~[a-z]\+.html~#~g;s~script~xscript~g;s~<tr><td colspan=2 height=3 class=\"tl\"></td></tr>~~;s~<span><small>~<strong><span>~;s~<h2>~~;s~</head>~<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head>~;s~&copy;~${DATE}<br>&copy;~" < index.utf8.html > index.html
 
-grep strong < index.html | grep temperature | head -n2 | tail -n1 | html2text | cut "-d " -f1 > temperature.txt
+TEMPERATURE=$(grep strong < index.html | grep temperature | head -n1 | html2text | cut "-d " -f1 | tee temperature.txt)
+NOW=$(date +'%Y-%m-%d %H:%M:%S')
+DECIMINUTE_ROUNDED="$(date +'%Y-%m-%d %H:%M'|cut -b-15)0:00"
+
+if [[ "${TEMPERATURE}" != "" ]] && [[ -f "${SQLITE_DB}" ]] && [[ -x "$(which sqlite3)" ]]; then
+    sqlite3 ${SQLITE_DB} "INSERT INTO temperature (updated, update_rounded, celsius) VALUES (\"${NOW}\", \"${DECIMINUTE_ROUNDED}\", \"${TEMPERATURE}\");"
+fi
+
 
 sed "s~http://pocasi/~~;s~http://${HOST_NAME}/~~;s~img/~~" < screen.css > screen.processed.css
 cat screen.processed.css screen.extra.css > screen.css
