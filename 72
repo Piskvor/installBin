@@ -10,6 +10,10 @@ case "$-" in
 *)	    INTERACTIVE="" ;;
 esac
 
+if [[ "${1:-}" = "" ]]; then
+    INTERACTIVE="i"
+fi
+
 docker run --hostname=php72 \
     --volume=${DEV}/php72/home:${HOME} \
     --volume=${HOME}/prog:${HOME}/prog \
