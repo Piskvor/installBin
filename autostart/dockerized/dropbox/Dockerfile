@@ -8,7 +8,7 @@ RUN echo 'deb http://linux.dropbox.com/debian jessie main' > /etc/apt/sources.li
 	&& apt-get -qqy update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
 	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
-	    vim.tiny htop \
+	    vim.tiny htop locales \
 	# Perform image clean up.
 	&& apt-get -qqy autoclean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -20,10 +20,15 @@ RUN echo 'deb http://linux.dropbox.com/debian jessie main' > /etc/apt/sources.li
 # start -i'. So we switch to 'dropbox' user temporarily and let it do its thing.
 USER dropbox
 RUN mkdir -p /dbox/.dropbox /dbox/.dropbox-dist /dbox/Dropbox /dbox/base \
+    && cd /dbox \
 	&& echo y | dropbox start -i
 
 # Switch back to root, since the run script needs root privs to chmod to the user's preferrred UID
 USER root
+
+RUN ln -s /usr/bin/vim.tiny /usr/bin/vim \
+    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen
 
 # Dropbox has the nasty tendency to update itself without asking. In the processs it fills the
 # file system over time with rather large files written to /dbox and /tmp. The auto-update routine
