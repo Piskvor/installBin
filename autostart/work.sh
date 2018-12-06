@@ -15,6 +15,9 @@ echo ''>$HOME/.project/.php_cs.cache || true
 cd /home/honza/bin/autostart/dockerized/autossh && \
  docker build . --tag piskvor-docker-autossh || true
 
+cd /home/honza/bin/autostart/dockerized/dropbox && \
+ docker build . --tag piskvor-docker-dropbox || true
+
 cd /home/honza/bin/autostart/dockerized && \
     docker-compose up -d &
 

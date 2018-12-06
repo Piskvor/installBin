@@ -58,7 +58,7 @@ services:
           cpus: '0.50'
           memory: 50M
   dropbox-jan:
-    image: janeczku/dropbox
+    image: piskvor-docker-dropbox
     restart: always
     environment:
       - DBOX_UID=1000
