@@ -66,7 +66,7 @@ services:
     volumes:
       - /home/honza/bigdisk/honza/Dropbox:/dbox/Dropbox
       - /home/honza/bigdisk/honza/.dropbox-docker-config:/dbox/.dropbox
-#      - /home/honza/prog/.dropbox-dist:/opt/dropbox
+      - /home/honza/prog/.dropbox-dist:/opt/dropbox
     deploy:
       resources:
         limits:
@@ -88,7 +88,7 @@ services:
 #          cpus: '0.50'
 #          memory: 200M
   dropbox-project:
-    image: janeczku/dropbox
+    image: piskvor-docker-dropbox
     environment:
       - DBOX_UID=1000
       - DBOX_GID=1000
