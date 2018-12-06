@@ -73,7 +73,7 @@ services:
           cpus: '0.50'
           memory: 200M
 #  dropbox-agcz:
-#    image: janeczku/dropbox
+#    image: piskvor-docker-dropbox
 #    restart: always
 #    environment:
 #      - DBOX_UID=1000
@@ -87,17 +87,18 @@ services:
 #        limits:
 #          cpus: '0.50'
 #          memory: 200M
-  dropbox-project:
-    image: piskvor-docker-dropbox
-    environment:
-      - DBOX_UID=1000
-      - DBOX_GID=1000
-    volumes:
-      - /home/honza/prog/.project/dropbox:/dbox/Dropbox
-      - /home/honza/prog/.project/.dropbox-config:/dbox/.dropbox
-      - /home/honza/prog/.project/.dropbox-dist:/opt/dropbox
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 200M
+#
+#  dropbox-project:
+#    image: piskvor-docker-dropbox
+#    environment:
+#      - DBOX_UID=1000
+#      - DBOX_GID=1000
+#    volumes:
+#      - /home/honza/prog/.project/dropbox:/dbox/Dropbox
+#      - /home/honza/prog/.project/.dropbox-config:/dbox/.dropbox
+#      - /home/honza/prog/.project/.dropbox-dist:/opt/dropbox
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '0.50'
+#          memory: 200M
