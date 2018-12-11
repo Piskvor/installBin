@@ -7,20 +7,6 @@ DOCKER_TAG="${CONTAINER}:latest"
 PROJECT=$(realpath ~/.project)
 NETWORK="$(basename "${PROJECT}" | sed 's/[^a-z]//')_default"
 DEV=$(realpath ~/.dev)
+CURRENT_DIR=$(dirname $0)
 
-case "$-" in
-*i*)	INTERACTIVE="i" ;;
-*)	    INTERACTIVE="" ;;
-esac
-
-if [[ "${1:-}" = "" ]]; then
-    INTERACTIVE="i"
-fi
-
-docker run --hostname=${CONTAINER} \
-    --volume=${DEV}/${CONTAINER}/home:${HOME} \
-    --volume=${HOME}/prog:${HOME}/prog \
-    --mount type=tmpfs,destination=${PROJECT}/app/cache,tmpfs-mode=1777 \
-    --mount type=tmpfs,destination=${HOME}/tmp,tmpfs-mode=1777 \
-    --network=${NETWORK} \
-    -${INTERACTIVE:-}t ${DOCKER_TAG} -c "sudo mkdir ${HOME}/tmp/cache; sudo chmod -R 777 ${PROJECT}/app/cache ${HOME}/tmp; cd ${PROJECT};${*:-zsh -i}"
+source ${CURRENT_DIR}/.php_docker_run
