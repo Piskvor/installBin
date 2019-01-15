@@ -1,6 +1,26 @@
 version: '3.1'
 
 services:
+  imap:
+    # Uncomment this for build image in local
+    #build:
+    #   context: .
+    image: antespi/docker-imap-devel:latest
+    restart: always
+    #container_name: imap
+    ports:
+      - "1025:25"
+      - "10143:143"
+      - "10993:993"
+    environment:
+      - MAILNAME=example.piskvor.org
+      - MAIL_ADDRESS=piskvor@example.piskvor.org
+      - MAIL_PASS=hunter2
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 100M
   autossh-tulen:
     image: piskvor-docker-autossh
     restart: always
