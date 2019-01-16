@@ -19,6 +19,7 @@ docker run --hostname=${CONTAINER} \
     --volume=${DEV}/${CONTAINER}/home:${HOME} \
     --volume=${HOME}/prog:${HOME}/prog \
     --volume=${CACHE_DIR}:${HOME}/tmp/cache \
+    --volume=${PROJECT}:/usr/src/ucrm \
     --volume=${CACHE_DIR}/${PHP_CS_CACHE}:${HOME}/tmp/cache/${PHP_CS_CACHE} \
     --volume=${PROJECT}/docker/php/php.ini:/usr/local/etc/php/php.ini \
     --mount type=tmpfs,destination=${PROJECT}/app/cache,tmpfs-mode=1777 \
