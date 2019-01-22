@@ -24,14 +24,14 @@ cd /home/honza/bin/autostart/dockerized && \
 cd /home/honza/.project && \
     docker-compose up -d postgresql rabbitmq imap elastic &
 
-(
-    docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer --no-auth --no-snapshot || true
-) &
+#(
+#    docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer --no-auth --no-snapshot || true
+#) &
 
-vboxmanage startvm "{cdbd2f92-00f2-4fa7-b2d2-9d1f5e107244}" &
+# vboxmanage startvm "{cdbd2f92-00f2-4fa7-b2d2-9d1f5e107244}" &
 
 /home/honza/.project_dev/log-console/watchmen.sh &
 
-/home/honza/bin/autostart/josm-inotify.sh &
+#/home/honza/bin/autostart/josm-inotify.sh &
 
 env PLAY_SOUND=no /home/honza/.project_dev/lints.sh --with-stan &
