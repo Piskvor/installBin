@@ -4,25 +4,37 @@
 
 grep -E '(Corsair|KINGSTON)' /sys/block/sda/device/model && echo deadline > /sys/block/sda/queue/scheduler || true
 
-#/sbin/ip addr add 10.31.4.1/24 dev enp3s0 || true
-#/sbin/ip addr add 172.16.3.1/24 dev enx00133b00049e || true
-
-mount -o remount,size=2500M /dev/shm || true
-RAM_DISK="/dev/shm"
-TMP_HONZA="${RAM_DISK}/honza/tmp"
-/bin/mkdir -m700 -p "${TMP_HONZA}" || true
-/bin/mkdir -m700 -p "${TMP_HONZA}/cache/konsole" || true
-/bin/mkdir -m700 -p "${TMP_HONZA}/cache/firefox" || true
-/bin/mkdir -m700 -p "${TMP_HONZA}/cache/chrome" || true
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/system" || true
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/root" || true
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/app" || true
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/composer" || true
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/phpstan" || true
-/bin/chown -R honza. "${RAM_DISK}/honza" || true
+USER_NAME="honza"
+RAM_DISK="/tmp/rd-tmp"
+TMP_HONZA="${RAM_DISK}/${USER_NAME}"
+/bin/mkdir -m700 -p "${RAM_DISK}" && \
+/bin/chown "${USER_NAME}." "${RAM_DISK}" && \
+/bin/mount -t tmpfs tmpfs "${RAM_DISK}" -osize=2500M && \
+/bin/mkdir -m700 -p "${TMP_HONZA}" && \
+/bin/mkdir -m700 -p "${TMP_HONZA}/cache/konsole" && \
+/bin/mkdir -m700 -p "${TMP_HONZA}/cache/firefox" && \
+/bin/mkdir -m700 -p "${TMP_HONZA}/cache/chrome" && \
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/system" && \
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/root" && \
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/app" && \
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/composer" && \
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/phpstan" && \
+/bin/chown -R "${USER_NAME}." "${TMP_HONZA}" && \
+/bin/ln -sfT "${TMP_HONZA}" "/home/${USER_NAME}/.ramdisk" || true
+RELEASE=$(lsb_release -s -r)
+for i in .cache .config .kde .local ; do
+    DIR="/home/${USER_NAME}/${i}"
+    /bin/rm -rf "${DIR}"
+    /bin/ln -sfT "${DIR}.${RELEASE}" "${DIR}"
+done
 
 echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 
+# make all incoming mail appear to be local
+/sbin/iptables -t nat -A PREROUTING -p tcp --dport 143 -j DNAT --to 10.31.4.1:10143 || true
+/sbin/iptables -t nat -A PREROUTING -p tcp --dport 10025 -j DNAT --to 10.31.4.1:1025 || true
+
+exit 0
 /usr/bin/timedatectl set-ntp true || true
 /bin/systemctl enable ntp || true
 /bin/systemctl start ntp || true
@@ -44,10 +56,6 @@ sleep 1
 #modprobe nbd max_part=16 || true
 sleep 2
 /sbin/udevadm trigger || true
-
-# make all incoming mail appear to be local
-/sbin/iptables -t nat -A PREROUTING -p tcp --dport 143 -j DNAT --to 10.31.4.1:10143 || true
-/sbin/iptables -t nat -A PREROUTING -p tcp --dport 10025 -j DNAT --to 10.31.4.1:1025 || true
 
 (
 	modprobe -rv rtsx_usb_ms && rmmod rtsx_usb_ms && rmmod memstick
