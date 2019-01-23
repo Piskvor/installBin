@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sshfs piroh:Music ~/Music
+sshfs tt:/ ~/mnt/threepio -o nonempty
