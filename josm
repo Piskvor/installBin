@@ -4,7 +4,7 @@ set -uo pipefail
 
 BASE_NAME=$(basename $0)
 DIR_NAME="$HOME/bin"
-if [ ! -d "${DIR_NAME}" ]; then
+if [[ ! -d "${DIR_NAME}" ]]; then
     DIR_NAME="$(dirname $0)"
 fi
 JAR_NAME="${BASE_NAME}.jar"
@@ -15,25 +15,25 @@ V7_NAME="josm-snapshot-10526.jar"
 V6_NAME="josm-snapshot-7000.jar"
 JOSM_OPTS="--set=proxy.policy=use-system-settings"
 
-if [ "$BASE_NAME" = "josm6" ] ; then
+if [[ "$BASE_NAME" = "josm6" ]] ; then
     JAR_NAME=${V6_NAME}
-elif [ "$BASE_NAME" = "josm7" ] ; then
+elif [[ "$BASE_NAME" = "josm7" ]] ; then
 	JAR_NAME=${V7_NAME}
-elif [ "$BASE_NAME" = "josm-latest" ] ; then
+elif [[ "$BASE_NAME" = "josm-latest" ]] ; then
 	JAR_NAME=${LATEST_NAME}
-elif [ "$BASE_NAME" = "josm" ] ; then
+elif [[ "$BASE_NAME" = "josm" ]] ; then
 	JAR_NAME=${CURRENT_NAME}
 fi
 LOCAL_NAME="${DIR_NAME}/${JAR_NAME}"
 
-if [ -f "$DIR_NAME/selective-locale" ] ; then
+if [[ -f "$DIR_NAME/selective-locale" ]] ; then
     source "$DIR_NAME/selective-locale"
 fi
 
-if [ -f "$DIR_NAME/java-options.local" ] ; then
+if [[ -f "$DIR_NAME/java||ptions.local" ]] ; then
     source "$DIR_NAME/java-options.local"
 fi
-if [ -f "$DIR_NAME/josm-options.local" ] ; then
+if [[ -f "$DIR_NAME/josm||ptions.local" ]] ; then
     source "$DIR_NAME/josm-options.local"
 fi
 
@@ -42,7 +42,7 @@ if (echo "${JAVA_OPTS:-}" | grep -cF java.net.useSystemProxies &> /dev/null) ; t
 fi
 
 TMP_BASE_DIR="/tmp"
-if [ -d "$HOME/tmp" ]; then
+if [[ -d "$HOME/tmp" ]]; then
     TMP_BASE_DIR="$HOME/tmp"
 fi
 TMP_DIR="${TMP_BASE_DIR}/${BASE_NAME}-${USER}"
@@ -53,7 +53,7 @@ TMP_ERR_FILE=$(mktemp)
 function cleanup {
     # if we're here, we got interrupted
     JOSM_PID=$(cat "${TMP_PID_FILE}" || true)
-    if [ "$JOSM_PID" != "" ]; then
+    if [[ "$JOSM_PID" != "" ]]; then
         kill ${JOSM_PID} &> /dev/null || true
     fi
     rm "${TMP_PID_FILE}" "${TMP_ERR_FILE}" || true
@@ -71,26 +71,26 @@ function get_lower_local_name() {
 if mkdir "$TMP_DIR" 2>/dev/null; then
 	trap "cleanup" EXIT
 
-	if [ -f "$LOCAL_NAME" ]; then
+	if [[ -f "$LOCAL_NAME" ]]; then
 		VERSION_LOCAL=$(java -jar "$LOCAL_NAME" --version 2> ${TMP_ERR_FILE} | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
-		if [ "$VERSION_LOCAL" = "" ] && (grep -c 'Unsupported major.minor version' ${TMP_ERR_FILE} &> /dev/null) ; then
+		if [[ "$VERSION_LOCAL" = "" ]] && (grep -c 'Unsupported major.minor version' ${TMP_ERR_FILE} &> /dev/null) ; then
 		    LOCAL_NAME="${DIR_NAME}/$(get_lower_local_name)" 2> /dev/null
-		    if [ "$LOCAL_NAME" != "" ]; then
+		    if [[ "$LOCAL_NAME" != "" ]]; then
     		    VERSION_LOCAL=$(java -jar "$LOCAL_NAME" --version 2> ${TMP_ERR_FILE} | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
     		fi
 		fi
 	fi
-	if [ "${VERSION_LOCAL:-}" = "" ]; then
+	if [[ "${VERSION_LOCAL:-}" = "" ]]; then
 	    VERSION_LOCAL=0
 	fi
-	if [ -f "/usr/bin/$BASE_NAME" ]; then
+	if [[ -f "/usr/bin/$BASE_NAME" ]]; then
 		VERSION_REPO=$(/usr/bin/${BASE_NAME} --version  2> /dev/null | grep 'JOSM' | sed 's/.*(//g;s/ [a-z]\+).*//g') 2> /dev/null
 	fi
-	if [ "${VERSION_REPO:-}" = "" ]; then
+	if [[ "${VERSION_REPO:-}" = "" ]]; then
 	    VERSION_REPO=0
 	fi
-	if [ "$VERSION_LOCAL" -gt "$VERSION_REPO" ]; then
-	    if [ "${JAVA_HOME:-}" = "" ]; then
+	if [[ "$VERSION_LOCAL" -gt "$VERSION_REPO" ]]; then
+	    if [[ "${JAVA_HOME:-}" = "" ]]; then
 	        JAVA_HOME=$(which java)
 	    fi
 		echo "Using ${JAVA_HOME:-java} to run local ${LOCAL_NAME}"
@@ -98,12 +98,12 @@ if mkdir "$TMP_DIR" 2>/dev/null; then
 	else
 		JOSM="/usr/bin/${BASE_NAME}"
 	fi
-    if [ "$VERSION_LOCAL" -eq 0 ] && [ "$VERSION_REPO" -eq 0 ]; then
+    if [[ "$VERSION_LOCAL" -eq 0 ]] && [[ "$VERSION_REPO" -eq 0 ]]; then
         echo "No version found!"
         exit 35
     fi
     IS_RUNNING=$(ps -A f | grep ${JAR_NAME} | grep -c java)
-    if [ "$IS_RUNNING" -gt 0 ]; then
+    if [[ "$IS_RUNNING" -gt 0 ]]; then
         echo "Already running, quit"
         exit 4
     fi
