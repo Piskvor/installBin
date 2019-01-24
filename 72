@@ -5,7 +5,7 @@ set -euo pipefail
 CONTAINER=php72
 DOCKER_TAG="${CONTAINER}:latest"
 PROJECT=$(realpath ~/.project)
-NETWORK="$(basename "${PROJECT}" | sed 's/[^a-z]//')_default"
+NETWORK="$(basename "${PROJECT}" | sed 's/[^a-z-]//')_internal"
 DEV=$(realpath ~/.dev)
 CURRENT_DIR=$(dirname $0)
 
