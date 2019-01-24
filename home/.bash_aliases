@@ -40,3 +40,4 @@ alias vss='ssh vagrant'
 
 source ~/.project_dev/bash_aliases
 
+eval $(thefuck --alias)
