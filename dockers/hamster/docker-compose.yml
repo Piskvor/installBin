@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+  hamster-time-tracking:
+    image: php73:latest
+    volumes:
+      - /home/honza/prog:/home/honza/prog
