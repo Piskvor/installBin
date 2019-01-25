@@ -4,7 +4,7 @@ set -euxo pipefail
 
 touch $HOME/tmp/temperature.txt || true
 
-setxkbmap -layout us,cz_qwerty -option grp:alt_caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,altwin:meta_win,caps:escape || true
+#setxkbmap -layout us,cz_qwerty -option grp:alt_caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,altwin:meta_win,caps:escape || true
 
 for i in sdb2 sdc1 sdc2 ; do
 	mount "/dev/$i" || true
@@ -22,7 +22,9 @@ cd /home/honza/bin/autostart/dockerized && \
     docker-compose up -d &
 
 cd /home/honza/.project && \
-    docker-compose up -d postgresql rabbitmq imap elastic &
+    docker-compose up -d postgres rabbitmq redis netflow nginx &
+
+/home/honza/bin/autostart/evrouter-loop.sh &
 
 #(
 #    docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer --no-auth --no-snapshot || true
