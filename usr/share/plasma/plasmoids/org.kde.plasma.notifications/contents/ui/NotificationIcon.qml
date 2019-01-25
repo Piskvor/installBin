@@ -79,8 +79,8 @@ Item {
         PlasmaComponents.BusyIndicator {
             anchors.fill: parent
 
-            visible: jobs ? jobs.count > 0 : false
-            running: visible
+            visible: jobs ? jobs.count > 0 : true
+            running: false
         }
 
         PlasmaComponents.Label {
