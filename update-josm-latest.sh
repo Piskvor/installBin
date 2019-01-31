@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 LATEST_NAME="josm-latest.jar"
 CURRENT_NAME="josm-tested.jar"
@@ -38,9 +38,9 @@ if [ "${RESULT:-1}" -eq 0 ]; then
 	./josm-latest --version || true
 fi
 if [ "$ALL" -gt 0 ]; then
-    for i in  "${CURRENT_NAME}" "${V7_NAME}" "${V6_NAME}" ; do
+    ( for i in  "${CURRENT_NAME}" "${V7_NAME}" "${V6_NAME}" ; do
 	    echo "${BASE_URL}/${i}"
-    done \
+    done ) \
     | tr " " '\n'\
 	| wget ${WGET_OPTIONS} -i - && \
 	./josm --version || true

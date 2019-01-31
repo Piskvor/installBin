@@ -14,6 +14,7 @@ CURRENT_NAME="josm-tested.jar"
 V7_NAME="josm-snapshot-10526.jar"
 V6_NAME="josm-snapshot-7000.jar"
 JOSM_OPTS="--set=proxy.policy=use-system-settings"
+JAVA_OPTS="${JAVA_OPTS:=} -Djava.net.useSystemProxies=true"
 
 if [[ "$BASE_NAME" = "josm6" ]] ; then
     JAR_NAME=${V6_NAME}
@@ -30,14 +31,14 @@ if [[ -f "$DIR_NAME/selective-locale" ]] ; then
     source "$DIR_NAME/selective-locale"
 fi
 
-if [[ -f "$DIR_NAME/java||ptions.local" ]] ; then
+if [[ -f "$DIR_NAME/java-options.local" ]] ; then
     source "$DIR_NAME/java-options.local"
 fi
-if [[ -f "$DIR_NAME/josm||ptions.local" ]] ; then
+if [[ -f "$DIR_NAME/josm-options.local" ]] ; then
     source "$DIR_NAME/josm-options.local"
 fi
 
-if (echo "${JAVA_OPTS:-}" | grep -cF java.net.useSystemProxies &> /dev/null) ; then
+if (echo "${JAVA_OPTS:-}" | grep -cF java.net.useSystemProxies &> /dev/null) && [[ -x "${DIR_NAME}/java-proxy-options.sh" ]] ; then
     JAVA_OPTS="${JAVA_OPTS} $(${DIR_NAME}/java-proxy-options.sh)" 2> /dev/null
 fi
 
@@ -64,7 +65,7 @@ function get_lower_local_name() {
     java -version |& grep -cF "1.8" &> /dev/null && echo "${CURRENT_NAME}" && return
     java -version |& grep -cF "1.7" &> /dev/null && echo "${V7_NAME}" && return
     java -version |& grep -cF "1.6" &> /dev/null && echo "${V6_NAME}" && return
-    echo "" && return
+    echo "${CURRENT_NAME}" && return
 }
 
 # lock using a directory: http://unix.stackexchange.com/a/180028/5477
