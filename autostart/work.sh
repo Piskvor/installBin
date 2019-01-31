@@ -2,6 +2,10 @@
 
 set -euxo pipefail
 
+vboxmanage startvm "{9e573485-34ab-4cb7-a954-4306fa7508ee}" --type headless &
+
+#(xscreensaver -nosplash || true) &
+
 touch $HOME/tmp/temperature.txt || true
 
 #setxkbmap -layout us,cz_qwerty -option grp:alt_caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,altwin:meta_win,caps:escape || true
@@ -26,9 +30,12 @@ cd /home/honza/.project && \
 
 /home/honza/bin/autostart/evrouter-loop.sh &
 
-#(
-#    docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer --no-auth --no-snapshot || true
-#) &
+(
+    docker run -d -p 9000:9000 \
+       -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer \
+       --no-auth --no-snapshot || true
+) &
+
 
 # vboxmanage startvm "{cdbd2f92-00f2-4fa7-b2d2-9d1f5e107244}" &
 
@@ -36,4 +43,6 @@ cd /home/honza/.project && \
 
 #/home/honza/bin/autostart/josm-inotify.sh &
 
-env PLAY_SOUND=no /home/honza/.project_dev/lints.sh --with-stan &
+env PLAY_SOUND=no /home/honza/.project_dev/lints.sh --with-stan
+
+(ssh -nX hamster -- bash -c 'hamster-indicator; sudo poweroff' &)

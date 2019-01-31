@@ -36,6 +36,7 @@ echo "COUNTER=$COUNTER">"$FILE"
 
 # unlock if maximum invocations reached
 if [ "$COUNTER" -gt "$MAXIMUM" ]; then
+	# (xscreensaver-command -deactivate || true) &
 	loginctl unlock-session
 	sleep 2
 	xset -display :0 dpms force on

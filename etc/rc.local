@@ -12,6 +12,8 @@ TMP_HONZA="${RAM_DISK}/${USER_NAME}"
 /bin/mount -t tmpfs tmpfs "${RAM_DISK}" -osize=2500M && \
 /bin/mkdir -m700 -p "${TMP_HONZA}" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/konsole" && \
+/bin/mkdir -m700 -p "${TMP_HONZA}/desktop" && \
+/bin/mkdir -m700 -p "${TMP_HONZA}/desktop/blurry" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/firefox" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/chrome" && \
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/system" && \

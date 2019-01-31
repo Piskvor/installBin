@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#set -euxo pipefail
+
+if [[ -x "/usr/bin/hamster-cli" ]]; then
+    HAMSTER_CLI="/usr/bin/hamster-cli"
+else
+    HAMSTER_CLI="ssh hamster -X -- /usr/bin/hamster-cli"
+fi
+
+exec $HAMSTER_CLI "$@"
