@@ -12,7 +12,7 @@ BASE_URL=${LOCAL_BASE_URL}
 
 WGET_OPTIONS="--timestamping --no-verbose"
 
-if [ "$(hostname)" = "tulen" ]; then
+if [ "$(hostname)" = "mrog" ]; then
     BASE_URL=${CANONICAL_BASE_URL}
 fi
 

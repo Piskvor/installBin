@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  autossh-tulen:
+  autossh-mrog:
     image: piskvor-docker-autossh
     restart: always
     volumes:
@@ -11,11 +11,11 @@ services:
       - /home/honza/.ssh/socks:/socks:rw
     environment:
       - SSH_HOSTUSER=fwd
-      - SSH_HOSTNAME=tulen
+      - SSH_HOSTNAME=mrog
       - SSH_TUNNEL_REMOTE=16794
       - SSH_TUNNEL_HOST=10.31.4.1
       - SSH_TUNNEL_LOCAL=22
-      - SSH_CONTROL_PATH=/socks/fwd@tulen:22
+      - SSH_CONTROL_PATH=/socks/fwd@mrog:22
       - SSH_EXTRA_OPTIONS=-v -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
       - AUTOSSH_LOGLEVEL=2
       - AUTOSSH_FIRST_POLL=120
