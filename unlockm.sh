@@ -39,9 +39,12 @@ echo "COUNTER=$COUNTER">"$FILE"
 # unlock if maximum invocations reached
 if [[ "$COUNTER" -gt "$MAXIMUM" ]]; then
 	# (xscreensaver-command -deactivate || true) &
+	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
 	loginctl unlock-session
+	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
 	sleep 2
 	xset -display :0 dpms force on
+	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
 	qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 	rm "$FILE"
 	sleep 1
