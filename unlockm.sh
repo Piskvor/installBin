@@ -4,17 +4,19 @@
 MAXIMUM=5
 # program basename
 BASENAME=$(basename $0)
-# match all from vendor - same device presents different IDs depending on task
-DEVICE_ID="04e8:"
 
 # temp file for watching the invocation counts
 FILE=$HOME/tmp/${BASENAME}-count.lock
 
-# device is connected
-HAS_DEVICE=$(lsusb -d "${DEVICE_ID}" | wc -l)
-if [[ "$DEVICE_ID" -lt 1 ]]; then
-	exit 2
-fi
+### do not expect device to be physically connected
+## match all from vendor - same device presents different IDs depending on task
+#DEVICE_ID="04e8:"
+#
+## device is connected
+#HAS_DEVICE=$(lsusb -d "${DEVICE_ID}" | wc -l)
+#if [[ "${HAS_DEVICE}" -lt 1 ]]; then
+#	exit 2
+#fi
 
 if [[ ! -f "$FILE" ]]; then
 	# create file
