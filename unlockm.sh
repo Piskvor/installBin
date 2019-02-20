@@ -12,11 +12,11 @@ FILE=$HOME/tmp/${BASENAME}-count.lock
 
 # device is connected
 HAS_DEVICE=$(lsusb -d "${DEVICE_ID}" | wc -l)
-if [ "$DEVICE_ID" -lt 1 ]; then
+if [[ "$DEVICE_ID" -lt 1 ]]; then
 	exit 2
 fi
 
-if [ ! -f "$FILE" ]; then
+if [[ ! -f "$FILE" ]]; then
 	# create file
 	touch "$FILE"
 else
@@ -35,13 +35,14 @@ COUNTER=$(($COUNTER + 1))
 echo "COUNTER=$COUNTER">"$FILE"
 
 # unlock if maximum invocations reached
-if [ "$COUNTER" -gt "$MAXIMUM" ]; then
+if [[ "$COUNTER" -gt "$MAXIMUM" ]]; then
 	# (xscreensaver-command -deactivate || true) &
 	loginctl unlock-session
 	sleep 2
 	xset -display :0 dpms force on
 	qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 	rm "$FILE"
-	sleep 2
+	sleep 1
 	xset -display :0 dpms force on
+	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
 fi
