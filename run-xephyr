@@ -29,6 +29,6 @@ evilwm &
 sleep 5
 
 simplescreenrecorder &
-brave &
+#brave &
 
 
