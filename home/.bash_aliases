@@ -27,12 +27,18 @@ alias gp='git pull'
 # --verbose'
 
 alias tulen='export http_proxy=http://localhost:13128/;export https_proxy=$http_proxy'
+alias mrog='export http_proxy=http://localhost:13128/;export https_proxy=$http_proxy'
 alias noproxy='export http_proxy= ;export https_proxy=$http_proxy'
 alias mcb='mc -bs'
 alias tvoc='tail -F /var/log/syslog'
 
 alias ss='screen -xR'
-alias l='ls'
+
+alias l='ls -CF'
+alias latr='ls -latr'
+alias ll='ls -l'
+alias la='ls -A'
+
 alias sl='ls'
 alias sxc='screen -xR'
 alias scx='screen -xR'
