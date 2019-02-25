@@ -10,6 +10,11 @@ CANONICAL_BASE_URL="https://josm.openstreetmap.de/download"
 LOCAL_BASE_URL="https://inst.piskvor.org/josm"
 BASE_URL=${LOCAL_BASE_URL}
 
+if [ "${1:-}" = "--canonical" ]; then
+	shift
+	BASE_URL=${CANONICAL_BASE_URL}
+fi
+
 WGET_OPTIONS="--timestamping --no-verbose"
 
 if [ "$(hostname)" = "mrog" ]; then
