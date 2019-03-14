@@ -44,6 +44,8 @@ alias sxc='screen -xR'
 alias scx='screen -xR'
 alias vss='ssh vagrant'
 
+alias gw='$(yarn bin)/gulp watch --no-uglify'
+
 #alias vss='vagrant ssh $(get-bb-id)'
 
 source ~/.project_dev/bash_aliases
