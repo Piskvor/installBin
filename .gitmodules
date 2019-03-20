@@ -1,0 +1,3 @@
+[submodule "autostart/systemd/labtunnel"]
+	path = autostart/systemd/labtunnel
+	url = https://github.com/renxida/labtunnel.git
