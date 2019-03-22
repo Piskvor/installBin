@@ -1,33 +1,33 @@
 version: '3.1'
 
 services:
-  autossh-mrog:
-    image: piskvor-docker-autossh
-    restart: always
-    volumes:
-      - /etc/ssh/autossh/fwd_rsa:/id_rsa:ro
-      - /home/honza/.ssh/known_hosts:/known_hosts:ro
-      - /home/honza/.ssh/config:/ssh_config:ro
-      - /home/honza/.ssh/socks:/socks:rw
-    environment:
-      - SSH_HOSTUSER=fwd
-      - SSH_HOSTNAME=mrog
-      - SSH_TUNNEL_REMOTE=16794
-      - SSH_TUNNEL_HOST=10.31.4.1
-      - SSH_TUNNEL_LOCAL=22
-      - SSH_CONTROL_PATH=/socks/fwd@mrog:22
-      - SSH_EXTRA_OPTIONS=-v -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
-      - AUTOSSH_LOGLEVEL=2
-      - AUTOSSH_FIRST_POLL=120
-      - AUTOSSH_GATETIME=0
-      - REMOVE_BROKEN_SSHMUX=1
-    ports:
-      - "13128:3128"
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 50M
+#  autossh-mrog:
+#    image: piskvor-docker-autossh
+#    restart: always
+#    volumes:
+#      - /etc/ssh/autossh/fwd_rsa:/id_rsa:ro
+#      - /home/honza/.ssh/known_hosts:/known_hosts:ro
+#      - /home/honza/.ssh/config:/ssh_config:ro
+#      - /home/honza/.ssh/socks:/socks:rw
+#    environment:
+#      - SSH_HOSTUSER=fwd
+#      - SSH_HOSTNAME=mrog
+#      - SSH_TUNNEL_REMOTE=16794
+#      - SSH_TUNNEL_HOST=10.31.4.1
+#      - SSH_TUNNEL_LOCAL=22
+#      - SSH_CONTROL_PATH=/socks/fwd@mrog:22
+#      - SSH_EXTRA_OPTIONS=-v -o ControlMaster=yes -L0.0.0.0:3128:localhost:3128
+#      - AUTOSSH_LOGLEVEL=2
+#      - AUTOSSH_FIRST_POLL=120
+#      - AUTOSSH_GATETIME=0
+#      - REMOVE_BROKEN_SSHMUX=1
+#    ports:
+#      - "13128:3128"
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '0.50'
+#          memory: 50M
   autossh-threepio:
     image: piskvor-docker-autossh
     restart: always
