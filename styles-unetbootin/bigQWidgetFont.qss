@@ -1,0 +1,2 @@
+/* unetbootin -stylesheet bigQWidgetFont.qss */
+QWidget { font-size: 24px }
