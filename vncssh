@@ -28,7 +28,7 @@ REMOTE_PORT=${LOCAL_PORT}
 
 RANGE=255
 IP_PART=$RANDOM
-let "IPPART %= $RANGE"
+let "IP_PART %= $RANGE"
 
 # use a random localhost IP address
 LOCALHOST_IP=127.59.${IP_PART}.1
