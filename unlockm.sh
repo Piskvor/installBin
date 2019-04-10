@@ -1,14 +1,22 @@
 #!/bin/bash
 
 # maximum count of successful invocations, after this the computer unlocks
-MAXIMUM=5
+MAXIMUM=3
 # at this number of invocations, screen wakes. Should be < $MAXIMUM
 POKE_SCREEN=1
 # program basename
-BASENAME=$(basename $0)
+BASENAME="$(basename $0)"
+
+wiggle_mouse() {
+    xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
+}
+
+display_on() {
+    xset -display :0 dpms force on
+}
 
 # temp file for watching the invocation counts
-FILE=$HOME/tmp/${BASENAME}-count.lock
+INVOCATION_COUNT_FILE=$HOME/tmp/${BASENAME}-count.lock
 
 ### do not expect device to be physically connected
 ## match all from vendor - same device presents different IDs depending on task
@@ -20,39 +28,39 @@ FILE=$HOME/tmp/${BASENAME}-count.lock
 #	exit 2
 #fi
 
-if [[ ! -f "$FILE" ]]; then
+if [[ ! -f "$INVOCATION_COUNT_FILE" ]]; then
 	# create file
-	touch "$FILE"
+	touch "$INVOCATION_COUNT_FILE"
 else
 	# delete file if not touched for a moment
 	# you need to invoke the script within this time again
-	find "$FILE" -not -newermt '-2seconds' -print -delete
-	touch "$FILE"
+	find "$INVOCATION_COUNT_FILE" -not -newermt '-2seconds' -print -delete
+	touch "$INVOCATION_COUNT_FILE"
 fi
 
 COUNTER=0
 # load the temp file
-. "$FILE"
+. "$INVOCATION_COUNT_FILE"
 # increment the counter
 COUNTER=$(($COUNTER + 1))
 # save back to temp file
-echo "COUNTER=$COUNTER">"$FILE"
+echo "COUNTER=$COUNTER">"$INVOCATION_COUNT_FILE"
 
 # unlock if maximum invocations reached
 if [[ "$COUNTER" -eq "$POKE_SCREEN" ]]; then
 	# (xscreensaver-command -deactivate || true) &
-	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
+	wiggle_mouse
 	sleep 2
-	xset -display :0 dpms force on
-	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
+	display_on
+    wiggle_mouse
 fi
 if [[ "$COUNTER" -gt "$MAXIMUM" ]]; then
 	xset -display :0 dpms force on
 	loginctl unlock-session
-	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
+    wiggle_mouse
 	qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
-	rm "$FILE"
+	rm "$INVOCATION_COUNT_FILE"
 	sleep 1
-	xset -display :0 dpms force on
-	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
+    display_on
+    wiggle_mouse
 fi
