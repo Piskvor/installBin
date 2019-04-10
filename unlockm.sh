@@ -2,6 +2,8 @@
 
 # maximum count of successful invocations, after this the computer unlocks
 MAXIMUM=5
+# at this number of invocations, screen wakes. Should be < $MAXIMUM
+POKE_SCREEN=1
 # program basename
 BASENAME=$(basename $0)
 
@@ -37,13 +39,16 @@ COUNTER=$(($COUNTER + 1))
 echo "COUNTER=$COUNTER">"$FILE"
 
 # unlock if maximum invocations reached
-if [[ "$COUNTER" -gt "$MAXIMUM" ]]; then
+if [[ "$COUNTER" -eq "$POKE_SCREEN" ]]; then
 	# (xscreensaver-command -deactivate || true) &
-	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
-	loginctl unlock-session
 	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
 	sleep 2
 	xset -display :0 dpms force on
+	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
+fi
+if [[ "$COUNTER" -gt "$MAXIMUM" ]]; then
+	xset -display :0 dpms force on
+	loginctl unlock-session
 	xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
 	qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 	rm "$FILE"
