@@ -9,7 +9,7 @@ TEMP_SCREENSHOT_TEMPLATE="$(pwd)/blurry/sharp"
 FINAL_SCREENSHOT_TEMPLATE="$(pwd)/blurry/out"
 SCREENSHOT_POSTFIX=".png"
 
-rm ${TEMP_SCREENSHOT_TEMPLATE}* ${FINAL_SCREENSHOT_TEMPLATE}*
+rm ${TEMP_SCREENSHOT_TEMPLATE}* ${FINAL_SCREENSHOT_TEMPLATE}* || true
 
 import -window root "${TEMP_SCREENSHOT}"
 
@@ -21,4 +21,4 @@ for i in ${TEMP_SCREENSHOT_TEMPLATE}* ; do
     j="$(echo ${i} | sed 's/sharp/out/')"
     convert "${i}" -blur 0x5 "$j"
 done
-rm ${TEMP_SCREENSHOT_TEMPLATE}*
+#rm ${TEMP_SCREENSHOT_TEMPLATE}*
