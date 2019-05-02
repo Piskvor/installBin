@@ -186,7 +186,7 @@ else
         . "/home/honza/miniconda3/etc/profile.d/conda.sh"
         CONDA_CHANGEPS1=false conda activate base
     else
-        \export PATH="/home/honza/miniconda3/bin:$PATH"
+        export PATH="$PATH:/home/honza/miniconda3/bin"
     fi
 fi
 unset __conda_setup
