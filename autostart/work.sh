@@ -4,7 +4,8 @@ set -euxo pipefail
 
 #(xscreensaver -nosplash || true) &
 
-touch $HOME/tmp/temperature.txt || true
+mkdir -p $HOME/tmp/weather/ || true
+touch $HOME/tmp/weather/temperature.txt || true
 
 #setxkbmap -layout us,cz_qwerty -option grp:alt_caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp,altwin:meta_win,caps:escape || true
 

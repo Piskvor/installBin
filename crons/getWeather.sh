@@ -39,8 +39,15 @@ DECIMINUTE_ROUNDED="$(date +'%Y-%m-%d %H:%M'|cut -b-15)0:00"
 
 if [[ "${TEMPERATURE}" != "" ]] && [[ -f "${SQLITE_DB}" ]] && [[ -x "$(which sqlite3)" ]]; then
     sqlite3 ${SQLITE_DB} "INSERT INTO temperature (updated, update_rounded, celsius) VALUES (\"${NOW}\", \"${DECIMINUTE_ROUNDED}\", \"${TEMPERATURE}\");"
-fi
+    if [[ -x "$(which jq)" ]]; then
+        sqlite3 ${SQLITE_DB} 'SELECT update_rounded,celsius FROM (SELECT id,update_rounded,celsius FROM temperature ORDER BY id DESC LIMIT 48) ORDER BY id ASC' | jq --slurp --raw-input --raw-output 'split("\n") | .[:-1] | map(split("|")) | map({"datetime": .[0], "celsius": .[1]})' > temperature.json
 
+        echo -n 'var temperatures = ' > temperatures.js
+        cat temperature.json >> temperatures.js
+        echo -n ';' >> temperatures.js
+
+    fi
+fi
 
 sed "s~http://pocasi/~~;s~http://${HOST_NAME}/~~;s~img/~~" < screen.css > screen.processed.css
 cat screen.processed.css screen.extra.css > screen.css
