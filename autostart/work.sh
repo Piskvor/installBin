@@ -4,6 +4,8 @@ set -euxo pipefail
 
 #(xscreensaver -nosplash || true) &
 
+systemctl enable --now --user labtunnel@mrog-fwd
+
 mkdir -p $HOME/tmp/weather/ || true
 touch $HOME/tmp/weather/temperature.txt || true
 
