@@ -14,6 +14,10 @@ cp -f screen.extra.css pocasi/
 cd pocasi
 
 SQLITE_DB=$(pwd)/history.sqlite
+jq=$(which jq)
+if [[ ! -x "$jq" ]]; then
+    jq=~/bin/jq
+fi
 
 HOST_NAME=$(getent hosts pocasi | awk '{ print $1 }')
 
@@ -22,7 +26,7 @@ ARROWS=""
 #    ARROWS=" $ARROWS http://${HOST_NAME}/img/ar$i.gif"
 #done
 
-if [ 1 -gt 0 ]; then
+if [[ 1 -gt 0 ]]; then
 wget --wait=2 --waitretry=30 --tries=3 --random-wait --limit-rate=5k --backup-converted \
      --no-directories --timestamping \
      "http://${HOST_NAME}/status.html" $ARROWS
@@ -39,8 +43,9 @@ DECIMINUTE_ROUNDED="$(date +'%Y-%m-%d %H:%M'|cut -b-15)0:00"
 
 if [[ "${TEMPERATURE}" != "" ]] && [[ -f "${SQLITE_DB}" ]] && [[ -x "$(which sqlite3)" ]]; then
     sqlite3 ${SQLITE_DB} "INSERT INTO temperature (updated, update_rounded, celsius) VALUES (\"${NOW}\", \"${DECIMINUTE_ROUNDED}\", \"${TEMPERATURE}\");"
-    if [[ -x "$(which jq)" ]]; then
-        sqlite3 ${SQLITE_DB} 'SELECT update_rounded,celsius FROM (SELECT id,update_rounded,celsius FROM temperature ORDER BY id DESC LIMIT 48) ORDER BY id ASC' | jq --slurp --raw-input --raw-output 'split("\n") | .[:-1] | map(split("|")) | map({"datetime": .[0], "celsius": .[1]})' > temperature.json
+    if [[ -x "$jq" ]]; then
+        cd $(dirname ${SQLITE_DB})
+        sqlite3 ${SQLITE_DB} 'SELECT update_rounded,celsius FROM (SELECT id,update_rounded,celsius FROM temperature ORDER BY id DESC LIMIT 48) ORDER BY id ASC' | $jq --slurp --raw-input --raw-output 'split("\n") | .[:-1] | map(split("|")) | map({"datetime": .[0], "celsius": .[1]})' > temperature.json
 
         echo -n 'var temperatures = ' > temperatures.js
         cat temperature.json >> temperatures.js
