@@ -19,7 +19,7 @@ fi
 
 if [ "$IFACE" = enx00133b00049e ] && [ "$CONNECTION_ID" = "axago-rpi" ]; then
 	/sbin/ip addr add 172.16.3.1/24 dev $IFACE || true
-elif [ "$IFACE" = enp3s0 ]; then
+elif [ "$IFACE" = enp3s0 ] || [ "$IFACE" = enxd46e0e0898e8 ]; then
 	if [ "$DHCP4_BROADCAST_ADDRESS" = 10.43.21.255 ] ; then
 		/sbin/ip addr add 10.31.4.1/24 dev $IFACE || true
 	fi
