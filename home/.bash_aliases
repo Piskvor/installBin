@@ -2,6 +2,8 @@
 
 alias lrs='less -R -S +G'
 
+alias xt='xat --encoding=png/L --speaker=off --microphone=off --webcam=off'
+
 alias did="env LANG=C LC_ALL=C vim +'normal Go' +'r!date' ~/did.txt"
 alias yts='youtube-dl --restrict-filenames -f bestaudio'
 alias slowrsync='rsync -avP --times --no-perms --no-group --no-owner --stats --itemize-changes --inplace --bwlimit=1000'
