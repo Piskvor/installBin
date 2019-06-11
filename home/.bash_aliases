@@ -1,5 +1,6 @@
 #!/bin/bash
 
+alias dropbox='ddropbox'
 alias lrs='less -R -S +G'
 
 alias xt='xat --encoding=png/L --speaker=off --microphone=off --webcam=off'
