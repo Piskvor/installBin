@@ -18,14 +18,14 @@ add_rescue_kernel() {
 
     echo "$message_txt: $image" >&2
     cat << EOF
-    menuentry "Rescueshell ${image_path} ${arch}" {
+    menuentry "Rescue shell ${image_path} ${arch}" {
 EOF
     cat << EOF
         insmod gzio
         insmod part_msdos
         insmod ext2
         set root='hd0,msdos1'
-        linux	${KERNEL_DIR}/${image_path} rescueshell sshd
+        linux	${KERNEL_DIR}/${image_path} rescueshell sshd binit_net_addr=dhcp
         initrd	${KERNEL_DIR}/${initramfs}
     }
 EOF
@@ -37,12 +37,12 @@ if [[ "$IMAGES" != "" ]]; then
 submenu 'Rescue initramfs > ' {
 EOF
     for image in $IMAGES ; do
-        IMAGEPATH=$( basename "$image" )
-        if [[ ! "${IMAGEPATH}" =~ '32' ]]; then
-            add_rescue_kernel "$IMAGEPATH" "Found x64 kernel" x64
+        IMAGE_PATH=$( basename "$image" )
+        if [[ ! "${IMAGE_PATH}" =~ '32' ]]; then
+            add_rescue_kernel "$IMAGE_PATH" "Found x64 kernel" x64
         fi
-        if [[ ! "${IMAGEPATH}" =~ '64' ]]; then
-            add_rescue_kernel "$IMAGEPATH" "Found x86 kernel" x86
+        if [[ ! "${IMAGE_PATH}" =~ '64' ]]; then
+            add_rescue_kernel "$IMAGE_PATH" "Found x86 kernel" x86
         fi
     done
     cat <<'EOF'
