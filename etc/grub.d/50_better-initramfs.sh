@@ -31,6 +31,7 @@ EOF
 EOF
 }
 
+[[ -d "$KERNEL_DIR" ]] || exit 0
 IMAGES=$(find "$KERNEL_DIR" -not -type d -not -name 'initramfs*' | sort)
 if [[ "$IMAGES" != "" ]]; then
     cat <<'EOF'
