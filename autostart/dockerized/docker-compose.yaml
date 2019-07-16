@@ -1,6 +1,20 @@
 version: '3.1'
 
 services:
+  registry:
+    container_name: registry
+    image: registry:2
+    restart: always
+    environment:
+      - REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io
+      - REGISTRY_PROXY_USERNAME=jmau
+      - REGISTRY_PROXY_PASSWORD=hunter2
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+    volumes:
+      - /home/honza/bigdisk/registry:/var/lib/registry
+    ports:
+      - "5000:5000"
+
   dropbox-jan:
     image: piskvor-docker-dropbox
     restart: always
