@@ -5,7 +5,11 @@
 if [[ -x "/usr/bin/hamster-cli" ]]; then
     HAMSTER_CLI="/usr/bin/hamster-cli"
 else
-    HAMSTER_CLI="ssh hamster -X -- /usr/bin/hamster-cli"
+	if [[ "$(docker ps | awk '{print $NF}' | grep -w 'hamster')" -gt 0 ]]; then
+		HAMSTER_CLI="docker exec hamster-lxde hamster-cli"
+	else
+		HAMSTER_CLI="ssh hamster -X -- /usr/bin/hamster-cli"
+	fi
 fi
 
 exec $HAMSTER_CLI "$@"
