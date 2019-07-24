@@ -7,16 +7,16 @@ grep -E '(Corsair|KINGSTON)' /sys/block/sda/device/model && echo deadline > /sys
 USER_NAME="honza"
 RAM_DISK="/tmp/rd-tmp"
 TMP_HONZA="${RAM_DISK}/${USER_NAME}"
-/bin/mkdir -m700 -p "${RAM_DISK}" && \
-/bin/chown "${USER_NAME}." "${RAM_DISK}" && \
-/bin/mount -t tmpfs tmpfs "${RAM_DISK}" -osize=2500M && \
 /bin/mkdir -m700 -p "${TMP_HONZA}" && \
+/bin/mkdir -m700 -p "${TMP_HONZA}/cache" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/konsole" && \
+/bin/mkdir -m700 -p "${TMP_HONZA}/cache/yarn" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/desktop" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/desktop/blurry" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/firefox" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/chrome" && \
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/system" && \
+/bin/mkdir -m777 -p "${TMP_HONZA}/cache/logs" && \
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/root" && \
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/app" && \
 /bin/mkdir -m777 -p "${TMP_HONZA}/cache/composer" && \
@@ -35,14 +35,15 @@ echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 # make all incoming mail appear to be local
 /sbin/iptables -t nat -A PREROUTING -p tcp --dport 143 -j DNAT --to 10.31.4.1:10143 || true
 /sbin/iptables -t nat -A PREROUTING -p tcp --dport 10025 -j DNAT --to 10.31.4.1:1025 || true
+#/sbin/iptables -t nat -A PREROUTING -p tcp --dport 25 -j DNAT --to 10.31.4.1:1025 || true
 
-exit 0
 /usr/bin/timedatectl set-ntp true || true
 /bin/systemctl enable ntp || true
 /bin/systemctl start ntp || true
 
 /bin/chmod -x /usr/bin/baloo_file || true
 /bin/chmod -x /usr/bin/akonadi* || true
+exit 0
 
 /sbin/swapoff -a || true
 /sbin/swapon UUID="2bff1ae3-b7e9-48f0-8b10-b11fc001102e" || true # sda3
