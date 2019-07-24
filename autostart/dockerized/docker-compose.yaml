@@ -8,7 +8,6 @@ services:
     environment:
       - REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io
       - REGISTRY_PROXY_USERNAME=jmau
-      - REGISTRY_PROXY_PASSWORD=hunter2
       - REGISTRY_STORAGE_DELETE_ENABLED=true
     volumes:
       - /home/honza/bigdisk/registry:/var/lib/registry
