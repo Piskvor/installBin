@@ -6,7 +6,7 @@ if [[ -x "/usr/bin/hamster-indicator" ]]; then
     HAMSTER_INDICATOR="/usr/bin/hamster-indicator"
 else
     if true ; then
-        HAMSTER_INDICATOR="$HOME/prog/x11docker/x11docker --home --dbus --name hamster-lxde --hostdisplay --clipboard  -- --security-opt apparmor=unconfined -v /home/honza/Dropbox/work/sledovani-data/:/home/honza/.local/share/ -- localhost:5000/hamster-lxde hamster-indicator"
+        HAMSTER_INDICATOR="$HOME/prog/x11docker/x11docker --home --dbus --name hamster-lxde --hostdisplay --clipboard -- --hostname hamster-lxde --security-opt apparmor=unconfined -v /home/honza/Dropbox/work/sledovani-data/:/home/honza/.local/share/ -- localhost:5000/hamster-lxde hamster-indicator"
     else
         HAMSTER_INDICATOR="ssh hamster -X -- /usr/bin/hamster-indicator"
     fi
