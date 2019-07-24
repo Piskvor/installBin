@@ -1,5 +1,16 @@
 #!/bin/bash
 
+alias vin=vim
+alias vi,=vim
+
+alias dokcer=docker
+alias dpcker=docker
+alias ocker=docker
+alias dcker=docker
+alias ddocker=docker
+
+alias doco=docker-compose
+
 alias dropbox='ddropbox'
 alias lrs='less -R -S +G'
 
