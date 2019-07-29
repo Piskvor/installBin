@@ -31,11 +31,11 @@ cd /home/honza/.project && \
 
 /home/honza/bin/autostart/evrouter-loop.sh &
 
-(
-    docker run -d -p 9000:9000 \
-       -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer \
-       --no-auth --no-snapshot || true
-) &
+#(
+#    docker run -d -p 9000:9000 \
+#       -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer \
+#       --no-auth --no-snapshot || true
+#) &
 
 
 # vboxmanage startvm "{cdbd2f92-00f2-4fa7-b2d2-9d1f5e107244}" &
