@@ -8,8 +8,11 @@ alias dpcker=docker
 alias ocker=docker
 alias dcker=docker
 alias ddocker=docker
+alias d=docker
 
 alias doco=docker-compose
+alias dodo=docker-compose
+alias dc=docker-compose
 
 alias dropbox='ddropbox'
 alias lrs='less -R -S +G'
