@@ -11,6 +11,7 @@ TMP_HONZA="${RAM_DISK}/${USER_NAME}"
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/konsole" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/yarn" && \
+/bin/mkdir -m777 -p "${TMP_HONZA}/vendor" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/desktop" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/desktop/blurry" && \
 /bin/mkdir -m700 -p "${TMP_HONZA}/cache/firefox" && \
