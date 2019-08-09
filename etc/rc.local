@@ -3,25 +3,21 @@
 # rc.local
 
 grep -E '(Corsair|KINGSTON)' /sys/block/sda/device/model && echo deadline > /sys/block/sda/queue/scheduler || true
-
+iw reg set CZ || true
 USER_NAME="honza"
 RAM_DISK="/tmp/rd-tmp"
 TMP_HONZA="${RAM_DISK}/${USER_NAME}"
-/bin/mkdir -m700 -p "${TMP_HONZA}" && \
-/bin/mkdir -m700 -p "${TMP_HONZA}/cache" && \
-/bin/mkdir -m700 -p "${TMP_HONZA}/cache/konsole" && \
-/bin/mkdir -m700 -p "${TMP_HONZA}/cache/yarn" && \
-/bin/mkdir -m777 -p "${TMP_HONZA}/vendor" && \
-/bin/mkdir -m700 -p "${TMP_HONZA}/desktop" && \
-/bin/mkdir -m700 -p "${TMP_HONZA}/desktop/blurry" && \
-/bin/mkdir -m700 -p "${TMP_HONZA}/cache/firefox" && \
-/bin/mkdir -m700 -p "${TMP_HONZA}/cache/chrome" && \
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/system" && \
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/logs" && \
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/root" && \
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/app" && \
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/composer" && \
-/bin/mkdir -m777 -p "${TMP_HONZA}/cache/phpstan" && \
+/bin/mkdir -m700 -p "${RAM_DISK}" && \
+/bin/chown "${USER_NAME}." "${RAM_DISK}" && \
+/bin/mount -t tmpfs tmpfs "${RAM_DISK}" -osize=3000M && \
+/bin/mkdir -m700 -p "${TMP_HONZA}";
+for i in cache/konsole desktop cache/firefox cache/chrome ; do
+  /bin/mkdir -m700 -p "${TMP_HONZA}/${i}"
+done
+for i in cache/system cache/root cache/app cache/composer cache/phpstan vendor ; do
+  /bin/mkdir -m777 -p "${TMP_HONZA}/${i}"
+done
+
 /bin/chown -R "${USER_NAME}." "${TMP_HONZA}" && \
 /bin/ln -sfT "${TMP_HONZA}" "/home/${USER_NAME}/.ramdisk" || true
 RELEASE=$(lsb_release -s -r)
@@ -38,7 +34,6 @@ echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 # make all incoming mail appear to be local
 /sbin/iptables -t nat -A PREROUTING -p tcp --dport 143 -j DNAT --to 10.31.4.1:10143 || true
 /sbin/iptables -t nat -A PREROUTING -p tcp --dport 10025 -j DNAT --to 10.31.4.1:1025 || true
-#/sbin/iptables -t nat -A PREROUTING -p tcp --dport 25 -j DNAT --to 10.31.4.1:1025 || true
 
 /usr/bin/timedatectl set-ntp true || true
 /bin/systemctl enable ntp || true
@@ -46,20 +41,23 @@ echo 'madvise' > /sys/kernel/mm/transparent_hugepage/enabled || true
 
 /bin/chmod -x /usr/bin/baloo_file || true
 /bin/chmod -x /usr/bin/akonadi* || true
-exit 0
 
 /sbin/swapoff -a || true
-/sbin/swapon UUID="2bff1ae3-b7e9-48f0-8b10-b11fc001102e" || true # sda3
+#/sbin/swapon UUID="2bff1ae3-b7e9-48f0-8b10-b11fc001102e" || true # sda3
 #/sbin/swapon UUID="ca750566-ded2-4f9b-ba62-181d6a1308df" || true # sda2
 #/sbin/swapon UUID="d9817034-0706-4c89-b0dc-0fa887befc09" || true # sdb3
 #/sbin/swapon UUID="4dfbb4b6-fe3d-4bae-983c-8657c22264ab" || true # sdc3
-/sbin/udevadm trigger || true
+#/sbin/udevadm trigger || true
 
+mount /dev/sdb2 -o exec || mount /dev/sdb2 -o remount,exec || true
+
+rmmod nbd || true
+modprobe nbd max_part=16 || true
+
+exit 0
 
 sleep 1
 /sbin/alsa force-reload || true
-#rmmod nbd || true
-#modprobe nbd max_part=16 || true
 sleep 2
 /sbin/udevadm trigger || true
 
