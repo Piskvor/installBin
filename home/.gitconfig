@@ -34,3 +34,7 @@
 	pushf = push --force-with-lease
 [help]
 	autocorrect = 30
+[url "git://anongit.kde.org/"]
+	insteadOf = kde:
+[url "git@git.kde.org:"]
+	pushInsteadOf = kde:
