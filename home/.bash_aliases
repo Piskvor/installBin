@@ -3,6 +3,16 @@
 alias vin=vim
 alias vi,=vim
 
+alias c=composer
+alias co=composer
+alias com=composer
+alias comp=composer
+alias compo=composer
+alias compos=composer
+alias compose=composer
+
+alias coin='composer install'
+
 alias dokcer=docker
 alias dpcker=docker
 alias ocker=docker
