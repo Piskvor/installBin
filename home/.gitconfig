@@ -11,6 +11,7 @@
 	co = checkout
 	cp = cherry-pick
 	p = pull
+	f = fetch
 	squash = merge --squash
 	st = status
 	df = diff
