@@ -3,12 +3,18 @@
 set -euxo pipefail
 
 YTD="$(command -v youtube-dl)"
+#FFMPEG="$(command -v ffmpeg)"
 YTD_OPTIONS=(--restrict-filenames)
 PLAYER="$(command -v vlc)"
 PLAYER_OPTIONS=(--playlist-enqueue --one-instance)
 YTD_DIRECTORY="${HOME}/Music/downloaded"
-#YTD_METADATA="${HOME}/Music/downloaded/.metadata"
+YTD_METADATA="${HOME}/Music/downloaded/.metadata"
+METADATA_FILE="${YTD_METADATA}/${1//[^a-zA-Z0-9_-]/}.json"
 
-cd "$YTD_DIRECTORY"
+mkdir -p "$YTD_METADATA" && cd "$YTD_DIRECTORY"
 
-"${YTD}" "${YTD_OPTIONS[@]}" --exec "${PLAYER} ${PLAYER_OPTIONS[*]} {}" "$@"
+if [[ ! -f "$METADATA_FILE" ]]; then
+  "${YTD}" "${YTD_OPTIONS[@]}" --yes-playlist --ignore-errors --flat-playlist --dump-json "$@" | jq "." - > "$METADATA_FILE"
+fi
+# --all-subs --embed-subs
+"${YTD}" "${YTD_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${PLAYER} ${PLAYER_OPTIONS[*]} {}" "$@"
