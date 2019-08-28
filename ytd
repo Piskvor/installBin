@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+YTD="$(command -v youtube-dl)"
+YTD_OPTIONS=(--restrict-filenames)
+PLAYER="$(command -v vlc)"
+PLAYER_OPTIONS=(--playlist-enqueue --one-instance)
+YTD_DIRECTORY="${HOME}/Music/downloaded"
+#YTD_METADATA="${HOME}/Music/downloaded/.metadata"
+
+cd "$YTD_DIRECTORY"
+
+"${YTD}" "${YTD_OPTIONS[@]}" --exec "${PLAYER} ${PLAYER_OPTIONS[*]} {}" "$@"
