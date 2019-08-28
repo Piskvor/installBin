@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail
+
+docker run --rm \
+    -v "$(pwd)":/sh \
+    -w /sh \
+    jamesmstone/shfmt "$@"
