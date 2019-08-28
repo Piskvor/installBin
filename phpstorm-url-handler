@@ -12,17 +12,17 @@ pattern=".*file(:\/\/|\=)(.*)&line=([0-9]+)"
 
 # Get the file path.
 file=$(echo "${arg}" | sed -r "s/${pattern}/\2/;s~phpstorm:~~g;s~^/+~~g;s~usr/src/ucrm/~~g" )
-project_dir=$(realpath $(readlink "$HOME/.project"))
-file=$(echo "$project_dir/$file" | sed -r "s/&line=.*//;s/open\?file=//")
+project_dir=$(realpath "$(readlink "$HOME/.project")")
+file=$(echo "$project_dir/$file" | sed -r "s/&line=.*//;s/open\?file=//" | sed "s~\(${project_dir}\)\{2,\}~\1~")
 
 # Get the line number.
 line=$(echo "${arg}" | sed -r "s/${pattern}/\3/")
 
 # Check if phpstorm|pstorm command exist.
-if type phpstorm > /dev/null; then
-    /usr/bin/env phpstorm --line "${line}" "${file}"
-elif type pstorm > /dev/null; then
+if type pstorm > /dev/null; then
     /usr/bin/env pstorm --line "${line}" "${file}"
+elif type phpstorm > /dev/null; then
+    /usr/bin/env phpstorm --line "${line}" "${file}"
 fi
 
 if type activate-ps.sh > /dev/null; then
