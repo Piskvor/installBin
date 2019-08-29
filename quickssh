@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+
+HOST="$1"
+shift
+PORT="$1"
+shift
+
+while :; do
+	ncat -z "$HOST" "$PORT" -w 0.05 && break
+	echo -n '.'
+done
+set -x
+
+"$@"
