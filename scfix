@@ -5,7 +5,7 @@ set -euo pipefail
 
 FILE="$(realpath "${1:-}" 2>/dev/null || true)"
 if [[ "$FILE" == "" ]]; then
-  TEMP_FILE="${TMP:-/tmp}/${USER}-shellcheck.last"
+	TEMP_FILE="${TMP:-/tmp}/${USER}-shellcheck.last"
 	FILE="$(cat "$TEMP_FILE")"
 	echo "$FILE" >/dev/stderr
 fi

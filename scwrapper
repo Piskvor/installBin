@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if [[ "${1:-}" = "" ]]; then
-  exit 0
+if [[ "${1:-}" == "" ]]; then
+	exit 0
 fi
 
 TEMP_FILE="${TMP:-/tmp}/${USER}-shellcheck.last"
-realpath "$1" > "${TEMP_FILE}"
+realpath "$1" >"${TEMP_FILE}"
 
 shellcheck "$@"

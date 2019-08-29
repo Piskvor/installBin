@@ -4,6 +4,6 @@ set -euo pipefail
 #set -x
 
 docker run --rm \
-    -v "$(pwd)":/sh \
-    -w /sh \
-    jamesmstone/shfmt "$@"
+	-v "$(pwd)":/sh \
+	-w /sh \
+	jamesmstone/shfmt "$@"
