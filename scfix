@@ -3,16 +3,16 @@
 set -euo pipefail
 #set -x
 
-TEMP_FILE="/tmp/${USER}-shellcheck.last"
 FILE="$(realpath "${1:-}" 2>/dev/null || true)"
 if [[ "$FILE" == "" ]]; then
+  TEMP_FILE="${TMP:-/tmp}/${USER}-shellcheck.last"
 	FILE="$(cat "$TEMP_FILE")"
 	echo "$FILE" >/dev/stderr
 fi
 
 [[ ! -e "$FILE" ]] && exit 1
 
-DIFF_FILE="$(mktemp /tmp/scfix.XXXXX.patch)"
+DIFF_FILE="$(mktemp "${TMP:-/tmp}/scfix.XXXXX.patch")"
 (
 	cd "$(dirname "$FILE")" || exit
 	shfmt -w "$(basename "$FILE")" || true
