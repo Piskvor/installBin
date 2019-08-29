@@ -14,7 +14,7 @@ METADATA_FILE="${YTD_METADATA}/${1//[^a-zA-Z0-9_-]/}.json"
 mkdir -p "$YTD_METADATA" && cd "$YTD_DIRECTORY"
 
 if [[ ! -f "$METADATA_FILE" ]]; then
-  "${YTD}" "${YTD_OPTIONS[@]}" --yes-playlist --ignore-errors --flat-playlist --dump-json "$@" | jq "." - > "$METADATA_FILE"
+  "${YTD}" "${YTD_OPTIONS[@]}" --yes-playlist --ignore-errors --flat-playlist --dump-json "$@" | jq "del(.alt_title)|del(.track)" - > "$METADATA_FILE"
 fi
 # --all-subs --embed-subs
 "${YTD}" "${YTD_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${PLAYER} ${PLAYER_OPTIONS[*]} {}" "$@"
