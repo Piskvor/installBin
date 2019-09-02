@@ -1,5 +1,8 @@
 #!/bin/bash
 
+alias lo=libreoffice
+alias xo=xdg-open
+
 alias vin=vim
 alias vi,=vim
 
