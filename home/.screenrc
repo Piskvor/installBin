@@ -23,7 +23,7 @@ shelltitle "$ |bash"
 #change the hardstatus settings to give an window list at the bottom of the                                                                        
 ##screen, with the time and date and with the current window highlighted                                                                            
 hardstatus             alwayslastline                                                                                                                          
-backtick 1 0 1 head -n1 $HOME/tmp/watcher-in-the-water-current--no-color.log
-#backtick 2 0 1 head -n1 $HOME/tmp/youtrack-watch-issue.log
+backtick 1 0 1 head -n1 $HOME/tmp/ytr/watcher-in-the-water-current--no-color.log
+#backtick 2 0 1 head -n1 $HOME/tmp/ytr/youtrack-watch-issue.log
 
 hardstatus string '%{= kw}[ %{w}%H %1` %{w}]%{g}[%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}]%{w} %c '
