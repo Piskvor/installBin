@@ -5,6 +5,7 @@ alias xo=xdg-open
 
 alias vin=vim
 alias vi,=vim
+alias im=vim
 
 alias c=composer
 alias co=composer
