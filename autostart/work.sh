@@ -2,6 +2,7 @@
 
 set -euxo pipefail
 
+( synergys --config ~/.synergy.conf || true ) &
 #(xscreensaver -nosplash || true) &
 
 systemctl enable --now --user labtunnel@mrog-fwd
@@ -48,4 +49,4 @@ env PLAY_SOUND=no /home/honza/.dev/lints.sh --with-stan
 
 #(ssh -nX hamster -- bash -c 'hamster-indicator; sudo poweroff' &)
 
-vboxmanage startvm "{9e573485-34ab-4cb7-a954-4306fa7508ee}" --type headless &
+#vboxmanage startvm "{9e573485-34ab-4cb7-a954-4306fa7508ee}" --type headless &
