@@ -13,9 +13,9 @@ rm ${TEMP_SCREENSHOT_TEMPLATE}* ${FINAL_SCREENSHOT_TEMPLATE}* || true
 
 import -window root "${TEMP_SCREENSHOT}"
 
-if (identify "${TEMP_SCREENSHOT}" | grep 3000x1920) ; then
+if (identify "${TEMP_SCREENSHOT}" | grep x1920) ; then
     convert "${TEMP_SCREENSHOT}" -gravity East -chop 1920x0 "${TEMP_SCREENSHOT_TEMPLATE}-1${SCREENSHOT_POSTFIX}"
-    convert "${TEMP_SCREENSHOT}" -gravity SouthWest -chop 1080x840 "${TEMP_SCREENSHOT_TEMPLATE}-2${SCREENSHOT_POSTFIX}"
+    convert "${TEMP_SCREENSHOT}" -gravity NorthWest -chop 1080x420 "${TEMP_SCREENSHOT_TEMPLATE}-2${SCREENSHOT_POSTFIX}"
 fi
 for i in ${TEMP_SCREENSHOT_TEMPLATE}* ; do
     j="$(echo ${i} | sed 's/sharp/out/')"
