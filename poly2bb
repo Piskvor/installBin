@@ -22,5 +22,5 @@ while(<>)
    }
 }
 
-printf "left=%f right=%f top=%f bottom=%f\n",
+printf "%f %f %f %f\n",
    $minx, $maxx, $maxy, $miny;
