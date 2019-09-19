@@ -5,14 +5,15 @@ MAXIMUM=3
 # at this number of invocations, screen wakes. Should be < $MAXIMUM
 POKE_SCREEN=1
 # program basename
-BASENAME="$(basename $0)"
+BASENAME="$(basename "$0")"
 
 wiggle_mouse() {
-    xdotool mousemove_relative --polar 0 1; xdotool mousemove_relative --polar 180 1
+  xdotool mousemove_relative --polar 0 1
+  xdotool mousemove_relative --polar 180 1
 }
 
 display_on() {
-    xset -display :0 dpms force on
+  xset -display :0 dpms force on
 }
 
 # temp file for watching the invocation counts
@@ -29,38 +30,39 @@ INVOCATION_COUNT_FILE=$HOME/tmp/${BASENAME}-count.lock
 #fi
 
 if [[ ! -f "$INVOCATION_COUNT_FILE" ]]; then
-	# create file
-	touch "$INVOCATION_COUNT_FILE"
+  # create file
+  touch "$INVOCATION_COUNT_FILE"
 else
-	# delete file if not touched for a moment
-	# you need to invoke the script within this time again
-	find "$INVOCATION_COUNT_FILE" -not -newermt '-2seconds' -print -delete
-	touch "$INVOCATION_COUNT_FILE"
+  # delete file if not touched for a moment
+  # you need to invoke the script within this time again
+  find "$INVOCATION_COUNT_FILE" -not -newermt '-2seconds' -print -delete
+  touch "$INVOCATION_COUNT_FILE"
 fi
 
 COUNTER=0
 # load the temp file
+# shellcheck disable=SC1090
 . "$INVOCATION_COUNT_FILE"
 # increment the counter
-COUNTER=$(($COUNTER + 1))
+COUNTER=$((COUNTER + 1))
 # save back to temp file
-echo "COUNTER=$COUNTER">"$INVOCATION_COUNT_FILE"
+echo "COUNTER=$COUNTER" >"$INVOCATION_COUNT_FILE"
 
 # unlock if maximum invocations reached
 if [[ "$COUNTER" -eq "$POKE_SCREEN" ]]; then
-	# (xscreensaver-command -deactivate || true) &
-	wiggle_mouse
-	sleep 2
-	display_on
-    wiggle_mouse
+  # (xscreensaver-command -deactivate || true) &
+  wiggle_mouse
+  sleep 2
+  display_on
+  wiggle_mouse
 fi
 if [[ "$COUNTER" -gt "$MAXIMUM" ]]; then
-	xset -display :0 dpms force on
-	loginctl unlock-session
-    wiggle_mouse
-	qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
-	rm "$INVOCATION_COUNT_FILE"
-	sleep 1
-    display_on
-    wiggle_mouse
+  xset -display :0 dpms force on
+  loginctl unlock-session
+  wiggle_mouse
+  rm "$INVOCATION_COUNT_FILE"
+  display_on
+  wiggle_mouse
+  sleep 5
+  qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 fi
