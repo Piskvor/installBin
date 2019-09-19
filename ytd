@@ -5,14 +5,42 @@ set -x
 
 YTD="$(command -v youtube-dl)"
 JQ="$(command -v jq)"
-#FFMPEG="$(command -v ffmpeg)"
+FFMPEG="$(command -v ffmpeg)"
+FFMPEG_OPTIONS=()
 YTD_OPTIONS=(--restrict-filenames)
 PLAYER="$(command -v vlc)"
 PLAYER_OPTIONS=(--playlist-enqueue --one-instance)
+ONLY_AUDIO=0
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+  key="${1:-}"
+
+  case ${key} in
+  --audio)
+    ONLY_AUDIO=1
+    shift # past argument
+    ;;
+  -a)
+    ONLY_AUDIO=1
+    shift # past argument
+    ;;
+  *) # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift              # past argument
+    ;;
+  esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
 
 if [[ -z "${1:-}" ]]; then
   echo "Usage: $0 URL"
   exit 1
+fi
+
+YTD_ADDITIONAL_OPTIONS=()
+if [[ "$ONLY_AUDIO" = 1 ]]; then
+    YTD_ADDITIONAL_OPTIONS=(-f bestaudio)
 fi
 
 if [[ -z "${YTD_DIRECTORY:-}" ]] || [[ ! -d "${YTD_DIRECTORY}/" ]]; then
@@ -28,4 +56,8 @@ mkdir -p "$YTD_METADATA" && cd "$YTD_DIRECTORY"
 if [[ ! -f "$METADATA_FILE" ]]; then
   "${YTD}" "${YTD_OPTIONS[@]}" --yes-playlist --ignore-errors --flat-playlist --dump-json "$@" | "${JQ}" "del(.alt_title)|del(.track)" - >"$METADATA_FILE"
 fi
-"${YTD}" "${YTD_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${PLAYER} ${PLAYER_OPTIONS[*]} {}" "$@"
+if [[ "$ONLY_AUDIO" ]] ; then
+  "${YTD}" "${YTD_OPTIONS[@]}" "${YTD_ADDITIONAL_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${FFMPEG} ${FFMPEG_OPTIONS[*]} -y -i {} {}.mp3; ${PLAYER} ${PLAYER_OPTIONS[*]} {}.mp3" "$@"
+else
+  "${YTD}" "${YTD_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${PLAYER} ${PLAYER_OPTIONS[*]} {}" "$@"
+fi
