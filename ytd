@@ -7,6 +7,7 @@ YTD="$(command -v youtube-dl)"
 JQ="$(command -v jq)"
 FFMPEG="$(command -v ffmpeg)"
 FFMPEG_OPTIONS=()
+FFMPEG_OUTPUT_OPTIONS=(-acodec libmp3lame -b:a 192k -compression_level 0 -joint_stereo 1)
 YTD_OPTIONS=(--restrict-filenames)
 PLAYER="$(command -v vlc)"
 PLAYER_OPTIONS=(--playlist-enqueue --one-instance)
@@ -57,7 +58,7 @@ if [[ ! -f "$METADATA_FILE" ]]; then
   "${YTD}" "${YTD_OPTIONS[@]}" --yes-playlist --ignore-errors --flat-playlist --dump-json "$@" | "${JQ}" "del(.alt_title)|del(.track)" - >"$METADATA_FILE"
 fi
 if [[ "$ONLY_AUDIO" ]] ; then
-  "${YTD}" "${YTD_OPTIONS[@]}" "${YTD_ADDITIONAL_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${FFMPEG} ${FFMPEG_OPTIONS[*]} -y -i {} {}.mp3; ${PLAYER} ${PLAYER_OPTIONS[*]} {}.mp3" "$@"
+  "${YTD}" "${YTD_OPTIONS[@]}" "${YTD_ADDITIONAL_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${FFMPEG} ${FFMPEG_OPTIONS[*]} -y -i {} ${FFMPEG_OUTPUT_OPTIONS[*]} {}.mp3; ${PLAYER} ${PLAYER_OPTIONS[*]} {}.mp3" "$@"
 else
   "${YTD}" "${YTD_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${PLAYER} ${PLAYER_OPTIONS[*]} {}" "$@"
 fi
