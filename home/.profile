@@ -20,4 +20,6 @@ fi
 PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export ANDROID_HOME="$HOME/prog/android-studio"
 export PATH="$HOME/Android/Sdk/platform-tools/:$PATH"
-
+if [ -e "$HOME/.env" ]; then
+	source "$HOME/.env"
+fi
