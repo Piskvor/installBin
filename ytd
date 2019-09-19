@@ -57,8 +57,9 @@ mkdir -p "$YTD_METADATA" && cd "$YTD_DIRECTORY"
 if [[ ! -f "$METADATA_FILE" ]]; then
   "${YTD}" "${YTD_OPTIONS[@]}" --yes-playlist --ignore-errors --flat-playlist --dump-json "$@" | "${JQ}" "del(.alt_title)|del(.track)" - >"$METADATA_FILE"
 fi
-if [[ "$ONLY_AUDIO" ]] ; then
-  "${YTD}" "${YTD_OPTIONS[@]}" "${YTD_ADDITIONAL_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${FFMPEG} ${FFMPEG_OPTIONS[*]} -y -i {} ${FFMPEG_OUTPUT_OPTIONS[*]} {}.mp3; ${PLAYER} ${PLAYER_OPTIONS[*]} {}.mp3" "$@"
+"${JQ}" "del(.formats)|del(.requested_formats)" < "$METADATA_FILE"
+if [[ "$ONLY_AUDIO" = 1 ]] ; then
+  "${YTD}" "${YTD_OPTIONS[@]}" "${YTD_ADDITIONAL_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${FFMPEG} ${FFMPEG_OPTIONS[*]} -n -i {} ${FFMPEG_OUTPUT_OPTIONS[*]} {}.mp3; ${PLAYER} ${PLAYER_OPTIONS[*]} {}.mp3" "$@"
 else
   "${YTD}" "${YTD_OPTIONS[@]}" --load-info-json "$METADATA_FILE" --add-metadata --exec "${PLAYER} ${PLAYER_OPTIONS[*]} {}" "$@"
 fi
