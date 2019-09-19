@@ -1,0 +1,7 @@
+#!/bin/bash
+
+FFMPEG="$(command -v ffmpeg)"
+FFMPEG_OPTIONS=()
+FFMPEG_OUTPUT_OPTIONS=(-acodec libmp3lame -b:a 192k -compression_level 0 -joint_stereo 1)
+
+"${FFMPEG}" "${FFMPEG_OPTIONS[@]}" -n -i "${1}" "${FFMPEG_OUTPUT_OPTIONS[@]}" "${1}".mp3
