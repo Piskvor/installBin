@@ -52,6 +52,23 @@ alias fit='git'
 alias got='git'
 alias g='git'
 
+
+alias l='git log'
+alias gl='git log'
+alias 1='git log -1'
+
+alias ga='git add'
+alias add='git add'
+
+alias commit='git commit'
+alias gc='git commit'
+
+alias pull='git pull'
+
+alias gs='git status'
+alias status='git status'
+alias s='git status'
+
 alias night='git checkout nightly'
 alias master='git checkout master'
 alias gp='git pull'
