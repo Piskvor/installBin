@@ -63,6 +63,6 @@ if [[ "$COUNTER" -gt "$MAXIMUM" ]]; then
   rm "$INVOCATION_COUNT_FILE"
   display_on
   wiggle_mouse
-  sleep 5
+  sleep 12
   qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 fi
