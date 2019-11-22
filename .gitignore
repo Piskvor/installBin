@@ -23,3 +23,5 @@ dropbox.config.php
 set_proxy.sh
 /crons/config.getTemperature.rc
 docker-compose.env
+RegexBuddyWine
+dosdevices

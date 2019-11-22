@@ -1,0 +1,5 @@
+#!/bin/bash
+PRG="$0"
+P=`dirname $PRG`
+cd $P/blueproximity-1.2.5.orig
+python proximity.py
