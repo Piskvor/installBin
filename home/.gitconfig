@@ -39,3 +39,5 @@
 	insteadOf = kde:
 [url "git@git.kde.org:"]
 	pushInsteadOf = kde:
+[fetch]
+	writeCommitGraph = true
