@@ -2,10 +2,12 @@
 
 set -euxo pipefail
 
-( synergys --config ~/.synergy.conf || true ) &
+( synergys --debug WARNING --config ~/.synergy.conf || true ) &
 #(xscreensaver -nosplash || true) &
 
 systemctl enable --now --user labtunnel@mrog-fwd
+
+workrave &
 
 mkdir -p $HOME/tmp/weather/ || true
 touch $HOME/tmp/weather/temperature.txt || true
