@@ -194,3 +194,5 @@ else
 fi
 unset __conda_setup
 # <<< conda init <<<
+#PATH=$PATH:/home/honza/prog/raspberrypi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin
+PATH=$PATH:/home/honza/prog/raspberrypi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin
